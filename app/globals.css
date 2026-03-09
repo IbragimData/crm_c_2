@@ -1,0 +1,263 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'Nunito Sans';
+  src: url('/fonts/NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf');
+  font-weight: 200 1000;
+  font-style: normal;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Professional Cyberpunk Design System
+   ═══════════════════════════════════════════════════════════════ */
+:root {
+  /* Background */
+  --color-bg: #070A12;
+  --color-surface: #0B1220;
+  --color-surface-elevated: #0F1B2D;
+  --color-surface-dark: #070A12;
+  --color-surface-panel: #0F1B2D;
+
+  /* Text */
+  --color-text: #EAF0FF;
+  --color-text-secondary: #A8B3CF;
+  --color-text-muted: #6B7AA6;
+  --color-text-soft: #A8B3CF;
+  --text-primary: var(--color-text);
+  --text-secondary: var(--color-text-secondary);
+  --hover-bg: var(--color-surface-elevated);
+  --surface: var(--color-surface);
+
+  /* Borders – thin and calm */
+  --color-border: #1B2A41;
+  --color-border-strong: #243B5C;
+  --color-border-hover: #2A4366;
+  --border-color: var(--color-border);
+
+  /* Accent – neon only for active/focus/selected */
+  --color-accent: #22D3EE;
+  --color-accent-secondary: #A78BFA;
+  --color-primary: #22D3EE;
+  --color-primary-hover: #67E8F9;
+  --neon-cyan: #22D3EE;
+  --neon-magenta: #A78BFA;
+  --neon-lime: #22C55E;
+  --neon-yellow: #22d3ee;
+  --color-accent-2: #22C55E;
+  --color-accent-3: #A78BFA;
+  --color-border-magenta: #A78BFA;
+  --color-border-lime: #22C55E;
+
+  /* Buttons */
+  --color-btn-primary-bg: #22d3ee;
+  --color-btn-primary-text: #070A12;
+  --color-btn-secondary-bg: transparent;
+  --color-btn-secondary-border: #1B2A41;
+  --color-btn-secondary-text: #EAF0FF;
+
+  /* Forms */
+  --color-input-bg: #0F1B2D;
+  --color-input-text: #EAF0FF;
+  --color-input-border: #1B2A41;
+  --color-input-focus: #22D3EE;
+  --color-input-error: #EF4444;
+
+  /* Tables */
+  --color-table-bg: #0B1220;
+  --color-table-header-bg: #0F1B2D;
+  --color-table-divider: #1B2A41;
+  --color-table-row-hover: #0F1B2D;
+  --color-table-row-selected-bar: #22D3EE;
+  --table-header-bg: var(--color-table-header-bg);
+
+  /* Cards */
+  --color-card-bg: #0B1220;
+  --color-card-border: #1B2A41;
+  --card-bg: var(--color-card-bg);
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.25);
+  --shadow-elevation: 0 8px 32px rgba(0, 0, 0, 0.35);
+
+  /* Status */
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #38BDF8;
+
+  /* Legacy / compatibility – map to new system */
+  --shadow-glow: 0 0 0 2px rgba(34, 211, 238, 0.4);
+  --shadow-glow-strong: 0 0 0 2px rgba(34, 211, 238, 0.6);
+  --shadow-magenta: 0 0 12px rgba(167, 139, 250, 0.2);
+  --shadow-lime: 0 0 12px rgba(34, 197, 94, 0.2);
+  --shadow-yellow: 0 0 12px rgba(34, 211, 238, 0.2);
+  --shadow-purple: 0 0 12px rgba(167, 139, 250, 0.2);
+  --neon-pink: #A78BFA;
+  --neon-orange: #F59E0B;
+  --neon-purple: #A78BFA;
+  --neon-blue: #38BDF8;
+  --neon-red: #EF4444;
+
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --text-xs: 11px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-md: 16px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 22px;
+  --text-3xl: 26px;
+  --text-title: 28px;
+  /* Heading levels — use these for consistent headlines */
+  --heading-page: var(--text-3xl);     /* 26px — main page title */
+  --heading-section: var(--text-xl);  /* 20px — section / block title */
+  --heading-card: var(--text-lg);     /* 18px — card / subsection title */
+  --heading-modal: var(--text-xl);   /* 20px — modal title */
+  /* Spacing — same space above content, below header, between blocks */
+  --space-page-top: 24px;
+  --space-page-bottom: 24px;
+  --space-header-below: 24px;
+  --space-block: 24px;
+  --space-section: 16px;
+  --btn-pad-y: 10px;
+  --btn-pad-x: 18px;
+  --btn-height: 44px;
+  --input-height: 44px;
+  --card-pad: 20px 24px;
+}
+
+* {
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+/* Shared heading styles — same size and weight across the app */
+.pageTitle {
+  font-size: var(--heading-page);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.sectionTitle {
+  font-size: var(--heading-section);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 var(--space-section) 0;
+}
+
+.cardTitle {
+  font-size: var(--heading-card);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.main {
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.main__wrapper {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+html,
+body {
+  background: var(--color-bg);
+  min-height: 100vh;
+}
+
+.main__content {
+  color: var(--color-text);
+  width: calc(100% - 220px);
+  height: calc(100% - 100px);
+  position: absolute;
+  top: 69px;
+  padding: 0 40px 0 20px;
+  right: 0;
+}
+
+/* Employees & Leads: конец контента ровно там же, где конец сайдбара (sidebar: margin-top 20px + height calc(100vh - 40px) => низ на 100vh - 20px) */
+.main__content_employees,
+.main__content_leads {
+  height: calc(100vh - 89px);
+}
+
+/* Date input & Select — под стиль сайта */
+input[type="date"],
+input[type="datetime-local"],
+select {
+  color-scheme: dark;
+}
+
+input[type="date"],
+input[type="datetime-local"] {
+  font-family: "Nunito Sans", sans-serif;
+  font-size: var(--text-sm);
+  color: var(--color-input-text);
+  background-color: var(--color-input-bg);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+input[type="date"]:hover,
+input[type="datetime-local"]:hover {
+  border-color: var(--color-border-hover);
+}
+input[type="date"]:focus,
+input[type="datetime-local"]:focus {
+  border-color: var(--color-input-focus);
+  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.2);
+}
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.85);
+  opacity: 0.9;
+  cursor: pointer;
+  padding: 2px;
+}
+
+select {
+  font-family: "Nunito Sans", sans-serif;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-soft);
+  background-color: var(--color-input-bg);
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 32px 8px 12px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B7AA6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+select:hover {
+  border-color: var(--color-border-hover);
+}
+select:focus {
+  border-color: var(--color-input-focus);
+  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.2);
+}
+select option {
+  background: var(--color-surface-elevated);
+  color: var(--color-text);
+  padding: 10px 14px;
+}

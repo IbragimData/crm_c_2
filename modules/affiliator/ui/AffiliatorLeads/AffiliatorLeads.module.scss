@@ -1,0 +1,33 @@
+.root {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.toolbarWrap {
+  flex-shrink: 0;
+
+  :global([class*="LeadsPage__toolbar"]) {
+    margin-top: 0;
+  }
+}
+
+.loading {
+  padding: 24px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.9375rem;
+}
+
+.listWrap {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  font-size: 0.94em;
+}

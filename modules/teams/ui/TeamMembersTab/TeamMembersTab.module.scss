@@ -1,0 +1,180 @@
+.TeamMembersTab {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+
+.TeamMembersTab__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.TeamMembersTab__title {
+  font-size: var(--heading-section);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.TeamMembersTab__addBtn {
+  padding: 10px 20px;
+  border-radius: 14px;
+  border: 2px solid var(--neon-cyan);
+  background: transparent;
+  color: var(--neon-cyan);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: "Nunito Sans", sans-serif;
+}
+
+.TeamMembersTab__addBtn:hover {
+  background: rgba(0, 245, 255, 0.1);
+}
+
+/* Same look as LeadsList */
+.TeamMembersTab__tableWrap {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 6px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--color-border-hover);
+  }
+  &::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
+.TeamMembersTab__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  font-family: "Nunito Sans", sans-serif;
+}
+
+.TeamMembersTab__thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--color-table-header-bg);
+  border-bottom: 2px solid var(--color-table-divider);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.TeamMembersTab__th {
+  padding: 12px 14px;
+  text-align: left;
+  font-weight: 700;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  border-bottom: 1px solid var(--color-table-divider);
+
+  &:first-child {
+    padding-left: 20px;
+  }
+  &:last-child {
+    padding-right: 20px;
+  }
+}
+
+.TeamMembersTab__tbody {
+  background: var(--color-table-bg);
+}
+
+.TeamMembersTab__row {
+  border-bottom: 1px solid var(--color-table-divider);
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background: var(--color-table-row-hover);
+  }
+}
+
+.TeamMembersTab__cell {
+  padding: 12px 14px;
+  vertical-align: middle;
+  font-size: var(--text-sm);
+  color: var(--color-text);
+
+  &:first-child {
+    padding-left: 20px;
+  }
+  &:last-child {
+    padding-right: 20px;
+  }
+}
+
+.TeamMembersTab__cell_actions {
+  text-align: right;
+}
+
+.TeamMembersTab__cellLink {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.TeamMembersTab__cellLink:hover {
+  text-decoration: underline;
+}
+
+.TeamMembersTab__delBtn {
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-error);
+  background: transparent;
+  color: var(--color-error);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  font-family: "Nunito Sans", sans-serif;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.TeamMembersTab__delBtn:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.TeamMembersTab__delBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.TeamMembersTab__empty {
+  padding: 32px 20px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+}
+
+.TeamMembersTab__th_name { min-width: 180px; width: 30%; }
+.TeamMembersTab__th_role { min-width: 120px; width: 20%; }
+.TeamMembersTab__th_date { min-width: 120px; width: 20%; }
+.TeamMembersTab__th_actions { width: 120px; min-width: 120px; text-align: right; padding-right: 20px; }

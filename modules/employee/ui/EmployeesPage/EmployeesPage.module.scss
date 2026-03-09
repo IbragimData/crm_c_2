@@ -1,0 +1,56 @@
+.EmployeesPage {
+  width: 100%;
+  padding: var(--space-page-top) 0 var(--space-page-bottom) 0;
+  box-sizing: border-box;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 0;
+    margin-bottom: var(--space-header-below);
+  }
+
+  &__title {
+    font-size: var(--heading-page);
+    font-weight: 600;
+    color: var(--color-text);
+    text-shadow: 0 0 20px rgba(0, 245, 255, 0.25);
+  }
+
+  &__head {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--space-section);
+  }
+
+  &__subtitle {
+    font-size: var(--heading-section);
+    font-weight: 600;
+    color: var(--color-text);
+    text-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
+  }
+
+  &__block {
+    width: 100%;
+    height: var(--input-height);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    margin-top: var(--space-block);
+    box-shadow: 0 0 15px rgba(0, 245, 255, 0.06);
+
+    span {
+      font-size: var(--text-md);
+      font-weight: 600;
+      color: var(--color-text);
+      text-align: center;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+export {
+  getDepositStats,
+  getDepositStatsForTeam,
+  setTeamTarget,
+  getTeamTargets,
+  getMyTeamTarget,
+  setAgentTarget,
+  getAgentsTargetsSummary,
+  getMyDeposits,
+  getMyTarget,
+  getMyEarnings,
+  createDeposit,
+  getDepositsHistory,
+  getMonthReport,
+} from "./deposits.api";

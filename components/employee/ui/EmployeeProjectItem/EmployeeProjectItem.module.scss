@@ -1,0 +1,111 @@
+.EmployeeProjectItem {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 150px;
+    padding: 24px;
+
+    background-color: #1C1C1C;
+    border-radius: 24px;
+
+    &__contener {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+
+        & h3 {
+            font-size: 18px;
+            font-family: "Nunito Sans",
+                sans-serif;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+
+        & p {
+            font-size: 14px;
+            font-family: "Nunito Sans", sans-serif;
+            font-weight: 300;
+            color: #979797;
+        }
+    }
+
+    &__block {
+        height: 50px;
+        display: flex;
+        gap: 18px;
+
+    }
+
+    &__logo {
+        width: 50px;
+        height: 50px;
+        background-color: #3F8CFF;
+        border-radius: 10px;
+    }
+
+    &__info {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+    }
+
+    &__date {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        gap: 6px;
+
+        & span {
+            font-size: 14px;
+            font-family: "Nunito Sans", sans-serif;
+            font-weight: 500;
+            color: #979797;
+        }
+    }
+
+    &__content {
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: space-between;
+
+        & h4 {
+            font-size: 16px;
+            font-family: "Nunito Sans", sans-serif;
+            font-weight: 600;
+            color: #ffffff;
+        }
+    }
+
+    &__boxes {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    &__box {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    &__text {
+        font-size: 14px;
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 300;
+        color: #979797;
+    }
+
+    &__txt {
+        font-size: 16px;
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 600;
+        color: #ffffff;
+    }
+}

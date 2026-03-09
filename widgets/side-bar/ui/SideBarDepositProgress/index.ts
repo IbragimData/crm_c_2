@@ -1,0 +1,1 @@
+export { SidebarDepositProgress } from './SideBarDepositProgress';

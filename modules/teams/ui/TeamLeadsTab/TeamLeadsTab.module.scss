@@ -1,0 +1,35 @@
+.root {
+  /* Same chip variables as LeadsPage so status chips look identical */
+  --lead-chip-bg: rgba(13, 13, 24, 0.9);
+  --lead-chip-text: var(--color-text-soft);
+  --lead-chip-border: var(--color-border);
+  --lead-chip-active-border: var(--color-accent);
+
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.toolbarWrap {
+  flex-shrink: 0;
+}
+
+.loading {
+  padding: 24px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+}
+
+.listWrap {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  font-size: 0.94em;
+}

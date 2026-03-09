@@ -1,0 +1,301 @@
+// ========== Layout ==========
+.page {
+  width: 100%;
+  margin: 0;
+  padding: var(--space-page-top) 0 var(--space-page-bottom) 0;
+  color: var(--color-text);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.page__header {
+  margin-bottom: var(--space-header-below);
+}
+
+.page__intro {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin: -8px 0 20px 0;
+  line-height: 1.5;
+}
+
+// ========== Toolbar ==========
+.page__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: var(--space-block);
+  padding: 18px 22px;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.8) 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+.page__filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.page__filterLabel {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #94a3b8;
+  white-space: nowrap;
+}
+
+.page__selectWrap {
+  min-width: 180px;
+}
+
+// ========== KPIs ==========
+.page__kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-section);
+  margin-bottom: var(--space-block);
+}
+
+.page__kpiCard {
+  padding: 20px;
+  background: var(--color-surface-elevated);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.page__kpiCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+}
+
+.page__kpiLabel {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.page__kpiValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00f5ff;
+  letter-spacing: -0.02em;
+}
+
+.page__kpiSub {
+  font-size: 0.8125rem;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+// ========== Summary by type ==========
+.page__section {
+  margin-bottom: var(--space-block);
+}
+
+.page__sectionCard {
+  background: var(--color-surface-elevated);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.page__sectionHead {
+  padding: var(--space-section) 22px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.page__sectionTitle {
+  font-size: var(--heading-section);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.page__sectionBody {
+  padding: 20px 22px;
+}
+
+.page__summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.page__summaryCard {
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 245, 255, 0.12);
+  background: rgba(0, 245, 255, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.page__summaryCardLabel {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.page__summaryCardCount {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #00f5ff;
+}
+
+.page__summaryCardMin {
+  font-size: 0.8125rem;
+  color: #64748b;
+}
+
+// ========== Tables ==========
+.page__tableWrap {
+  overflow: auto;
+  max-height: min(55vh, 420px);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.page__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-base);
+  color: var(--color-text);
+}
+
+.page__table th,
+.page__table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.page__table th {
+  background: var(--color-table-header-bg);
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.page__table tbody tr:hover td {
+  background: var(--color-table-row-hover);
+}
+
+.page__table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.page__tableNum {
+  font-variant-numeric: tabular-nums;
+}
+
+// ========== States ==========
+.page__error {
+  padding: 14px 18px;
+  background: rgba(239, 68, 68, 0.12);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: var(--color-error);
+  margin-bottom: var(--space-header-below);
+  font-size: var(--text-base);
+}
+
+.page__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+}
+
+.page__loading::before {
+  content: "";
+  width: 28px;
+  height: 28px;
+  margin-right: 12px;
+  border: 3px solid rgba(0, 245, 255, 0.2);
+  border-top-color: #00f5ff;
+  border-radius: 50%;
+  animation: breaksSpin 0.8s linear infinite;
+}
+
+@keyframes breaksSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.page__empty {
+  padding: 32px 24px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.page__emptyTitle {
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+}
+
+// Legacy compatibility
+.page__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: var(--space-header-below);
+}
+
+.page__filterRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.page__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.page__summary {
+  margin-bottom: var(--space-block);
+}
+
+.page__summaryTitle {
+  font-size: var(--heading-card);
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 var(--space-section) 0;
+}
+
+.page__summaryTotal {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin-top: 12px;
+}
+
+.page__byEmployee,
+.page__detail {
+  margin-bottom: var(--space-block);
+}

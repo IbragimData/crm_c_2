@@ -1,0 +1,22 @@
+.EmployeeProjects {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    &__title {
+        font-size: var(--heading-section);
+        font-weight: 700;
+        color: #ffffff;
+        height: 50px;
+        display: flex;
+        align-items: center;
+    }
+
+    &__list{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 15px;
+        gap: 20px;
+    }
+}

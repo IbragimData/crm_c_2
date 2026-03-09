@@ -1,0 +1,1 @@
+export { AffiliatorItem } from "./AffiliatorItem"

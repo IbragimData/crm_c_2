@@ -1,0 +1,157 @@
+.attendanceControl {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.attendanceControl__btnStart {
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(34, 211, 238, 0.4);
+  background: rgba(34, 211, 238, 0.1);
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Nunito Sans", sans-serif;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    0 4px 14px rgba(34, 211, 238, 0.25);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(34, 211, 238, 0.18);
+    border-color: rgba(34, 211, 238, 0.6);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      0 6px 20px rgba(34, 211, 238, 0.35);
+    transform: translateY(-1px);
+  }
+}
+
+.attendanceControl__btnConfirmStart {
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(34, 211, 238, 0.5);
+  background: rgba(34, 211, 238, 0.12);
+  color: var(--color-accent);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "Nunito Sans", sans-serif;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 2px 8px rgba(34, 211, 238, 0.3);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(34, 211, 238, 0.2);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      0 4px 14px rgba(34, 211, 238, 0.4);
+    transform: translateY(-1px);
+  }
+}
+
+.attendanceControl__elapsed {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.attendanceControl__btnFinished {
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(34, 197, 94, 0.45);
+  background: rgba(34, 197, 94, 0.12);
+  color: var(--color-success);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Nunito Sans", sans-serif;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.15),
+    0 4px 16px rgba(34, 197, 94, 0.35);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(34, 197, 94, 0.22);
+    border-color: rgba(34, 197, 94, 0.6);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      0 6px 20px rgba(34, 197, 94, 0.45);
+    transform: translateY(-1px);
+  }
+}
+
+.attendanceControl__confirm {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.attendanceControl__confirmLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.attendanceControl__confirmActions {
+  display: flex;
+  gap: 8px;
+}
+
+.attendanceControl__btnCancel {
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(30, 41, 59, 0.5);
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "Nunito Sans", sans-serif;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: rgba(148, 163, 184, 0.5);
+    background: rgba(51, 65, 85, 0.5);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.attendanceControl__btnConfirmEnd {
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(34, 197, 94, 0.5);
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--color-success);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: "Nunito Sans", sans-serif;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 2px 8px rgba(34, 197, 94, 0.3);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(34, 197, 94, 0.25);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      0 4px 14px rgba(34, 197, 94, 0.4);
+    transform: translateY(-1px);
+  }
+}

@@ -1,0 +1,123 @@
+.EmployeeSafety {
+  width: 100%;
+
+  &__content {
+    width: 100%;
+  }
+
+  &__title {
+    font-size: var(--heading-section);
+    font-weight: 700;
+    color: var(--color-text);
+    height: 50px;
+    display: flex;
+    align-items: center;
+  }
+
+  &__block {
+    margin-top: 15px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  &__inputs {
+    width: 100%;
+    padding: var(--card-pad);
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    background-color: var(--color-surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-end;
+  }
+
+  &__error {
+    font-size: var(--text-sm);
+    color: var(--color-error);
+    margin: 0;
+  }
+
+  &__success {
+    font-size: var(--text-sm);
+    color: var(--color-success, #16a34a);
+    margin: 0;
+  }
+
+  &__text {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin: 8px 0 0 0;
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: var(--btn-pad-y) var(--btn-pad-x);
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 12px rgba(34, 211, 238, 0.2);
+    border: 2px solid var(--color-accent);
+    cursor: pointer;
+    background-color: transparent;
+    font-size: var(--text-md);
+    line-height: 1.5;
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 600;
+    color: var(--color-accent);
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      background: rgba(34, 211, 238, 0.08);
+      border-color: var(--color-primary-hover);
+      color: var(--color-primary-hover);
+    }
+
+    &:active {
+      filter: brightness(0.95);
+    }
+
+    &:disabled {
+      background-color: var(--color-text-muted);
+      color: var(--color-surface);
+      box-shadow: none;
+      cursor: not-allowed;
+      filter: none;
+      border-color: var(--color-border);
+    }
+
+    span {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__deleteBtn {
+    padding: var(--btn-pad-y) var(--btn-pad-x);
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-error);
+    background: transparent;
+    color: var(--color-error);
+    font-size: var(--text-base);
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background: rgba(239, 68, 68, 0.12);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}

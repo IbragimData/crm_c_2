@@ -1,0 +1,76 @@
+.LoginPage {
+    width: 100vw;
+    height: 100vh;
+    padding: 20px;
+
+    &__contener {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        border-radius: 25px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.06),
+            0 20px 60px rgba(0, 0, 0, 0.25);
+    }
+
+    &__blcok {
+        background: linear-gradient(145deg, #2563eb 0%, #3F8CFF 50%, #22d3ee 100%);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__logo {
+        margin-bottom: 450px;
+        position: absolute;
+        display: flex;
+        column-gap: 20px;
+        align-items: center;
+    }
+
+    &__box {
+        width: 120px;
+        height: 58px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(10px);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.5),
+            0 8px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    &__text {
+        font-size: 30px;
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 600;
+        color: #ffffff;
+    }
+
+    &__title {
+        position: relative;
+        width: 455px;
+        font-size: var(--heading-page);
+        font-weight: 600;
+        color: #ffffff;
+        text-align: center;
+    }
+
+    &__content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}

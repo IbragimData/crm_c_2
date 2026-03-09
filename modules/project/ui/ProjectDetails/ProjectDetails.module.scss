@@ -1,0 +1,129 @@
+.ProjectDetails {
+    width: 300px;
+    height: calc(100vh - 40px - 25px - 50px - 49px - 20px - 35px);
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: #1c1c1c;
+    border-radius: 24px;
+    border: 1px solid #323232;
+    padding: 20px;
+    gap: 25px;
+
+    &_fixed {
+        width: 300px;
+        height: calc(100vh - 40px - 25px - 50px - 49px - 20px - 35px);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        background-color: #1c1c1c;
+        border-radius: 24px;
+        border: 1px solid #323232;
+        padding: 20px;
+        gap: 25px;
+        top: 20px;
+        position: fixed;
+        z-index: 100;
+    }
+
+    &__content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        row-gap: 8px;
+    }
+
+    &__contener {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid #323232;
+    }
+
+    &__title {
+        font-size: var(--heading-section);
+        font-weight: 700;
+        color: #ffffff;
+    }
+
+
+    &__logo {
+        width: 64px;
+        height: 64px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        background-color: #3f8cff;
+        border-radius: 10px;
+    }
+
+    &__subtitle {
+        font-size: 18px;
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 700;
+        color: #ffffff;
+    }
+
+    &__box {
+        display: flex;
+        flex-direction: column;
+        row-gap: 12px;
+    }
+
+    &__info {
+        font-size: 16px;
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 700;
+        color: #ffffff;
+    }
+
+    &__text {
+        font-size: 16px;
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 300;
+        color: #959595;
+    }
+
+    &__profile {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+    }
+
+    &__image {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        background-color: #3f8cff;
+        border-radius: 100px;
+
+        font-size: 16px;
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 600;
+        color: #ffffff;
+    }
+
+    &__block {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+
+        & p {
+            font-size: 14px;
+            font-family: "Nunito Sans", sans-serif;
+            font-weight: 500;
+            color: #979797;
+        }
+    }
+}

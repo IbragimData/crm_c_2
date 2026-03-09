@@ -1,0 +1,202 @@
+.LeadNoteList {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+
+  &__scrollWrap {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    border: 1px solid var(--color-border);
+    background: linear-gradient(
+      180deg,
+      var(--color-surface-elevated) 0%,
+      var(--color-surface) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 0 0 1px rgba(0, 0, 0, 0.15),
+      0 8px 32px rgba(0, 0, 0, 0.25);
+    position: relative;
+    overflow: hidden;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 6px;
+      height: 56px;
+      pointer-events: none;
+      z-index: 2;
+    }
+    &::before {
+      top: 0;
+      background: linear-gradient(
+        180deg,
+        var(--color-surface-elevated) 0%,
+        var(--color-surface-elevated) 15%,
+        transparent 100%
+      );
+    }
+    &::after {
+      bottom: 0;
+      background: linear-gradient(
+        0deg,
+        var(--color-surface) 0%,
+        var(--color-surface) 15%,
+        transparent 100%
+      );
+    }
+  }
+
+  &__scroll {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-strong) transparent;
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-border-strong);
+      border-radius: 6px;
+    }
+  }
+
+  &__title {
+    font-size: var(--heading-section);
+    font-weight: 700;
+    color: var(--color-text);
+    flex-shrink: 0;
+    margin-bottom: 24px;
+    padding: 24px 24px 0;
+  }
+
+  &__form {
+    flex-shrink: 0;
+    padding: 24px;
+    margin: 0 24px 28px;
+    background: var(--color-surface-elevated);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__formLabel {
+    font-size: 13px;
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+  }
+
+  &__formField {
+    width: 100%;
+
+    textarea {
+      min-height: 100px;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text);
+      font-size: 15px;
+      line-height: 1.5;
+      font-family: "Nunito Sans", sans-serif;
+      width: 100%;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+
+      &::placeholder {
+        color: var(--color-text-muted);
+      }
+
+      &:hover {
+        border-color: var(--color-border-strong);
+      }
+
+      &:focus {
+        border-color: var(--color-accent);
+        box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.2);
+      }
+    }
+  }
+
+  &__saveBtn {
+    align-self: flex-end;
+    padding: 12px 28px;
+    min-height: 44px;
+    border-radius: var(--radius-md);
+    border: none;
+    background: var(--color-btn-primary-bg);
+    color: var(--color-btn-primary-text);
+    font-size: 15px;
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 2px 12px rgba(251, 191, 36, 0.35);
+
+    &:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(251, 191, 36, 0.4);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 0 24px 56px;
+  }
+
+  &__listTitle {
+    font-size: 13px;
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    margin-bottom: 4px;
+  }
+
+  &__loading {
+    font-size: var(--text-md);
+    color: var(--color-text-muted);
+    padding: 24px 0;
+  }
+
+  &__sentinel {
+    height: 1px;
+    flex-shrink: 0;
+  }
+}

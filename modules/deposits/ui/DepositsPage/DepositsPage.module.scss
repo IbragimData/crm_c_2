@@ -1,0 +1,2584 @@
+// ========== Layout (full width, premium deposits) ==========
+.page {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: var(--space-page-top) 0 var(--space-page-bottom) 0;
+  color: var(--color-text);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.page__depositsContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-block);
+  width: 100%;
+}
+
+.page__depositsLayout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: var(--space-header-below);
+  align-items: start;
+}
+
+.page__depositsMain {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-block);
+  min-width: 0;
+}
+
+.page__depositsSidebar {
+  position: sticky;
+  top: var(--space-page-top);
+  padding: 22px;
+  background: var(--color-surface-elevated);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(148, 163, 184, 0.06);
+  backdrop-filter: blur(12px);
+}
+
+.page__sidebarTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #94a3b8;
+  margin: 0 0 18px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.page__sidebarTeamList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.page__sidebarTeamCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 14px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.page__sidebarTeamCard:hover {
+  border-color: rgba(0, 245, 255, 0.15);
+  box-shadow: 0 2px 16px rgba(0, 245, 255, 0.06);
+}
+
+.page__sidebarTeamRing {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #00f5ff 0deg,
+    #00f5ff calc(var(--progress, 0) * 3.6deg),
+    rgba(148, 163, 184, 0.12) calc(var(--progress, 0) * 3.6deg),
+    rgba(148, 163, 184, 0.12) 360deg
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.page__sidebarTeamRingInner {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.page__sidebarTeamRingInner > span:first-child {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #00f5ff;
+  line-height: 1.2;
+}
+
+.page__sidebarTeamRingLabel {
+  font-size: 0.5625rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.page__sidebarTeamMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.75rem;
+  color: #e2e8f0;
+}
+
+.page__sidebarTeamMetaLabel {
+  font-size: 0.625rem;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .page__depositsLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .page__depositsSidebar {
+    position: static;
+  }
+}
+
+// ========== Weekly bar chart (top) ==========
+.page__chartSection {
+  padding: 28px 32px;
+  background: linear-gradient(165deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 41, 59, 0.88) 100%);
+  border-radius: 18px;
+  border: 1px solid rgba(0, 245, 255, 0.1);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(148, 163, 184, 0.05);
+  backdrop-filter: blur(8px);
+}
+
+.page__chartTitle {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0 0 20px 0;
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+.page__chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 14px;
+  height: 180px;
+}
+
+.page__chartBarWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  max-width: 80px;
+}
+
+/* Фиксированная высота трека: самая большая сумма = 100% этого трека */
+.page__chartBarTrack {
+  width: 100%;
+  height: 132px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 132px;
+}
+
+.page__chartBar {
+  width: 100%;
+  min-height: 0;
+  border-radius: 10px 10px 0 0;
+  background: linear-gradient(180deg, #06b6d4 0%, #0891b2 100%);
+  transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page__chartBar_past {
+  background: linear-gradient(180deg, #06b6d4 0%, #0891b2 100%);
+  opacity: 0.95;
+}
+
+.page__chartBar_today {
+  background: linear-gradient(180deg, #00f5ff 0%, #22d3ee 100%);
+  box-shadow: 0 0 20px rgba(0, 245, 255, 0.45), 0 -2px 10px rgba(0, 245, 255, 0.2);
+}
+
+.page__chartBar_future {
+  background: rgba(148, 163, 184, 0.2);
+}
+
+.page__chartBarLabel {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #00f5ff;
+  font-variant-numeric: tabular-nums;
+}
+
+.page__chartBarWeek {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+// ========== Teams progress (under chart: circles, name below, % in center) ==========
+.page__teamsProgressSection {
+  padding: 24px 28px;
+  background: linear-gradient(165deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 41, 59, 0.88) 100%);
+  border-radius: 18px;
+  border: 1px solid rgba(0, 245, 255, 0.1);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(148, 163, 184, 0.05);
+  backdrop-filter: blur(8px);
+}
+
+.page__teamsProgressTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0 0 20px 0;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+.page__teamsProgressGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 28px;
+  align-items: flex-end;
+}
+
+.page__teamsProgressCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 100px;
+  --progress: 0;
+  padding: 16px 12px;
+  border-radius: 16px;
+  border: 2px solid transparent;
+  background: transparent;
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Блок команды подсвечивается целиком при выполнении таргета */
+.page__teamsProgressCard_done {
+  border-color: rgba(52, 211, 153, 0.4);
+  background: rgba(52, 211, 153, 0.08);
+  box-shadow: 0 0 24px rgba(52, 211, 153, 0.15);
+}
+
+.page__teamsProgressCard_done .page__teamsProgressRing {
+  background: conic-gradient(
+    #34d399 0deg,
+    #34d399 calc(var(--progress, 0) * 3.6deg),
+    rgba(148, 163, 184, 0.15) calc(var(--progress, 0) * 3.6deg),
+    rgba(148, 163, 184, 0.15) 360deg
+  );
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.6), 0 0 20px rgba(52, 211, 153, 0.25);
+}
+
+.page__teamsProgressCard_done .page__teamsProgressPercent {
+  color: #34d399;
+}
+
+.page__teamsProgressCard_done .page__teamsProgressName {
+  color: #34d399;
+  font-weight: 700;
+}
+
+.page__teamsProgressCard_done:hover .page__teamsProgressRing {
+  box-shadow: 0 0 28px rgba(52, 211, 153, 0.35), 0 0 0 3px rgba(15, 23, 42, 0.6);
+}
+
+.page__teamsProgressRing {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #00f5ff 0deg,
+    #00f5ff calc(var(--progress, 0) * 3.6deg),
+    rgba(148, 163, 184, 0.15) calc(var(--progress, 0) * 3.6deg),
+    rgba(148, 163, 184, 0.15) 360deg
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.6), 0 4px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.page__teamsProgressCard:hover .page__teamsProgressRing {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px rgba(0, 245, 255, 0.2), 0 0 0 3px rgba(15, 23, 42, 0.6);
+}
+
+.page__teamsProgressRingInner {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: linear-gradient(165deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.95) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.page__teamsProgressPercent {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #00f5ff;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.page__teamsProgressCenterLabel {
+  font-size: 0.5625rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.page__teamsProgressName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.page__teamsProgressEarned {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #94a3b8;
+  font-variant-numeric: tabular-nums;
+}
+
+// ========== Team earnings list (main) ==========
+.page__teamEarningsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.page__teamEarningsItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  font-size: 0.9375rem;
+  border: 1px solid rgba(148, 163, 184, 0.06);
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+  overflow: hidden;
+  --progress: 0;
+}
+
+/* Пояс-прогресс на весь блок (слева направо по высоте блока) */
+.page__teamEarningsBelt {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page__teamEarningsBeltFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: calc(var(--progress, 0) * 1%);
+  max-width: 100%;
+  background: linear-gradient(90deg, rgba(6, 182, 212, 0.2) 0%, rgba(0, 245, 255, 0.15) 100%);
+  border-radius: 12px 0 0 12px;
+  transition: width 0.4s ease;
+}
+
+.page__teamEarningsItem_done .page__teamEarningsBeltFill {
+  background: linear-gradient(90deg, rgba(52, 211, 153, 0.25) 0%, rgba(110, 231, 183, 0.2) 100%);
+}
+
+.page__teamEarningsItem > .page__teamEarningsName,
+.page__teamEarningsItem > .page__teamEarningsTarget,
+.page__teamEarningsItem > .page__teamEarningsAmount,
+.page__teamEarningsItem > .page__remaining,
+.page__teamEarningsItem > .page__done {
+  position: relative;
+  z-index: 1;
+}
+
+.page__teamEarningsItem:hover {
+  background: rgba(0, 245, 255, 0.04);
+  border-color: rgba(0, 245, 255, 0.1);
+}
+
+.page__teamEarningsItem_done {
+  border-color: rgba(52, 211, 153, 0.35);
+  background: rgba(52, 211, 153, 0.1);
+  box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.2);
+}
+
+.page__teamEarningsItem_done:hover {
+  background: rgba(52, 211, 153, 0.16);
+  border-color: rgba(52, 211, 153, 0.5);
+  box-shadow: 0 0 16px rgba(52, 211, 153, 0.12);
+}
+
+.page__teamEarningsName {
+  font-weight: 600;
+  color: #e2e8f0;
+  flex: 1;
+}
+
+.page__teamEarningsTarget {
+  font-size: 0.8125rem;
+  color: #94a3b8;
+  font-variant-numeric: tabular-nums;
+}
+
+.page__teamEarningsAmount {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #00f5ff;
+  font-variant-numeric: tabular-nums;
+}
+
+// ========== Employee earnings list (admin) ==========
+.page__employeeEarningsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.page__employeeEarningsItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  font-size: 0.9375rem;
+  border: 1px solid rgba(148, 163, 184, 0.06);
+}
+
+.page__employeeEarningsName {
+  font-weight: 600;
+  color: #e2e8f0;
+  flex: 1;
+}
+
+.page__employeeEarningsDeposits {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  font-variant-numeric: tabular-nums;
+}
+
+.page__employeeEarningsCommission {
+  font-weight: 700;
+  color: #22c55e;
+  font-variant-numeric: tabular-nums;
+}
+
+.page__header {
+  margin-bottom: var(--space-header-below);
+  width: 100%;
+}
+
+// ========== Toolbar / Period ==========
+.page__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 24px;
+  background: var(--color-surface-elevated);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(8px);
+}
+
+.page__weekLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: 0.02em;
+}
+
+.page__weekSelectWrap {
+  min-width: 220px;
+}
+
+.page__weekSelectCustom {
+  width: 100%;
+}
+
+/* Кастомный Select в тулбаре — под стиль депозитов */
+.page__weekSelectCustom :global([class*="Select__trigger"]) {
+  padding: 10px 16px;
+  min-height: 42px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #f1f5f9;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.page__weekSelectCustom :global([class*="Select__trigger"]):hover {
+  border-color: rgba(0, 245, 255, 0.4);
+}
+
+.page__weekSelectCustom :global([class*="Select__trigger_open"]) {
+  border-color: #00f5ff;
+  box-shadow: 0 0 0 3px rgba(0, 245, 255, 0.15);
+}
+
+.page__weekSelectCustom :global([class*="Select__dropdown"]) {
+  background: rgba(15, 23, 42, 0.98);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+  z-index: 1000;
+}
+
+.page__weekSelect {
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(15, 23, 42, 0.6);
+  color: #f1f5f9;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  min-width: 200px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.page__weekSelect:hover {
+  border-color: rgba(0, 245, 255, 0.4);
+}
+
+.page__weekSelect:focus {
+  outline: none;
+  border-color: #00f5ff;
+  box-shadow: 0 0 0 3px rgba(0, 245, 255, 0.15);
+}
+
+.page__weekSelect option {
+  background: #0f172a;
+  color: #f1f5f9;
+}
+
+.page__formHint {
+  font-size: 0.8125rem;
+  color: #64748b;
+  margin-left: 4px;
+}
+
+// ========== Add deposit & Set team target — два блока, премиум-дизайн ==========
+.page__actionsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+  overflow: visible;
+}
+
+.page__actionCard {
+  overflow: visible;
+  position: relative;
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.97) 0%, rgba(30, 41, 59, 0.94) 50%, rgba(15, 23, 42, 0.97) 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 245, 255, 0.14);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(148, 163, 184, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.page__actionCard:hover {
+  border-color: rgba(0, 245, 255, 0.25);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(148, 163, 184, 0.08),
+    0 0 40px rgba(0, 245, 255, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.page__actionCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  background: linear-gradient(180deg, rgba(0, 245, 255, 0.06) 0%, transparent 100%);
+  border-radius: 20px 20px 0 0;
+}
+
+.page__actionCardIcon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0, 245, 255, 0.2) 0%, rgba(6, 182, 212, 0.15) 100%);
+  border: 1px solid rgba(0, 245, 255, 0.2);
+  color: #00f5ff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.page__actionCardTitle {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.page__actionCardBody {
+  padding: 22px;
+  overflow: visible;
+}
+
+.page__actionForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: visible;
+}
+
+.page__actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  overflow: visible;
+}
+
+.page__actionInput {
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.6);
+  color: #f1f5f9;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  min-width: 0;
+}
+
+.page__actionInput::placeholder {
+  color: #64748b;
+}
+
+.page__actionInput:hover {
+  border-color: rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.75);
+}
+
+.page__actionInput:focus {
+  outline: none;
+  border-color: #00f5ff;
+  box-shadow: 0 0 0 3px rgba(0, 245, 255, 0.18);
+  background: rgba(15, 23, 42, 0.85);
+}
+
+.page__actionInput:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Убираем стрелки у number input */
+.page__actionInput[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.page__actionInput[type="number"]::-webkit-outer-spin-button,
+.page__actionInput[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* DatePicker в блоке Add deposit — в стиле action input */
+.page__actionDatePicker {
+  min-width: 140px;
+}
+
+.page__actionDatePicker :global([class*="DatePicker__trigger"]) {
+  width: 100%;
+  padding: 12px 16px;
+  min-height: 44px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #f1f5f9;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 12px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.page__actionDatePicker :global([class*="DatePicker__trigger"]):hover {
+  border-color: rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.75);
+}
+
+.page__actionDatePicker :global([class*="DatePicker__trigger_open"]) {
+  border-color: #00f5ff;
+  box-shadow: 0 0 0 3px rgba(0, 245, 255, 0.18);
+  background: rgba(15, 23, 42, 0.85);
+}
+
+.page__actionDatePicker :global([class*="DatePicker__dropdown"]) {
+  background: rgba(15, 23, 42, 0.98);
+  border: 1px solid rgba(0, 245, 255, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  z-index: 9999;
+}
+
+.page__actionBtn {
+  padding: 12px 22px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #00f5ff 0%, #06b6d4 100%);
+  color: #0d0d12;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0, 245, 255, 0.35);
+}
+
+.page__actionBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 245, 255, 0.45);
+  opacity: 0.95;
+}
+
+.page__actionBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.page__actionBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Выпадающий список клиента — поверх всех блоков */
+.page__clientSelect_float {
+  position: relative;
+  z-index: 50;
+}
+
+.page__clientSelect_float .page__clientDropdown {
+  z-index: 9999;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 245, 255, 0.1);
+}
+
+.page__clientSelect_float .page__actionInput {
+  min-width: 140px;
+}
+
+@media (max-width: 720px) {
+  .page__actionsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ========== Legacy quick actions (kept for reference) ==========
+.page__quickActionsCard {
+  width: 100%;
+  background: linear-gradient(165deg, rgba(15, 23, 42, 0.94) 0%, rgba(30, 41, 59, 0.9) 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(0, 245, 255, 0.12);
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+}
+
+.page__quickActionsCard:hover {
+  box-shadow: 0 6px 36px rgba(0, 0, 0, 0.22);
+  border-color: rgba(0, 245, 255, 0.12);
+}
+
+.page__quickActionsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  align-items: stretch;
+  min-height: 120px;
+}
+
+.page__quickActionsHalf {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 24px;
+  min-width: 0;
+}
+
+.page__quickActionsHalf:last-child {
+  border-left: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.page__quickActionsHalfTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.page__quickActionsRow .page__formInline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+@media (max-width: 720px) {
+  .page__quickActionsRow {
+    grid-template-columns: 1fr;
+  }
+
+  .page__quickActionsHalf:last-child {
+    border-left: none;
+    border-top: 1px solid rgba(148, 163, 184, 0.12);
+  }
+}
+
+// ========== Legacy quick actions grid (kept for reference, not used) ==========
+.page__quickActionsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 440px));
+  gap: 28px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.page__quickActionsGrid .page__section {
+  margin-bottom: 0;
+}
+
+.page__quickActionsGrid .page__sectionCard {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 150px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 245, 255, 0.12);
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.page__quickActionsGrid .page__sectionHead {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.page__quickActionsGrid .page__sectionTitle {
+  font-size: var(--heading-section);
+  font-weight: 700;
+  color: #f1f5f9;
+  letter-spacing: -0.01em;
+}
+
+.page__quickActionsGrid .page__sectionBody {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.page__quickActionsGrid .page__formInline {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+@media (max-width: 720px) {
+  .page__quickActionsGrid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.page__actionsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.page__actionBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.page__actionLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.page__formInline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 0;
+}
+
+// ========== Overview: 3 per row, centered, same-size boxes ==========
+.page__overviewSectionTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0 0 20px 0;
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.page__overviewGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 220px));
+  gap: 24px;
+  justify-content: center;
+  justify-items: center;
+}
+
+.page__overviewBox {
+  width: 100%;
+  max-width: 220px;
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 41, 59, 0.85) 100%);
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.12);
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  min-height: 240px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.page__overviewBox:hover {
+  border-color: rgba(0, 245, 255, 0.2);
+  box-shadow: 0 4px 24px rgba(0, 245, 255, 0.08);
+}
+
+@media (max-width: 800px) {
+  .page__overviewGrid {
+    grid-template-columns: repeat(2, minmax(0, 220px));
+  }
+}
+
+@media (max-width: 500px) {
+  .page__overviewGrid {
+    grid-template-columns: 1fr;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.page__overviewBoxRing {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #00f5ff 0deg,
+    #00f5ff calc(var(--progress, 0) * 3.6deg),
+    rgba(148, 163, 184, 0.15) calc(var(--progress, 0) * 3.6deg),
+    rgba(148, 163, 184, 0.15) 360deg
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.page__overviewBoxRingInner {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.page__overviewBoxRingValue {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #00f5ff;
+  line-height: 1.2;
+}
+
+.page__overviewBoxRingLabel {
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 4px;
+}
+
+.page__overviewBoxDetail {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.8125rem;
+}
+
+.page__overviewBoxRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.page__overviewBoxMuted {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.page__overviewRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+  align-items: flex-start;
+}
+
+.page__teamRings {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.page__teamRingCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.page__teamRing {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #00f5ff 0deg,
+    #00f5ff calc(var(--progress, 0) * 3.6deg),
+    rgba(148, 163, 184, 0.15) calc(var(--progress, 0) * 3.6deg),
+    rgba(148, 163, 184, 0.15) 360deg
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.page__teamRingInner {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.page__teamRingValue {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #00f5ff;
+  line-height: 1.2;
+}
+
+.page__teamRingLabel {
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: #64748b;
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 2px;
+}
+
+.page__teamRingLegend {
+  font-size: 0.6875rem;
+  color: #94a3b8;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.page__sectionHeadButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border: none;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  background: rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  transition: background 0.2s;
+}
+
+.page__sectionHeadButton:hover {
+  background: rgba(0, 245, 255, 0.06);
+}
+
+.page__sectionChevron {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.page__intro {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin: -8px 0 20px 0;
+  line-height: 1.5;
+}
+
+.page__monthPicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.page__teamSelect {
+  margin-left: 8px;
+}
+
+// ========== Stats / Summary cards ==========
+.page__statsRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.page__statCard {
+  padding: 20px;
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.8) 100%);
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.page__statCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+}
+
+.page__statCardLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.page__statCardValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00f5ff;
+  letter-spacing: -0.02em;
+}
+
+.page__statCardValue_dim {
+  color: #e2e8f0;
+}
+
+.page__statCardTrend {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.page__statCardTrend_up {
+  color: #34d399;
+}
+
+.page__statCardTrend_down {
+  color: #f87171;
+}
+
+.page__statCardTrend_flat {
+  color: #94a3b8;
+}
+
+// ========== Bar chart (fill bar diagram) ==========
+.page__barChart {
+  padding: 8px 0;
+}
+
+.page__barChartRow {
+  margin-bottom: 14px;
+}
+
+.page__barChartRow:last-child {
+  margin-bottom: 0;
+}
+
+.page__barChartTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+  gap: 12px;
+}
+
+.page__barChartLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #e2e8f0;
+  flex-shrink: 0;
+}
+
+.page__barChartValue {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #00f5ff;
+  font-variant-numeric: tabular-nums;
+}
+
+.page__barChartTrack {
+  height: 10px;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.page__barChartFill {
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #00f5ff 0%, #06b6d4 100%);
+  min-width: 4px;
+  transition: width 0.5s ease-out;
+}
+
+// ========== Target progress (donut / ring) ==========
+.page__progressWrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.page__progressRing {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: conic-gradient(
+    #00f5ff 0deg,
+    #00f5ff calc(var(--progress, 0) * 3.6deg),
+    rgba(148, 163, 184, 0.15) calc(var(--progress, 0) * 3.6deg),
+    rgba(148, 163, 184, 0.15) 360deg
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.page__progressRingInner {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.9) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.page__progressRingValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00f5ff;
+  line-height: 1.2;
+}
+
+.page__progressRingLabel {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.page__progressLegend {
+  font-size: 0.8125rem;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.page__progressLegend strong {
+  color: #e2e8f0;
+}
+
+// ========== Sections ==========
+.page__section {
+  margin-bottom: 28px;
+}
+
+.page__sectionCard {
+  background: linear-gradient(165deg, rgba(15, 23, 42, 0.94) 0%, rgba(30, 41, 59, 0.9) 100%);
+  border-radius: 16px;
+  border: 1px solid rgba(0, 245, 255, 0.08);
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+}
+
+.page__sectionCard:hover {
+  box-shadow: 0 6px 36px rgba(0, 0, 0, 0.22);
+  border-color: rgba(0, 245, 255, 0.12);
+}
+
+.page__sectionHead {
+  padding: 18px 24px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.page__sectionTitle {
+  font-size: var(--heading-section);
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.page__sectionSubtitle {
+  font-size: 0.8125rem;
+  color: #64748b;
+  margin: 8px 0 0 0;
+}
+
+.page__sectionBody {
+  padding: 22px 24px;
+}
+
+// ========== Employee deposits table (admin) ==========
+.page__employeeTableWrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+.page__employeeTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.page__employeeTh {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+  background: rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+
+  &.page__employeeTh_right {
+    text-align: right;
+  }
+}
+
+.page__employeeRow {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.06);
+  transition: background 0.15s ease;
+}
+
+.page__employeeRow:hover {
+  background: rgba(0, 245, 255, 0.04);
+}
+
+.page__employeeCell {
+  padding: 14px 16px;
+  color: #e2e8f0;
+  font-variant-numeric: tabular-nums;
+
+  &.page__employeeCell_name {
+    font-weight: 600;
+    color: #f1f5f9;
+  }
+
+  &.page__employeeCell_right {
+    text-align: right;
+  }
+
+  &.page__employeeCell_earned {
+    font-weight: 700;
+    color: #22c55e;
+  }
+}
+
+// ========== Deposits by employee panel (admin) ==========
+.page__employeeSelectWrap {
+  margin-bottom: 20px;
+}
+
+.page__employeeSelectLabel {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+
+.page__employeeSelect {
+  width: 100%;
+  max-width: 320px;
+  padding: 10px 14px;
+  font-size: 0.9375rem;
+  color: #f1f5f9;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.page__employeeSelect:focus {
+  outline: none;
+  border-color: rgba(34, 211, 238, 0.5);
+}
+
+.page__employeeDepositsLoading {
+  padding: 20px 0;
+  margin: 0;
+  color: #64748b;
+  font-size: 0.9375rem;
+}
+
+.page__employeeDepositsTableWrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  margin-bottom: 20px;
+}
+
+.page__employeeDepositsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.page__employeeDepositsTh {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+  background: rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+
+  &.page__employeeDepositsTh_right {
+    text-align: right;
+  }
+}
+
+.page__employeeDepositsRow {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.06);
+}
+
+.page__employeeDepositsRow:hover {
+  background: rgba(0, 245, 255, 0.04);
+}
+
+.page__employeeDepositsCell {
+  padding: 12px 16px;
+  color: #e2e8f0;
+  font-variant-numeric: tabular-nums;
+
+  &.page__employeeDepositsCell_right {
+    text-align: right;
+  }
+
+  &.page__employeeDepositsCell_amount {
+    font-weight: 600;
+    color: #00f5ff;
+  }
+}
+
+.page__employeeDepositsEmpty {
+  padding: 24px;
+  text-align: center;
+  color: #64748b;
+  font-size: 0.9375rem;
+}
+
+.page__employeeDepositsSummary {
+  padding: 16px 0 0;
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.page__employeeDepositsSummaryRow {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.page__employeeDepositsSummaryLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #94a3b8;
+  min-width: 90px;
+}
+
+.page__employeeDepositsSummaryValue {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  font-variant-numeric: tabular-nums;
+}
+
+// ========== Monthly block (стиль как Team earnings / action cards) ==========
+.page__monthlyCard {
+  background: linear-gradient(165deg, rgba(15, 23, 42, 0.94) 0%, rgba(30, 41, 59, 0.9) 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 245, 255, 0.14);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(148, 163, 184, 0.06);
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.page__monthlyCard:hover {
+  border-color: rgba(0, 245, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 245, 255, 0.06);
+}
+
+.page__monthlyHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  background: linear-gradient(180deg, rgba(0, 245, 255, 0.06) 0%, transparent 100%);
+}
+
+.page__monthlyIcon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0, 245, 255, 0.2) 0%, rgba(6, 182, 212, 0.15) 100%);
+  border: 1px solid rgba(0, 245, 255, 0.2);
+  color: #00f5ff;
+  font-size: 1.25rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.page__monthlyTitle {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.page__monthlyBody {
+  padding: 22px;
+}
+
+.page__monthlyTotalWrap {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 20px;
+  margin-bottom: 18px;
+  background: rgba(0, 245, 255, 0.08);
+  border: 1px solid rgba(0, 245, 255, 0.15);
+  border-radius: 14px;
+}
+
+.page__monthlyTotalLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.page__monthlyTotalValue {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #00f5ff;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.page__monthlyList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.page__monthlyRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.06);
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.page__monthlyRow:hover {
+  background: rgba(0, 245, 255, 0.04);
+  border-color: rgba(0, 245, 255, 0.1);
+}
+
+.page__monthlyRowName {
+  font-weight: 600;
+  color: #e2e8f0;
+  font-size: 0.9375rem;
+}
+
+.page__monthlyRowAmount {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #00f5ff;
+  font-variant-numeric: tabular-nums;
+}
+
+// ========== Earnings / Commission card (agent & team leader) ==========
+.page__earningsCard {
+  background: linear-gradient(165deg, rgba(15, 23, 42, 0.94) 0%, rgba(30, 41, 59, 0.9) 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 245, 255, 0.14);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(148, 163, 184, 0.06);
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.page__earningsCard:hover {
+  border-color: rgba(0, 245, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 245, 255, 0.06);
+}
+
+.page__earningsHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  background: linear-gradient(180deg, rgba(0, 245, 255, 0.06) 0%, transparent 100%);
+}
+
+.page__earningsIcon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0, 245, 255, 0.2) 0%, rgba(6, 182, 212, 0.15) 100%);
+  border: 1px solid rgba(0, 245, 255, 0.2);
+  color: #00f5ff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.page__earningsTitle {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.page__earningsBody {
+  padding: 22px;
+}
+
+.page__earningsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.06);
+}
+
+.page__earningsRow:last-of-type {
+  border-bottom: none;
+}
+
+.page__earningsLabel {
+  font-weight: 600;
+  color: #94a3b8;
+  font-size: 0.9375rem;
+}
+
+.page__earningsValue {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: #e2e8f0;
+  font-variant-numeric: tabular-nums;
+}
+
+.page__earningsHighlight {
+  color: #00f5ff;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.page__earningsHint {
+  margin: 14px 0 0 0;
+  font-size: 0.8125rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.page__earningsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 700px) {
+  .page__earningsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ========== Report by month (стиль как Monthly) ==========
+.page__reportByMonthCard {
+  background: linear-gradient(165deg, rgba(15, 23, 42, 0.94) 0%, rgba(30, 41, 59, 0.9) 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 245, 255, 0.14);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(148, 163, 184, 0.06);
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.page__reportByMonthCard:hover {
+  border-color: rgba(0, 245, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 245, 255, 0.06);
+}
+
+.page__reportByMonthHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  background: linear-gradient(180deg, rgba(0, 245, 255, 0.06) 0%, transparent 100%);
+}
+
+.page__reportByMonthIcon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0, 245, 255, 0.2) 0%, rgba(6, 182, 212, 0.15) 100%);
+  border: 1px solid rgba(0, 245, 255, 0.2);
+  color: #00f5ff;
+  font-size: 1.25rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.page__reportByMonthTitle {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.page__reportByMonthBody {
+  padding: 22px;
+}
+
+.page__reportByMonthPickers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.page__reportByMonthSelect {
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.6);
+  color: #f1f5f9;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-width: 80px;
+}
+
+.page__reportByMonthSelect:hover {
+  border-color: rgba(148, 163, 184, 0.35);
+}
+
+.page__reportByMonthSelect:focus {
+  outline: none;
+  border-color: #00f5ff;
+  box-shadow: 0 0 0 3px rgba(0, 245, 255, 0.18);
+}
+
+.page__reportByMonthTotalWrap {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 20px;
+  margin-bottom: 18px;
+  background: rgba(0, 245, 255, 0.08);
+  border: 1px solid rgba(0, 245, 255, 0.15);
+  border-radius: 14px;
+}
+
+.page__reportByMonthTotalLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.page__reportByMonthTotalValue {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #00f5ff;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.page__reportByMonthList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.page__reportByMonthRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.06);
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.page__reportByMonthRow:hover {
+  background: rgba(0, 245, 255, 0.04);
+  border-color: rgba(0, 245, 255, 0.1);
+}
+
+.page__reportByMonthRowName {
+  font-weight: 600;
+  color: #e2e8f0;
+  font-size: 0.9375rem;
+}
+
+.page__reportByMonthRowAmount {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #00f5ff;
+  font-variant-numeric: tabular-nums;
+}
+
+// ========== Deposit history (стиль как Monthly, раскрывающийся) ==========
+.page__historyCard {
+  background: linear-gradient(165deg, rgba(15, 23, 42, 0.94) 0%, rgba(30, 41, 59, 0.9) 100%);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 245, 255, 0.14);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(148, 163, 184, 0.06);
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.page__historyCard:hover {
+  border-color: rgba(0, 245, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 245, 255, 0.06);
+}
+
+.page__historyHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 22px;
+  border: none;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  background: linear-gradient(180deg, rgba(0, 245, 255, 0.06) 0%, transparent 100%);
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  transition: background 0.2s;
+}
+
+.page__historyHeader:hover {
+  background: linear-gradient(180deg, rgba(0, 245, 255, 0.1) 0%, transparent 100%);
+}
+
+.page__historyIcon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0, 245, 255, 0.2) 0%, rgba(6, 182, 212, 0.15) 100%);
+  border: 1px solid rgba(0, 245, 255, 0.2);
+  color: #00f5ff;
+  flex-shrink: 0;
+}
+
+.page__historyTitle {
+  flex: 1;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.page__historyChevron {
+  font-size: 0.75rem;
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.page__historyBody {
+  padding: 22px;
+}
+
+.page__historyFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.page__historySelect {
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.6);
+  color: #f1f5f9;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-width: 140px;
+}
+
+.page__historySelect:hover {
+  border-color: rgba(148, 163, 184, 0.35);
+}
+
+.page__historySelect:focus {
+  outline: none;
+  border-color: #00f5ff;
+  box-shadow: 0 0 0 3px rgba(0, 245, 255, 0.18);
+}
+
+.page__historyInput {
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.6);
+  color: #f1f5f9;
+  font-size: 0.875rem;
+  min-width: 160px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.page__historyInput:focus {
+  outline: none;
+  border-color: #00f5ff;
+  box-shadow: 0 0 0 3px rgba(0, 245, 255, 0.18);
+}
+
+.page__historyChosen {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(15, 23, 42, 0.6);
+  color: #e2e8f0;
+  font-size: 0.875rem;
+}
+
+.page__historyChosenClear {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0 4px;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.page__historyChosenClear:hover {
+  color: #f87171;
+}
+
+.page__historyClientDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin: 4px 0 0 0;
+  padding: 0;
+  list-style: none;
+  background: rgba(15, 23, 42, 0.98);
+  border: 1px solid rgba(0, 245, 255, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  max-height: 260px;
+  overflow-y: auto;
+  z-index: 100;
+  min-width: 200px;
+}
+
+.page__historyClientOption {
+  width: 100%;
+  padding: 12px 16px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: #e2e8f0;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  transition: background 0.15s;
+}
+
+.page__historyClientOption:hover {
+  background: rgba(0, 245, 255, 0.12);
+}
+
+.page__historyEmpty {
+  padding: 24px;
+  text-align: center;
+  color: #64748b;
+  font-size: 0.9375rem;
+  margin: 0;
+}
+
+.page__historyShowing {
+  padding: 8px 0 12px;
+  margin: 0;
+  font-size: 0.8125rem;
+  color: #64748b;
+}
+
+.page__historyListWrap {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+.page__historyListWrap_cols4 .page__historyRow {
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+}
+
+.page__historyListWrap_cols3 .page__historyRow {
+  grid-template-columns: 1.4fr 1.5fr 0.9fr;
+}
+
+.page__historyRow {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1.2fr 1.2fr 0.9fr;
+  gap: 12px 16px;
+  align-items: center;
+  padding: 14px 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.06);
+  font-size: 0.875rem;
+  transition: background 0.2s;
+}
+
+.page__historyRow:last-child {
+  border-bottom: none;
+}
+
+.page__historyRow:hover {
+  background: rgba(0, 245, 255, 0.04);
+}
+
+.page__historyRow_head {
+  background: rgba(0, 0, 0, 0.35);
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
+}
+
+.page__historyList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.page__historyList .page__historyRow {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.06);
+}
+
+.page__historyList .page__historyRow:last-child {
+  border-bottom: none;
+}
+
+.page__historyCell {
+  color: #e2e8f0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.page__historyCellLink {
+  color: #00f5ff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s, text-decoration 0.2s;
+}
+
+.page__historyCellLink:hover {
+  color: #22d3ee;
+  text-decoration: underline;
+}
+
+.page__historyCell_amount {
+  font-weight: 700;
+  color: #00f5ff;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.page__historyRow_head .page__historyCell_amount {
+  text-align: right;
+}
+
+@media (max-width: 900px) {
+  .page__historyRow {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 80px);
+    gap: 8px 12px;
+    padding: 12px 14px;
+    font-size: 0.8125rem;
+  }
+
+  .page__historyListWrap_cols4 .page__historyRow {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .page__historyListWrap_cols3 .page__historyRow {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 80px);
+  }
+}
+
+.page__stat {
+  margin: 0 0 10px 0;
+  font-size: 0.875rem;
+  color: #94a3b8;
+}
+
+.page__stat strong {
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+// ========== Info card (target / summary) ==========
+.page__card {
+  padding: 22px 24px;
+  background: linear-gradient(135deg, rgba(0, 245, 255, 0.06) 0%, rgba(0, 245, 255, 0.02) 100%);
+  border-radius: 14px;
+  border: 1px solid rgba(0, 245, 255, 0.12);
+  margin-bottom: 0;
+  color: #e2e8f0;
+}
+
+.page__card p {
+  margin: 0 0 12px 0;
+  font-size: 0.9375rem;
+  color: #cbd5e1;
+}
+
+.page__card p:last-child {
+  margin-bottom: 0;
+}
+
+.page__remaining {
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+.page__done {
+  color: #34d399;
+  font-weight: 600;
+}
+
+// ========== Forms ==========
+.page__form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.page__input {
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(15, 23, 42, 0.7);
+  color: #f1f5f9;
+  font-size: 0.9375rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.page__input::placeholder {
+  color: #64748b;
+}
+
+.page__input:focus {
+  outline: none;
+  border-color: #00f5ff;
+  box-shadow: 0 0 0 3px rgba(0, 245, 255, 0.15);
+}
+
+.page__input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.page__button {
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #00f5ff 0%, #06b6d4 100%);
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+  letter-spacing: 0.02em;
+}
+
+.page__button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 245, 255, 0.4);
+  opacity: 0.98;
+}
+
+.page__button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.page__button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+// ========== Tables ==========
+.page__tableWrap {
+  overflow: auto;
+  max-height: min(58vh, 460px);
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  margin-top: 16px;
+  margin-bottom: 0;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.page__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  color: #e2e8f0;
+}
+
+.page__table th,
+.page__table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.06);
+}
+
+.page__table th {
+  background: rgba(0, 0, 0, 0.3);
+  color: #94a3b8;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.page__table tbody tr {
+  transition: background 0.15s;
+}
+
+.page__table tbody tr:hover td {
+  background: rgba(0, 245, 255, 0.05);
+}
+
+.page__table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+// ========== States ==========
+.page__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  color: #94a3b8;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.page__loading::before {
+  content: "";
+  width: 32px;
+  height: 32px;
+  margin-right: 14px;
+  border: 3px solid rgba(0, 245, 255, 0.2);
+  border-top-color: #00f5ff;
+  border-radius: 50%;
+  animation: pageSpin 0.8s linear infinite;
+}
+
+@keyframes pageSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.page__error {
+  padding: 16px 22px;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 14px;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #f87171;
+  margin-bottom: 24px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.page__empty {
+  padding: 40px 28px;
+  text-align: center;
+  color: #64748b;
+  font-size: 0.9375rem;
+  margin: 0;
+}
+
+.page__clientSelect {
+  position: relative;
+  z-index: 1;
+}
+
+.page__clientChosen {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(15, 23, 42, 0.6);
+  color: #e2e8f0;
+  font-size: 0.875rem;
+}
+
+.page__clientClear {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0 4px;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.page__clientClear:hover {
+  color: #f87171;
+}
+
+.page__clientDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin: 4px 0 0 0;
+  padding: 0;
+  list-style: none;
+  background: rgba(15, 23, 42, 0.98);
+  border: 1px solid rgba(0, 245, 255, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(148, 163, 184, 0.1);
+  max-height: 280px;
+  overflow-y: auto;
+  z-index: 9999;
+  min-width: 180px;
+}
+
+.page__clientOption {
+  width: 100%;
+  padding: 12px 16px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: #e2e8f0;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  transition: background 0.15s ease;
+}
+
+.page__clientOption:last-child {
+  border-bottom: none;
+}
+
+.page__clientOption:hover {
+  background: rgba(0, 245, 255, 0.12);
+}
+
+// Legacy class names for compatibility
+.page__weekPicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.page__weekPicker label {
+  color: #e2e8f0;
+}
+
+.page__weekBtn {
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(15, 23, 42, 0.6);
+  color: #f1f5f9;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.page__weekBtn_active {
+  background: linear-gradient(135deg, #00f5ff 0%, #06b6d4 100%);
+  color: #0f172a;
+  border-color: transparent;
+}

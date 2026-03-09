@@ -1,0 +1,115 @@
+.LeadHistoryDetailsField {
+    position: absolute;
+    width: 350px;
+    height: calc(100vh - 40px - 25px - 50px - 49px - 20px - 30px - 25px - 45px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 25px;
+    background-color: #1c1c1c;
+    border-radius: 24px;
+    border: 1px solid #323232;
+    right: 0;
+    padding: 25px 20px;
+
+    &_fixed {
+        position: fixed;
+        width: 350px;
+        height: calc(100vh - 40px - 25px - 50px - 49px - 20px - 30px - 25px - 45px);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 25px;
+        background-color: #1c1c1c;
+        border-radius: 24px;
+        border: 1px solid #323232;
+        right: 40;
+        top: 20px
+    }
+
+    &__title {
+        font-size: var(--heading-section);
+        font-weight: 600;
+        color: #ffffff;
+    }
+
+    &__block {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 8px;
+
+    }
+
+    &__txt {
+        font-size: 16px;
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 600;
+        color: #ffffff;
+
+    }
+
+    &__text {
+        font-size: 16px;
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 400;
+        color: #959595;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 12px
+    }
+
+    ;
+
+    &__subtitle {
+        font-size: 14px;
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 400;
+        color: #979797;
+    }
+
+    &__profile {
+        display: flex;
+        column-gap: 14px;
+    }
+
+    &__image {
+        display: flex;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #3f8cff;
+        border-radius: 100px;
+
+        font-size: 16px;
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 700;
+        color: #ffffff;
+    }
+
+    &__name {
+        font-size: 16px;
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 400;
+        color: #ffffff;
+    }
+
+    &__date {
+        font-size: 14px;
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 500;
+        color: #959595;
+        display: flex;
+        align-items: center;
+        gap: 14px
+    }
+}

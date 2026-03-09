@@ -1,0 +1,38 @@
+.SearchLeadPage {
+    width: 100%;
+    margin-top: 24px;
+
+    &__title {
+        font-size: var(--heading-page);
+        font-weight: 700;
+        color: #ffffff;
+        height: 50px;
+    }
+
+    &__head {
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: var(--space-section);
+    }
+
+    &__sutitle {
+        font-size: var(--heading-section);
+        font-weight: 600;
+        color: #ffffff;
+    }
+
+    &__404 {
+        font-size: var(--heading-section);
+        font-weight: 600;
+        color: #ffffff;
+    }
+
+    &__content{
+        display: flex;
+        align-items: center;
+        gap: 20px
+    }
+
+}

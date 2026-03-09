@@ -1,0 +1,114 @@
+.TeamDetails {
+  width: 260px;
+  flex-shrink: 0;
+  min-height: 0;
+  display: flex;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  background-color: var(--color-surface);
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+  padding: 24px 20px;
+  gap: 24px;
+  box-shadow: var(--shadow-soft);
+
+  &_fixed {
+    width: 260px;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: var(--color-surface);
+    border-radius: 20px;
+    border: 1px solid var(--color-border);
+    padding: 24px 20px;
+    gap: 24px;
+    top: 20px;
+    bottom: 20px;
+    left: 0;
+    position: fixed;
+    z-index: 100;
+    box-shadow: var(--shadow-soft);
+  }
+
+  &__contener {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  &__logo {
+    width: 48px;
+    height: 48px;
+    background: var(--neon-cyan);
+    border-radius: 100px;
+    box-shadow: 0 0 12px rgba(0, 245, 255, 0.4);
+  }
+
+  &__title {
+    font-size: var(--heading-section);
+    font-weight: 700;
+    color: var(--color-text);
+    word-break: break-word;
+    margin: 0;
+  }
+
+  &__text {
+    font-size: var(--text-base);
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  &__block {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__subtitle {
+    font-size: var(--text-md);
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0 0 4px 0;
+  }
+
+  &__box {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+  }
+
+  &__info {
+    font-size: var(--text-md);
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  &__date {
+    font-size: var(--text-base);
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0;
+  }
+}

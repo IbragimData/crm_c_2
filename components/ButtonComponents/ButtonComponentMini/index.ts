@@ -1,0 +1,1 @@
+export { ButtonComponentMain } from "./ButtonComponentMini"

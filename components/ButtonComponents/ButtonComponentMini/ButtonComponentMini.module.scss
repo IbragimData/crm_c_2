@@ -1,0 +1,20 @@
+.ButtonComponentMain {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-glow);
+  background-color: var(--color-surface);
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    filter: brightness(1.05);
+    transform: scale(1.02);
+    border-color: var(--color-border-strong);
+    box-shadow: var(--shadow-glow-strong);
+  }
+}

@@ -1,0 +1,49 @@
+.ButtonComponentDefault {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: var(--btn-pad-y) var(--btn-pad-x);
+  min-height: var(--btn-height);
+  border-radius: 10px;
+  border: 1px solid rgba(34, 211, 238, 0.35);
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    0 4px 16px rgba(34, 211, 238, 0.28);
+  font-size: 16px;
+  line-height: 1.5;
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: 600;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+
+  &:hover:not(:disabled) {
+    border-color: rgba(34, 211, 238, 0.55);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      0 4px 12px rgba(0, 0, 0, 0.22),
+      0 6px 22px rgba(34, 211, 238, 0.4);
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 2px 8px rgba(34, 211, 238, 0.35);
+  }
+
+  &:disabled {
+    border-color: rgba(148, 163, 184, 0.3);
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+    opacity: 0.7;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+  }
+}

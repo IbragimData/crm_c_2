@@ -1,0 +1,47 @@
+.tabs {
+  display: flex;
+  flex-shrink: 0;
+  width: fit-content;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 6px;
+  box-shadow: var(--shadow-soft);
+}
+
+.tab {
+  height: var(--input-height);
+  padding: 0 24px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-size: var(--text-md);
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: 400;
+  text-align: center;
+  transition: color 0.2s, background 0.2s;
+
+  &:hover {
+    color: var(--color-text);
+  }
+}
+
+.tab_active {
+  @extend .tab;
+  background: rgba(0, 245, 255, 0.15);
+  color: var(--neon-cyan);
+  font-weight: 600;
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.3);
+}
+
+.content {
+  width: 100%;
+  margin-top: 20px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}

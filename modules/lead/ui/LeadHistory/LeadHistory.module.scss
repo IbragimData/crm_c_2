@@ -1,0 +1,139 @@
+.LeadHistory {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+
+  /* Такой же блок, как Main Info: скругление, тень, затемнение по краям */
+  &__scrollWrap {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    border: 1px solid var(--color-border);
+    background: linear-gradient(
+      180deg,
+      var(--color-surface-elevated) 0%,
+      var(--color-surface) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 0 0 1px rgba(0, 0, 0, 0.15),
+      0 8px 32px rgba(0, 0, 0, 0.25);
+    position: relative;
+    overflow: hidden;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 6px;
+      height: 56px;
+      pointer-events: none;
+      z-index: 2;
+    }
+    &::before {
+      top: 0;
+      background: linear-gradient(
+        180deg,
+        var(--color-surface-elevated) 0%,
+        var(--color-surface-elevated) 15%,
+        transparent 100%
+      );
+    }
+    &::after {
+      bottom: 0;
+      background: linear-gradient(
+        0deg,
+        var(--color-surface) 0%,
+        var(--color-surface) 15%,
+        transparent 100%
+      );
+    }
+  }
+
+  &__scroll {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-strong) transparent;
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-border-strong);
+      border-radius: 6px;
+    }
+  }
+
+  &__content {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  &__title {
+    font-size: var(--heading-section);
+    font-weight: 700;
+    color: var(--color-text);
+    flex-shrink: 0;
+    margin-bottom: 16px;
+    padding: 24px 24px 0;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 24px 56px;
+  }
+
+  &__day {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__date {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0 4px;
+    flex-shrink: 0;
+  }
+
+  &__dateText {
+    font-size: 12px;
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  &__loading {
+    font-size: var(--text-md);
+    color: var(--color-text-muted);
+    padding: 24px 0;
+  }
+
+  &__sentinel {
+    height: 1px;
+    flex-shrink: 0;
+  }
+}

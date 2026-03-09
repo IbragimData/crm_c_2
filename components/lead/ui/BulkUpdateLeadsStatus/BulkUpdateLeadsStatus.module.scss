@@ -1,0 +1,34 @@
+.BulkUpdateLeadsStatus__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.BulkUpdateLeadsStatus__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Nunito Sans", sans-serif;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  background: rgba(15, 23, 42, 0.6);
+  color: var(--color-text);
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: all 0.2s ease;
+
+  input {
+    display: none;
+  }
+
+  &:hover {
+    border-color: rgba(34, 211, 238, 0.45);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 4px 12px rgba(34, 211, 238, 0.2);
+  }
+}
