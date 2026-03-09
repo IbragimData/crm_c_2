@@ -106,6 +106,7 @@ function getDateRange(days: number): { dateFrom: string; dateTo: string } {
 function roleLabel(role: Role): string {
   const labels: Record<Role, string> = {
     [Role.USER]: "User",
+    [Role.AFFILIATOR]: "Affiliator",
     [Role.AGENT]: "Agent",
     [Role.TEAMLEADER]: "Team Leader",
     [Role.LEADMANAGER]: "Lead Manager",

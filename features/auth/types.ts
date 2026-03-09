@@ -1,13 +1,6 @@
-export enum Role {
-  AGENT = "AGENT",
-  TEAMLEADER = "TEAMLEADER",
-  LEADMANAGER = "LEADMANAGER",
-  ADMIN = "ADMIN",
-  SUPER_ADMIN = "SUPER_ADMIN",
-  AFFILIATOR = "AFFILIATOR",
-}
-
-export { EmployeeStatus, Employee } from "./types/employee.type";
+import type { Role } from "./types/employee.type";
+export { Role, EmployeeStatus } from "./types/employee.type";
+export type { Employee } from "./types/employee.type";
 
 export interface AuthEmployee {
   id: string;

@@ -501,7 +501,7 @@ export function TeamLeadsTab({
           pageSize={pageSize}
           hasMore={hasMore}
           onGoToPage={goToPage}
-          canChangeOwner={isAdmin}
+          canChangeOwner={isAdmin ?? undefined}
           ownerOptions={teamMemberEmployees}
           onOwnerChange={handleSingleLeadOwnerChange}
           ownerChangeLoading={ownerLoading}
