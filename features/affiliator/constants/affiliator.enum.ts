@@ -3,6 +3,7 @@ export enum AffiliatorName {
     LexoraCA_FR = "LexoraCA_FR",
     LexoraFrench = "LexoraFrench",
     BacaCA_EN = "BacaCA_EN",
+    BacaCA_FR = "BacaCA_FR",
     no = "no"
 }
 export type AffiliatorNameUI = {
@@ -22,9 +23,13 @@ export const AFFILIATOR_NAME_UI: Record<AffiliatorName, AffiliatorNameUI> = {
     [AffiliatorName.BacaCA_EN]: {
         bg: "#40bbaf",
     },
+    [AffiliatorName.BacaCA_FR]: {
+        bg: "#d0ff00",
+    },
     [AffiliatorName.no]: {
         bg: "#3f8cff",
     },
+    
 
 };
 export const affiliatorLabels: Record<string, string> = {

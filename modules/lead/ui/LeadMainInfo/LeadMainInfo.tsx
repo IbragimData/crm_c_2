@@ -295,6 +295,8 @@ export function LeadMainInfo({ lead, setLead }: LeadMainInfoProps) {
                 return AffiliatorName.LexoraFrench;
             case AffiliatorName.BacaCA_EN:
                 return AffiliatorName.BacaCA_EN;
+            case AffiliatorName.BacaCA_FR:
+                return AffiliatorName.BacaCA_FR;
             default:
                 return AffiliatorName.no;
         }

@@ -111,8 +111,8 @@ export function LeadItem({
   const leadAffiliatorsDisplay = lead.createdBy
     ? [employees.find((e) => e.id === lead.createdBy)]
     : (lead.leadAffiliates ?? []).map((la) =>
-        employees.find((e) => e.id === la.affiliateId)
-      );
+      employees.find((e) => e.id === la.affiliateId)
+    );
 
   const affiliatorKeys: AffiliatorName[] = leadAffiliatorsDisplay.map((a) => {
     if (!a) return AffiliatorName.no;
@@ -126,6 +126,8 @@ export function LeadItem({
         return AffiliatorName.LexoraFrench;
       case AffiliatorName.BacaCA_EN:
         return AffiliatorName.BacaCA_EN;
+      case AffiliatorName.BacaCA_FR:
+        return AffiliatorName.BacaCA_FR;
       default:
         return AffiliatorName.no;
     }
@@ -215,18 +217,18 @@ export function LeadItem({
               <div className={s.LeadItem__ownerDropdown}>
                 <div className={selectStyles.Select__dropdown}>
                   {ownerOptions.map((emp) => (
-                  <button
-                    key={emp.id}
-                    type="button"
-                    className={selectStyles.Select__option}
-                    disabled={ownerChangeLoading}
-                    onClick={() => handleOwnerSelect(emp.id)}
-                  >
-                    {emp.firstName} {emp.lastName}
-                  </button>
-                ))}
+                    <button
+                      key={emp.id}
+                      type="button"
+                      className={selectStyles.Select__option}
+                      disabled={ownerChangeLoading}
+                      onClick={() => handleOwnerSelect(emp.id)}
+                    >
+                      {emp.firstName} {emp.lastName}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
             )}
           </div>
         ) : (
