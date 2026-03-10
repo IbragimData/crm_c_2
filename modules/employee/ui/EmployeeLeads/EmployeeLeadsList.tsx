@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback, useMemo } from "react";
 import { LeadFilterModel, DatePicker, BulkAssignLeadOwnerModel } from "@/components";
 import { BulkUpdateLeadsStatus } from "@/components/lead/ui/BulkUpdateLeadsStatus";
 import iconFilter from "@/modules/lead/assets/filter.svg";
@@ -106,6 +106,9 @@ export function EmployeeLeadsList({
   } = useGetAllLeadsByEmploeeId(id || "");
   const employees = useEmployeesStore((state) => state.employees);
   const [openPanel, setOpenPanel] = useState<"status" | "owner" | "team" | null>(null);
+  const [statusSearchQuery, setStatusSearchQuery] = useState("");
+  const [ownerSearchQuery, setOwnerSearchQuery] = useState("");
+  const [teamSearchQuery, setTeamSearchQuery] = useState("");
   const [isFiltersModalOpen, setIsFiltersModalOpen] = useState(false);
   const [dateError, setDateError] = useState<string>("");
   const setLeadNavigation = useLeadNavigationStore((s) => s.setLeadNavigation);
@@ -122,7 +125,33 @@ export function EmployeeLeadsList({
   const [teams, setTeams] = useState<{ id: string; name: string; isActive: boolean }[]>([]);
   const [teamLoadTeams, setTeamLoadTeams] = useState(false);
   const [teamLoading, setTeamLoading] = useState(false);
+
+  const filteredOwnerEmployees = useMemo(() => {
+    const q = ownerSearchQuery.trim().toLowerCase();
+    if (!q) return agentAndTeamleaderEmployees;
+    return agentAndTeamleaderEmployees.filter(
+      (emp) =>
+        emp.firstName.toLowerCase().includes(q) || emp.lastName.toLowerCase().includes(q)
+    );
+  }, [agentAndTeamleaderEmployees, ownerSearchQuery]);
+
+  const filteredTeams = useMemo(() => {
+    const q = teamSearchQuery.trim().toLowerCase();
+    if (!q) return teams;
+    return teams.filter((t) => t.name.toLowerCase().includes(q));
+  }, [teams, teamSearchQuery]);
+
+  const filteredStatuses = useMemo(() => {
+    const q = statusSearchQuery.trim().toLowerCase();
+    const all = Object.values(LeadStatus);
+    if (!q) return all;
+    return all.filter((st) => LEAD_STATUS_UI[st].label.toLowerCase().includes(q));
+  }, [statusSearchQuery]);
+
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const statusSearchInputRef = useRef<HTMLInputElement>(null);
+  const ownerSearchInputRef = useRef<HTMLInputElement>(null);
+  const teamSearchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setLeadNavigation(leads.map((l) => l.id), "employee", id || null);
@@ -131,12 +160,34 @@ export function EmployeeLeadsList({
   useEffect(() => {
     if (openPanel === "team") {
       setTeamLoadTeams(true);
+      setTeamSearchQuery("");
       getTeams()
         .then((list) => setTeams(list.filter((t) => t.isActive)))
         .catch(() => setTeams([]))
         .finally(() => setTeamLoadTeams(false));
     }
   }, [openPanel]);
+
+  useEffect(() => {
+    if (openPanel === "owner") {
+      setOwnerSearchQuery("");
+      setTimeout(() => ownerSearchInputRef.current?.focus(), 0);
+    }
+  }, [openPanel]);
+
+  useEffect(() => {
+    if (openPanel === "status") {
+      setStatusSearchQuery("");
+      setTimeout(() => statusSearchInputRef.current?.focus(), 0);
+    }
+  }, [openPanel]);
+
+  useEffect(() => {
+    if (openPanel === "team" && !teamLoadTeams) {
+      setTeamSearchQuery("");
+      setTimeout(() => teamSearchInputRef.current?.focus(), 0);
+    }
+  }, [openPanel, teamLoadTeams]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -327,26 +378,44 @@ export function EmployeeLeadsList({
                   </svg>
                 </button>
                 {openPanel === "status" && (
-                  <div className={selectStyles.Select__dropdown}>
-                    {Object.values(LeadStatus).map((st) => {
-                      const ui = LEAD_STATUS_UI[st];
-                      return (
-                        <button
-                          key={st}
-                          type="button"
-                          className={`${selectStyles.Select__option} ${toolbarStyles.LeadsPage__statusOption}`}
-                          disabled={statusLoading}
-                          onClick={() => handleStatusSelect(st)}
-                        >
-                          <span
-                            className={toolbarStyles.LeadsPage__statusChip}
-                            style={{ backgroundColor: ui.bg, color: ui.text }}
-                            aria-hidden
-                          />
-                          <span>{ui.label}</span>
-                        </button>
-                      );
-                    })}
+                  <div className={`${selectStyles.Select__dropdown} ${toolbarStyles.LeadsPage__dropdownWithSearch}`}>
+                    <input
+                      ref={statusSearchInputRef}
+                      type="text"
+                      className={toolbarStyles.LeadsPage__dropdownSearch}
+                      placeholder="Search status…"
+                      value={statusSearchQuery}
+                      onChange={(e) => setStatusSearchQuery(e.target.value)}
+                      onKeyDown={(e) => e.stopPropagation()}
+                      aria-label="Search status"
+                    />
+                    <div className={toolbarStyles.LeadsPage__dropdownList}>
+                      {filteredStatuses.length === 0 ? (
+                        <div className={selectStyles.Select__empty}>
+                          {statusSearchQuery.trim() ? "No matching statuses" : "No statuses"}
+                        </div>
+                      ) : (
+                        filteredStatuses.map((st) => {
+                          const ui = LEAD_STATUS_UI[st];
+                          return (
+                            <button
+                              key={st}
+                              type="button"
+                              className={`${selectStyles.Select__option} ${toolbarStyles.LeadsPage__statusOption}`}
+                              disabled={statusLoading}
+                              onClick={() => handleStatusSelect(st)}
+                            >
+                              <span
+                                className={toolbarStyles.LeadsPage__statusChip}
+                                style={{ backgroundColor: ui.bg, color: ui.text }}
+                                aria-hidden
+                              />
+                              <span>{ui.label}</span>
+                            </button>
+                          );
+                        })
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
@@ -373,18 +442,36 @@ export function EmployeeLeadsList({
                   </svg>
                 </button>
                 {openPanel === "owner" && (
-                  <div className={selectStyles.Select__dropdown}>
-                    {agentAndTeamleaderEmployees.map((emp) => (
-                      <button
-                        key={emp.id}
-                        type="button"
-                        className={`${selectStyles.Select__option} ${toolbarStyles.LeadsPage__dropdownOption}`}
-                        disabled={ownerLoading}
-                        onClick={() => handleOwnerSelect(emp.id)}
-                      >
-                        {emp.firstName} {emp.lastName}
-                      </button>
-                    ))}
+                  <div className={`${selectStyles.Select__dropdown} ${toolbarStyles.LeadsPage__dropdownWithSearch}`}>
+                    <input
+                      ref={ownerSearchInputRef}
+                      type="text"
+                      className={toolbarStyles.LeadsPage__dropdownSearch}
+                      placeholder="Search by name…"
+                      value={ownerSearchQuery}
+                      onChange={(e) => setOwnerSearchQuery(e.target.value)}
+                      onKeyDown={(e) => e.stopPropagation()}
+                      aria-label="Search owner"
+                    />
+                    <div className={toolbarStyles.LeadsPage__dropdownList}>
+                      {filteredOwnerEmployees.length === 0 ? (
+                        <div className={selectStyles.Select__empty}>
+                          {ownerSearchQuery.trim() ? "No matching owners" : "No owners"}
+                        </div>
+                      ) : (
+                        filteredOwnerEmployees.map((emp) => (
+                          <button
+                            key={emp.id}
+                            type="button"
+                            className={`${selectStyles.Select__option} ${toolbarStyles.LeadsPage__dropdownOption}`}
+                            disabled={ownerLoading}
+                            onClick={() => handleOwnerSelect(emp.id)}
+                          >
+                            {emp.firstName} {emp.lastName}
+                          </button>
+                        ))
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
@@ -411,22 +498,38 @@ export function EmployeeLeadsList({
                   </svg>
                 </button>
                 {openPanel === "team" && (
-                  <div className={selectStyles.Select__dropdown}>
-                    {teamLoadTeams ? (
-                      <div className={selectStyles.Select__option}>Loading…</div>
-                    ) : (
-                      teams.map((t) => (
-                        <button
-                          key={t.id}
-                          type="button"
-                          className={`${selectStyles.Select__option} ${toolbarStyles.LeadsPage__dropdownOption}`}
-                          disabled={teamLoading}
-                          onClick={() => handleTeamSelect(t.id)}
-                        >
-                          {t.name}
-                        </button>
-                      ))
-                    )}
+                  <div className={`${selectStyles.Select__dropdown} ${toolbarStyles.LeadsPage__dropdownWithSearch}`}>
+                    <input
+                      ref={teamSearchInputRef}
+                      type="text"
+                      className={toolbarStyles.LeadsPage__dropdownSearch}
+                      placeholder="Search team…"
+                      value={teamSearchQuery}
+                      onChange={(e) => setTeamSearchQuery(e.target.value)}
+                      onKeyDown={(e) => e.stopPropagation()}
+                      aria-label="Search team"
+                    />
+                    <div className={toolbarStyles.LeadsPage__dropdownList}>
+                      {teamLoadTeams ? (
+                        <div className={selectStyles.Select__option}>Loading…</div>
+                      ) : filteredTeams.length === 0 ? (
+                        <div className={selectStyles.Select__empty}>
+                          {teamSearchQuery.trim() ? "No matching teams" : "No teams"}
+                        </div>
+                      ) : (
+                        filteredTeams.map((t) => (
+                          <button
+                            key={t.id}
+                            type="button"
+                            className={`${selectStyles.Select__option} ${toolbarStyles.LeadsPage__dropdownOption}`}
+                            disabled={teamLoading}
+                            onClick={() => handleTeamSelect(t.id)}
+                          >
+                            {t.name}
+                          </button>
+                        ))
+                      )}
+                    </div>
                   </div>
                 )}
               </div>

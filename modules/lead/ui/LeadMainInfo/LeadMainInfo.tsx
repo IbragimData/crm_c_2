@@ -2,6 +2,7 @@
 
 import s from "./LeadMainInfo.module.scss";
 import selectStyles from "@/components/Select/Select.module.scss";
+import toolbarStyles from "@/modules/lead/ui/LeadsPage/LeadsPage.module.scss";
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { Lead, LEAD_STATUS_UI, LeadStatus, maskPhone, useEmployeesStore, useUpdateLead, useUpdateLeadStatus } from "@/features";
 import { AFFILIATOR_NAME_UI, AffiliatorName } from "@/features/affiliator/constants/affiliator.enum";
@@ -58,7 +59,9 @@ export function LeadMainInfo({ lead, setLead }: LeadMainInfoProps) {
 
     const [isOwnerModalOpen, setIsOwnerModalOpen] = useState(false);
     const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
+    const [statusSearchQuery, setStatusSearchQuery] = useState("");
     const statusDropdownRef = useRef<HTMLDivElement>(null);
+    const statusSearchInputRef = useRef<HTMLInputElement>(null);
     const { updateStatus: updateLeadStatus, loading: statusLoading } = useUpdateLeadStatus();
 
 
@@ -265,6 +268,20 @@ export function LeadMainInfo({ lead, setLead }: LeadMainInfoProps) {
         }
     }, [isStatusDropdownOpen]);
 
+    const filteredStatuses = useMemo(() => {
+        const q = statusSearchQuery.trim().toLowerCase();
+        const all = Object.values(LeadStatus);
+        if (!q) return all;
+        return all.filter((st) => LEAD_STATUS_UI[st].label.toLowerCase().includes(q));
+    }, [statusSearchQuery]);
+
+    useEffect(() => {
+        if (isStatusDropdownOpen) {
+            setStatusSearchQuery("");
+            setTimeout(() => statusSearchInputRef.current?.focus(), 0);
+        }
+    }, [isStatusDropdownOpen]);
+
     const handleStatusSelect = useCallback(
         async (st: LeadStatus) => {
             const updated = await updateLeadStatus(lead.id, st);
@@ -347,30 +364,48 @@ export function LeadMainInfo({ lead, setLead }: LeadMainInfoProps) {
                                     </svg>
                                 </button>
                                 {isStatusDropdownOpen && (
-                                    <div className={selectStyles.Select__dropdown}>
-                                        {Object.values(LeadStatus).map((st) => {
-                                            const ui = LEAD_STATUS_UI[st];
-                                            return (
-                                                <button
-                                                    key={st}
-                                                    type="button"
-                                                    className={`${selectStyles.Select__option} ${s.LeadMainInfo__statusOption}`}
-                                                    disabled={statusLoading}
-                                                    onClick={() => handleStatusSelect(st)}
-                                                >
-                                                    <span
-                                                        className={s.LeadMainInfo__statusChip}
-                                                        style={{
-                                                            backgroundColor: ui.bg,
-                                                            color: ui.text,
-                                                            ['--chip-glow' as string]: statusGlowRgba(ui.bg, 0.5),
-                                                        }}
-                                                        aria-hidden
-                                                    />
-                                                    <span>{ui.label}</span>
-                                                </button>
-                                            );
-                                        })}
+                                    <div className={`${selectStyles.Select__dropdown} ${toolbarStyles.LeadsPage__dropdownWithSearch}`}>
+                                        <input
+                                            ref={statusSearchInputRef}
+                                            type="text"
+                                            className={toolbarStyles.LeadsPage__dropdownSearch}
+                                            placeholder="Search status…"
+                                            value={statusSearchQuery}
+                                            onChange={(e) => setStatusSearchQuery(e.target.value)}
+                                            onKeyDown={(e) => e.stopPropagation()}
+                                            aria-label="Search status"
+                                        />
+                                        <div className={toolbarStyles.LeadsPage__dropdownList}>
+                                            {filteredStatuses.length === 0 ? (
+                                                <div className={selectStyles.Select__empty}>
+                                                    {statusSearchQuery.trim() ? "No matching statuses" : "No statuses"}
+                                                </div>
+                                            ) : (
+                                                filteredStatuses.map((st) => {
+                                                    const ui = LEAD_STATUS_UI[st];
+                                                    return (
+                                                        <button
+                                                            key={st}
+                                                            type="button"
+                                                            className={`${selectStyles.Select__option} ${s.LeadMainInfo__statusOption}`}
+                                                            disabled={statusLoading}
+                                                            onClick={() => handleStatusSelect(st)}
+                                                        >
+                                                            <span
+                                                                className={s.LeadMainInfo__statusChip}
+                                                                style={{
+                                                                    backgroundColor: ui.bg,
+                                                                    color: ui.text,
+                                                                    ['--chip-glow' as string]: statusGlowRgba(ui.bg, 0.5),
+                                                                }}
+                                                                aria-hidden
+                                                            />
+                                                            <span>{ui.label}</span>
+                                                        </button>
+                                                    );
+                                                })
+                                            )}
+                                        </div>
                                     </div>
                                 )}
                             </div>
