@@ -24,6 +24,8 @@ import iconTeams from '../../assets/teams.svg';
 import iconTeamsActive from '../../assets/teams-active.svg';
 import iconAffilator from '../../assets/affilator.svg';
 import iconAffilatorActive from '../../assets/affilator-active.svg';
+import iconSchedule from '../../assets/lead.svg';
+import iconScheduleActive from '../../assets/lead-active.svg';
 
 import { useAuthStore } from '@/features/auth/store/authStore';
 import { Role } from '@/features/auth/types';
@@ -142,6 +144,15 @@ export function SideBar() {
       spriteKey: 'leads',
       icon: iconLead,
       iconActive: iconLeadActive,
+      roles: [Role.ADMIN, Role.SUPER_ADMIN, Role.LEADMANAGER, Role.TEAMLEADER, Role.AGENT],
+    },
+    {
+      id: 11,
+      title: 'Schedule',
+      href: '/schedules',
+      spriteKey: 'schedule',
+      icon: iconSchedule,
+      iconActive: iconScheduleActive,
       roles: [Role.ADMIN, Role.SUPER_ADMIN, Role.LEADMANAGER, Role.TEAMLEADER, Role.AGENT],
     },
     {

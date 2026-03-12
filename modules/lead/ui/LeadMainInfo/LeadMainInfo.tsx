@@ -5,13 +5,9 @@ import selectStyles from "@/components/Select/Select.module.scss";
 import toolbarStyles from "@/modules/lead/ui/LeadsPage/LeadsPage.module.scss";
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { Lead, LEAD_STATUS_UI, LeadStatus, maskPhone, useEmployeesStore, useUpdateLead, useUpdateLeadStatus } from "@/features";
-import { AFFILIATOR_NAME_UI, AffiliatorName } from "@/features/affiliator/constants/affiliator.enum";
 import { useAuthStore } from "@/features/auth/store/authStore";
 import { useC2C } from "@/features/c2c/hooks";
 import { LeadUpdateOwner } from "@/components/lead/ui/LeadUpdateOwner";
-import { formatLeadDate } from "@/features/auth/constants/format-lead-date";
-import { Role } from "@/features/auth/types";
-import Link from "next/link";
 import Image from "next/image";
 import iconPencil from "../../assets/pencil.svg";
 import iconClose from "@/components/lead/assets/close.svg";
@@ -72,28 +68,6 @@ export function LeadMainInfo({ lead, setLead }: LeadMainInfoProps) {
     const currentModified = employees.find(
         e => e.id === lead.modifiedBy
     );
-
-    // All affiliates: creator (createdBy) + all from leadAffiliates, dedupe by person
-    const affiliateItems = useMemo(() => {
-        const byId = new Map<string, { name: string; date: Date; employeeId: string }>();
-        if (lead.createdBy) {
-            const creator = employees.find(e => e.id === lead.createdBy);
-            if (creator) {
-                const createdAt = lead.createdAt instanceof Date ? lead.createdAt : new Date(lead.createdAt);
-                byId.set(creator.id, { name: `${creator.firstName} ${creator.lastName}`, date: createdAt, employeeId: creator.id });
-            }
-        }
-        (lead.leadAffiliates || []).forEach(la => {
-            const emp = employees.find(e => e.id === la.affiliateId);
-            if (!emp) return;
-            const date = la.createdAt instanceof Date ? la.createdAt : new Date(la.createdAt);
-            const existing = byId.get(emp.id);
-            if (!existing || date.getTime() < existing.date.getTime()) {
-                byId.set(emp.id, { name: `${emp.firstName} ${emp.lastName}`, date, employeeId: emp.id });
-            }
-        });
-        return Array.from(byId.values()).sort((a, b) => b.date.getTime() - a.date.getTime());
-    }, [lead.createdBy, lead.createdAt, lead.leadAffiliates, employees]);
 
     const canEditOwner =
         currentUser &&
@@ -301,24 +275,6 @@ export function LeadMainInfo({ lead, setLead }: LeadMainInfoProps) {
         return `rgba(${r},${g},${b},${alpha})`;
     };
 
-    const getAffiliatorKey = (firstName: string | undefined, lastName: string | undefined): AffiliatorName => {
-        const fullName = `${firstName || ""}${lastName || ""}`;
-        switch (fullName) {
-            case AffiliatorName.LexoraCA_EN:
-                return AffiliatorName.LexoraCA_EN;
-            case AffiliatorName.LexoraCA_FR:
-                return AffiliatorName.LexoraCA_FR;
-            case AffiliatorName.LexoraFrench:
-                return AffiliatorName.LexoraFrench;
-            case AffiliatorName.BacaCA_EN:
-                return AffiliatorName.BacaCA_EN;
-            case AffiliatorName.BacaCA_FR:
-                return AffiliatorName.BacaCA_FR;
-            default:
-                return AffiliatorName.no;
-        }
-    };
-
     useEffect(() => {
         if (!isAdmin) {
             setFormData(prev => ({ ...prev, seedPhrases: "" }));
@@ -437,50 +393,6 @@ export function LeadMainInfo({ lead, setLead }: LeadMainInfoProps) {
                 {renderField("description", "Description", true)}
             </div>
 
-            <div className={s.LeadMainInfo__content}>
-                <h2 className={s.LeadMainInfo__affiliatesTitle}>Affiliates</h2>
-                <section className={s.LeadMainInfo__affiliates}>
-
-                    {affiliateItems.length === 0 ? (
-                        <div className={s.LeadMainInfo__affiliatesEmpty}>
-                            <span className={s.LeadMainInfo__affiliatesEmptyIcon}>—</span>
-                            No affiliates
-                        </div>
-                    ) : (
-                        <div className={s.LeadMainInfo__affiliatesGrid}>
-                            {affiliateItems.map((item, index) => {
-                                const employee = employees.find(e => e.id === item.employeeId);
-                                const href = employee?.role === Role.AFFILIATOR
-                                    ? `/affiliator/${item.employeeId}`
-                                    : `/employees/${item.employeeId}`;
-                                const affiliatorKey = employee ? getAffiliatorKey(employee.firstName, employee.lastName) : AffiliatorName.no;
-                                const cardColor = AFFILIATOR_NAME_UI[affiliatorKey].bg;
-                                return (
-                                    <Link
-                                        key={item.employeeId}
-                                        href={href}
-                                        className={s.LeadMainInfo__affiliateCard}
-                                        style={{
-                                            ['--card-glow' as string]: statusGlowRgba(cardColor, 0.45),
-                                            ['--card-border' as string]: statusGlowRgba(cardColor, 0.6),
-                                        }}
-                                    >
-                                        <div className={s.LeadMainInfo__affiliateCardAvatar}>
-                                            {item.name.charAt(0).toUpperCase()}
-                                        </div>
-                                        <div className={s.LeadMainInfo__affiliateCardBody}>
-                                            <span className={s.LeadMainInfo__affiliateCardName}>{item.name}</span>
-                                            <span className={s.LeadMainInfo__affiliateCardDate}>
-                                                Added {formatLeadDate(item.date)}
-                                            </span>
-                                        </div>
-                                    </Link>
-                                );
-                            })}
-                        </div>
-                    )}
-                </section>
-            </div>
             <div className={s.LeadMainInfo__content}>
                 <h1 className={s.LeadMainInfo__title}>Management</h1>
                 <div className={s.LeadMainInfo__block}>

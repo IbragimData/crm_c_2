@@ -196,6 +196,14 @@ body {
   height: calc(100vh - 89px);
 }
 
+/* Schedule: конец блока в одну линию с сайдбаром + 20px (выше на 20px) */
+.main__content_schedules {
+  height: calc(100vh - 69px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
 /* Date input & Select — под стиль сайта */
 input[type="date"],
 input[type="datetime-local"],

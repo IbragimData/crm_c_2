@@ -5,6 +5,7 @@ import {
   LeadHistory,
   LeadMainInfo,
   LeadNoteList,
+  LeadCallbacks,
   TabeListLeadProfile,
 } from "@/modules";
 import s from "./page.module.scss";
@@ -57,6 +58,7 @@ export default function LeadPage() {
     const baseTabs = [
       { id: 1, label: "Main Info" },
       { id: 3, label: "Notes" },
+      { id: 4, label: "Callbacks" },
     ];
 
     if (canSeeHistory) {
@@ -151,6 +153,10 @@ export default function LeadPage() {
               {canSeeHistory && activeTab === 2 && <LeadHistory leadId={id} />}
 
               {activeTab === 3 && <LeadNoteList leadId={id} />}
+
+              {activeTab === 4 && (
+                <LeadCallbacks leadId={id} leadOwnerId={lead?.leadOwnerId ?? null} />
+              )}
             </div>
           </TabeListLeadProfile>
         </div>

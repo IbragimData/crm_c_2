@@ -17,6 +17,9 @@ export function getHistoryVisual(action: LeadHistoryAction): HistoryVisual {
         case "NOTE_ADDED":
         case "NOTE_UPDATED":
             return { icon: iconNote, blockColor: "#28a745" };
+        case "REMINDER_CREATED":
+        case "REMINDER_COMPLETED":
+            return { icon: iconNote, blockColor: "#ff7b00" };
         case "OWNER_CHANGED":
             return { icon: iconPencil, blockColor: "#6f42c1" };
         case "CREATED":

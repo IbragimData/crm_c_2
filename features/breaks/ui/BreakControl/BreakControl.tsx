@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useLayoutEffect } from "react";
+import { createPortal } from "react-dom";
 import { useBreaksStore } from "../../store/useBreaksStore";
 import { getBreaksStatus } from "../../api/breaks.api";
 import { BREAK_TYPE, BREAK_TYPE_LABELS } from "../../types";
@@ -17,12 +18,52 @@ const BREAK_TYPES: BreakType[] = [BREAK_TYPE.FIRST_BREAK, BREAK_TYPE.SECOND_BREA
 export function BreakControl({ employeeId, employeeName }: BreakControlProps) {
   const [open, setOpen] = useState(false);
   const [takenThisShift, setTakenThisShift] = useState<BreakType[]>([]);
-  const ref = useRef<HTMLDivElement>(null);
+  const [dropdownRect, setDropdownRect] = useState<{ top: number; left: number } | null>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const startBreak = useBreaksStore((s) => s.startBreak);
+
+const DROPDOWN_WIDTH = 140;
+
+  const updatePosition = () => {
+    if (!triggerRef.current || !open) return;
+    const rect = triggerRef.current.getBoundingClientRect();
+    setDropdownRect({
+      top: rect.bottom + 8,
+      left: rect.right - DROPDOWN_WIDTH,
+    });
+  };
+
+  useEffect(() => {
+    if (!open) {
+      setDropdownRect(null);
+      return;
+    }
+    updatePosition();
+    window.addEventListener("scroll", updatePosition, true);
+    window.addEventListener("resize", updatePosition);
+    return () => {
+      window.removeEventListener("scroll", updatePosition, true);
+      window.removeEventListener("resize", updatePosition);
+    };
+  }, [open]);
+
+  useLayoutEffect(() => {
+    if (open && triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      setDropdownRect({
+        top: rect.bottom + 8,
+        left: rect.right - DROPDOWN_WIDTH,
+      });
+    }
+  }, [open]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      const target = e.target as Node;
+      if (triggerRef.current?.contains(target)) return;
+      if (dropdownRef.current?.contains(target)) return;
+      setOpen(false);
     };
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
@@ -46,8 +87,9 @@ export function BreakControl({ employeeId, employeeName }: BreakControlProps) {
   };
 
   return (
-    <div className={s.breakControl} ref={ref}>
+    <div className={s.breakControl}>
       <button
+        ref={triggerRef}
         type="button"
         className={s.breakControl__trigger}
         onClick={() => setOpen((o) => !o)}
@@ -60,26 +102,37 @@ export function BreakControl({ employeeId, employeeName }: BreakControlProps) {
           <path d="M6 9l6 6 6-6" />
         </svg>
       </button>
-      {open && (
-        <div className={s.breakControl__dropdown}>
-          {BREAK_TYPES.map((breakType) => {
-            const taken = takenThisShift.includes(breakType);
-            return (
-              <button
-                key={breakType}
-                type="button"
-                className={s.breakControl__option}
-                onClick={() => !taken && handleStartBreak(breakType)}
-                disabled={taken}
-                title={taken ? "Already taken this shift" : undefined}
-              >
-                {BREAK_TYPE_LABELS[breakType]}
-                {taken && <span className={s.breakControl__taken}> (taken)</span>}
-              </button>
-            );
-          })}
-        </div>
-      )}
+      {open &&
+        dropdownRect &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <div
+            ref={dropdownRef}
+            className={`${s.breakControl__dropdown} ${s.breakControl__dropdown_portal}`}
+            style={{
+              top: dropdownRect.top,
+              left: dropdownRect.left,
+            }}
+          >
+            {BREAK_TYPES.map((breakType) => {
+              const taken = takenThisShift.includes(breakType);
+              return (
+                <button
+                  key={breakType}
+                  type="button"
+                  className={s.breakControl__option}
+                  onClick={() => !taken && handleStartBreak(breakType)}
+                  disabled={taken}
+                  title={taken ? "Already taken this shift" : undefined}
+                >
+                  {BREAK_TYPE_LABELS[breakType]}
+                  {taken && <span className={s.breakControl__taken}> (taken)</span>}
+                </button>
+              );
+            })}
+          </div>,
+          document.body
+        )}
     </div>
   );
 }

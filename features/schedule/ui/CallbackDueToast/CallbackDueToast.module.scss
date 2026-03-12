@@ -1,0 +1,134 @@
+.CallbackDueToast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  width: 320px;
+  max-width: calc(100vw - 40px);
+  border-radius: 16px;
+  border: 1px solid rgba(34, 211, 238, 0.35);
+  background: var(--color-surface-elevated);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.CallbackDueToast__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: rgba(34, 211, 238, 0.12);
+  border-bottom: 1px solid rgba(34, 211, 238, 0.2);
+}
+
+.CallbackDueToast__headRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.CallbackDueToast__title {
+  font-size: 15px;
+  font-family: "Nunito Sans", sans-serif;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.CallbackDueToast__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 12px;
+  background: rgba(34, 211, 238, 0.9);
+  color: #0d0d12;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.CallbackDueToast__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-text);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.CallbackDueToast__close:hover {
+  background: rgba(0, 0, 0, 0.15);
+  color: var(--color-text);
+}
+
+.CallbackDueToast__list {
+  list-style: none;
+  margin: 0;
+  padding: 12px 0;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.CallbackDueToast__item {
+  margin: 0;
+  padding: 0;
+}
+
+.CallbackDueToast__link {
+  display: block;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: var(--color-text);
+  font-size: 14px;
+  font-family: "Nunito Sans", sans-serif;
+  border-bottom: 1px solid var(--color-border);
+  transition: background 0.15s;
+}
+
+.CallbackDueToast__link:hover {
+  background: rgba(34, 211, 238, 0.08);
+}
+
+.CallbackDueToast__link:last-child {
+  border-bottom: none;
+}
+
+.CallbackDueToast__lead {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.CallbackDueToast__time {
+  display: block;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.CallbackDueToast__more {
+  display: block;
+  padding: 12px 16px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-decoration: none;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  transition: background 0.15s;
+}
+
+.CallbackDueToast__more:hover {
+  background: var(--color-surface-elevated);
+}

@@ -119,4 +119,113 @@
         align-items: center;
         gap: 14px;
     }
+
+    &__affiliates {
+        width: 100%;
+        padding: 0;
+        margin-top: 0;
+    }
+
+    &__affiliatesEmpty {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 0;
+        font-size: var(--text-md);
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 400;
+        color: var(--color-text-muted);
+    }
+
+    &__affiliatesEmptyIcon {
+        font-size: var(--text-xl);
+        color: var(--color-text-muted);
+    }
+
+    &__affiliatesGrid {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    &__affiliateCard {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        min-height: 52px;
+        border-radius: 12px;
+        border: 1px solid var(--card-border, rgba(34, 211, 238, 0.35));
+        background: rgba(15, 23, 42, 0.65);
+        backdrop-filter: blur(10px);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.12),
+            0 2px 8px rgba(0, 0, 0, 0.15),
+            0 4px 16px var(--card-glow, rgba(34, 211, 238, 0.4));
+        transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s ease;
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+
+        &:hover {
+            border-color: var(--card-border, rgba(34, 211, 238, 0.5));
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.18),
+                0 4px 14px rgba(0, 0, 0, 0.2),
+                0 6px 22px var(--card-glow, rgba(34, 211, 238, 0.5));
+            transform: translateY(-1px);
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
+                0 2px 8px rgba(0, 0, 0, 0.2),
+                0 3px 14px var(--card-glow, rgba(34, 211, 238, 0.45));
+        }
+    }
+
+    &__affiliateCardAvatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, rgba(34, 211, 238, 0.25) 0%, rgba(34, 211, 238, 0.15) 100%);
+        border: 1px solid var(--card-border, rgba(34, 211, 238, 0.35));
+        color: var(--color-text);
+        font-size: var(--text-md);
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        backdrop-filter: blur(6px);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.2),
+            0 2px 10px var(--card-glow, rgba(34, 211, 238, 0.35));
+    }
+
+    &__affiliateCardBody {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+    }
+
+    &__affiliateCardName {
+        font-size: var(--text-md);
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 600;
+        color: var(--color-text);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__affiliateCardDate {
+        font-size: var(--text-sm);
+        font-family: "Nunito Sans", sans-serif;
+        font-weight: 400;
+        color: var(--color-text-muted);
+    }
 }

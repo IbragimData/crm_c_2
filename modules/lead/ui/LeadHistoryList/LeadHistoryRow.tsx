@@ -85,6 +85,29 @@ export function LeadHistoryRow({ history }: LeadHistoryRowProps) {
           </div>
         );
 
+      case "REMINDER_CREATED": {
+        try {
+          const payload = history.newValue ? JSON.parse(history.newValue as string) : null;
+          const msg = payload?.message ?? "—";
+          const at = payload?.remindAt ? new Date(payload.remindAt).toLocaleString() : "—";
+          return (
+            <div className={s.LeadHistoryRow__bodyField}>
+              <span className={s.LeadHistoryRow__valueFull}>{msg}</span>
+              <span className={s.LeadHistoryRow__meta}>At: {at}</span>
+            </div>
+          );
+        } catch {
+          return <div className={s.LeadHistoryRow__valueFull}>{String(history.newValue ?? "—")}</div>;
+        }
+      }
+
+      case "REMINDER_COMPLETED":
+        return (
+          <div className={s.LeadHistoryRow__body}>
+            <span className={s.LeadHistoryRow__meta}>Reminder marked as done</span>
+          </div>
+        );
+
       default:
         return null;
     }

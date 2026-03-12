@@ -4,6 +4,8 @@ import { ReactNode, useEffect } from "react";
 import { useInitAuth } from "@/features/auth/hooks/useInitAuth";
 import { useAuthStore } from "@/features/auth/store/authStore";
 import { useEmployeesStore } from "@/features/employees/store/useEmployeesStore";
+import { CallbackDueToast } from "@/features/schedule/ui/CallbackDueToast";
+import { CallbackPollingTrigger } from "@/features/schedule/store/CallbackPollingTrigger";
 import "./globals.css";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -14,7 +16,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   const isAuthenticated = !!employee;
 
   const fetchEmployees = useEmployeesStore((s) => s.fetchEmployees);
-  const employeesLoading = useEmployeesStore((s) => s.loading);
 
   useEffect(() => {
     if (isAuthChecked && isAuthenticated) {
@@ -22,11 +23,25 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     }
   }, [isAuthChecked, isAuthenticated, fetchEmployees]);
 
-  const isAppLoading = !isAuthChecked || employeesLoading;
+  const isAppLoading = !isAuthChecked;
 
   return (
     <html lang="en">
-      <body>{isAppLoading ? <div>Loading...</div> : children}</body>
+      <body>
+        {isAppLoading ? (
+          <div>Loading...</div>
+        ) : (
+          <>
+            {children}
+            {isAuthenticated && (
+              <>
+                <CallbackPollingTrigger key="callback-polling" />
+                <CallbackDueToast key="callback-due-toast" />
+              </>
+            )}
+          </>
+        )}
+      </body>
     </html>
   );
 }
