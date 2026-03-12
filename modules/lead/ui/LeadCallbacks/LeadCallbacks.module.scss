@@ -60,14 +60,14 @@
     padding: 14px 18px;
     font-size: 14px;
     line-height: 1.45;
-    color: #1e293b;
+    color: var(--color-text);
     background: rgba(245, 158, 11, 0.2);
     border: 1px solid rgba(245, 158, 11, 0.5);
     border-radius: var(--radius-md);
     strong {
       display: block;
       margin-bottom: 4px;
-      color: #b45309;
+      color: var(--color-warning);
     }
   }
 

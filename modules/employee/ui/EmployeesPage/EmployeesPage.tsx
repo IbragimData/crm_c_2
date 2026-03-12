@@ -2,10 +2,9 @@
 
 import { useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { ButtonComponentMain, HeaderPage } from "@/components";
+import { HeaderPage } from "@/components";
 import Image from "next/image";
 import iconAdd from "../../assets/add.svg";
-import iconFilter from "../../assets/filter.svg";
 import s from "./EmployeesPage.module.scss";
 import { EmployeesList } from "../EmployeesList";
 import { roleLabels, useEmployeesStore } from "@/features";
@@ -51,13 +50,6 @@ export function EmployeesPage() {
         iconPosition="left"
         onClick={() => router.push("/employees/create")}
       />
-
-      <div className={s.EmployeesPage__head}>
-        <h3 className={s.EmployeesPage__subtitle}>Employees List</h3>
-        <ButtonComponentMain
-          icon={<Image src={iconFilter} width={24} height={24} alt="filter" />}
-        />
-      </div>
 
       {sortedEmployees.map(([role, employees]) => (
         <div key={role}>

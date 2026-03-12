@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import {
   LeadDetails,
   LeadHistory,
@@ -16,7 +15,6 @@ import { useAuthStore } from "@/features/auth/store/authStore";
 import { Lead } from "@/features";
 import { useEffect, useMemo, useState } from "react";
 import { useLeadsStore, useLeadNavigationStore } from "@/features/lead/store";
-import iconReminder from "@/modules/lead/assets/reminder.svg";
 
 export const ADMIN_ROLES = ["ADMIN", "SUPER_ADMIN"] as const;
 
@@ -60,11 +58,7 @@ export default function LeadPage() {
     const baseTabs = [
       { id: 1, label: "Main Info" },
       { id: 3, label: "Notes" },
-      {
-        id: 4,
-        label: "Reminders",
-        icon: <Image src={iconReminder} width={18} height={18} alt="" aria-hidden />,
-      },
+      { id: 4, label: "Reminders" },
     ];
 
     if (canSeeHistory) {

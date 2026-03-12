@@ -19,21 +19,6 @@
     text-shadow: 0 0 20px rgba(0, 245, 255, 0.25);
   }
 
-  &__head {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: var(--space-section);
-  }
-
-  &__subtitle {
-    font-size: var(--heading-section);
-    font-weight: 600;
-    color: var(--color-text);
-    text-shadow: 0 0 15px rgba(0, 245, 255, 0.2);
-  }
-
   &__block {
     width: 100%;
     height: var(--input-height);

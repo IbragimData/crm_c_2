@@ -8,6 +8,7 @@ export type UpdateEmployeeMainInfoPayload = Partial<{
     phoneSecondary: string;
     telegramUsername: string;
     email: string;
+    department: string | null;
 }>;
 
 export async function apiUpdateEmployeeMainInfo(

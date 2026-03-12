@@ -133,6 +133,12 @@ export function LeadItem({
     }
   });
 
+  const affiliatorLabelsList: { key: AffiliatorName; label: string }[] = leadAffiliatorsDisplay.map((a, i) => {
+    const key = affiliatorKeys[i] ?? AffiliatorName.no;
+    const label = key !== AffiliatorName.no ? key : (a ? `${a.firstName} ${a.lastName}` : "No");
+    return { key, label };
+  });
+
   const statusUi = LEAD_STATUS_UI[lead.status];
 
   const statusGlowRgba = (hex: string, alpha: number) => {
@@ -249,10 +255,10 @@ export function LeadItem({
       </td>
       <td className={s.LeadItem__cell}>
         <div className={s.LeadItem__affiliator}>
-          {affiliatorKeys.length === 0 && (
+          {affiliatorLabelsList.length === 0 && (
             <span className={s.LeadItem__blockMuted}>No</span>
           )}
-          {affiliatorKeys.map((key, index) => {
+          {affiliatorLabelsList.map(({ key, label }, index) => {
             const ui = AFFILIATOR_NAME_UI[key];
             return (
               <span
@@ -265,7 +271,7 @@ export function LeadItem({
                   ['--block-glow' as string]: statusGlowRgba(ui.bg, 0.45),
                 }}
               >
-                {key === AffiliatorName.no ? "No" : key}
+                {label}
               </span>
             );
           })}

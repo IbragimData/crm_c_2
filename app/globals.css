@@ -196,6 +196,11 @@ body {
   height: calc(100vh - 89px);
 }
 
+.main__content_leads {
+  padding-top: 20px;
+  box-sizing: border-box;
+}
+
 /* Schedule: конец блока в одну линию с сайдбаром + 20px (выше на 20px) */
 .main__content_schedules {
   height: calc(100vh - 69px);

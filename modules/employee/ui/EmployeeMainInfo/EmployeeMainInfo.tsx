@@ -15,7 +15,10 @@ import iconClose from "@/components/lead/assets/close.svg";
 
 const ADMIN_ROLES = ["ADMIN", "SUPER_ADMIN"] as const;
 
-type FieldKey = "firstName" | "lastName" | "phone" | "phoneSecondary" | "telegramUsername" | "email";
+/** Тимлидер и агент могут редактировать только отдел (department). */
+const ROLES_CAN_EDIT_DEPARTMENT = [Role.TEAMLEADER, Role.AGENT] as const;
+
+type FieldKey = "firstName" | "lastName" | "phone" | "phoneSecondary" | "telegramUsername" | "email" | "department";
 
 const FIELDS_COL1: { key: FieldKey; label: string }[] = [
     { key: "firstName", label: "First Name" },
@@ -42,6 +45,9 @@ export function EmployeeMainInfo({ employee, setEmployee, canChangeRole, allowed
     const { updateEmployeeMainInfo, loading } = useUpdateEmployeeMainInfo();
     const currentUser = useAuthStore((state) => state.employee);
     const isAdmin = currentUser && ADMIN_ROLES.includes(currentUser.role as any);
+    const canEditDepartment =
+        isAdmin ||
+        (currentUser && ROLES_CAN_EDIT_DEPARTMENT.includes(currentUser.role as (typeof ROLES_CAN_EDIT_DEPARTMENT)[number]));
     const [roleLoading, setRoleLoading] = useState(false);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -59,6 +65,7 @@ export function EmployeeMainInfo({ employee, setEmployee, canChangeRole, allowed
         phoneSecondary: employee.phoneSecondary || "",
         telegramUsername: employee.telegramUsername || "",
         email: employee.email || "",
+        department: employee.department ?? "",
     });
 
     const originalData = useMemo(
@@ -69,6 +76,7 @@ export function EmployeeMainInfo({ employee, setEmployee, canChangeRole, allowed
             phoneSecondary: employee.phoneSecondary || "",
             telegramUsername: employee.telegramUsername || "",
             email: employee.email || "",
+            department: employee.department ?? "",
         }),
         [employee]
     );
@@ -81,6 +89,7 @@ export function EmployeeMainInfo({ employee, setEmployee, canChangeRole, allowed
             phoneSecondary: employee.phoneSecondary || "",
             telegramUsername: employee.telegramUsername || "",
             email: employee.email || "",
+            department: employee.department ?? "",
         });
         setEditingField(null);
     }, [employee.id]);
@@ -90,7 +99,8 @@ export function EmployeeMainInfo({ employee, setEmployee, canChangeRole, allowed
     };
 
     const handleStartEdit = (field: FieldKey) => {
-        if (!isAdmin) return;
+        const canEdit = field === "department" ? canEditDepartment : isAdmin;
+        if (!canEdit) return;
         setEditingField(field);
     };
 
@@ -107,7 +117,10 @@ export function EmployeeMainInfo({ employee, setEmployee, canChangeRole, allowed
             setEditingField(null);
             return;
         }
-        const payload = { [editingField]: value };
+        const payload =
+            editingField === "department"
+                ? { department: value.trim() || null }
+                : { [editingField]: value };
         const updated = await updateEmployeeMainInfo(employee.id, payload);
         if (updated) {
             setEmployee({ ...employee, ...updated });
@@ -131,6 +144,7 @@ export function EmployeeMainInfo({ employee, setEmployee, canChangeRole, allowed
         const hasChange = formData[key] !== originalData[key];
         const isMasked = Boolean(employee.detailsMasked) && (key === "phone" || key === "phoneSecondary" || key === "email" || key === "telegramUsername");
         const displayValue = isMasked ? "••••••" : (formData[key] || "—");
+        const canEditThis = key === "department" ? canEditDepartment : isAdmin;
         return (
             <div key={key} className={s.EmployeeMainInfo__field}>
                 <label className={s.EmployeeMainInfo__label}>{label}</label>
@@ -170,7 +184,7 @@ export function EmployeeMainInfo({ employee, setEmployee, canChangeRole, allowed
                     ) : (
                         <>
                             <span className={s.EmployeeMainInfo__value}>{displayValue}</span>
-                            {isAdmin && !isMasked && (
+                            {canEditThis && !isMasked && (
                                 <button
                                     type="button"
                                     className={s.EmployeeMainInfo__iconBtn}
@@ -239,6 +253,7 @@ export function EmployeeMainInfo({ employee, setEmployee, canChangeRole, allowed
                                 )}
                             </div>
                         </div>
+                        {renderField({ key: "department", label: "Department" })}
                         <div className={s.EmployeeMainInfo__field}>
                             <label className={s.EmployeeMainInfo__label}>Last Login</label>
                             <div className={s.EmployeeMainInfo__fieldRow}>
