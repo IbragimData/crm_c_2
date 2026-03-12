@@ -182,7 +182,7 @@ export function DateTimePicker({
     const dateStr = `${y}-${m}-${day}`;
     const minD = min ? new Date(min) : null;
     let candidateIso = buildIso(dateStr, selectedHour, selectedMinute);
-    if (minD && new Date(candidateIso).getTime() < minD.getTime()) {
+    if (min && minD && new Date(candidateIso).getTime() < minD.getTime()) {
       candidateIso = min;
     }
     onChange(candidateIso);
@@ -192,7 +192,7 @@ export function DateTimePicker({
     const dateStr = selectedDateStr || toLocalDateString(new Date().toISOString());
     let iso = buildIso(dateStr, hour, minute);
     const minD = min ? new Date(min) : null;
-    if (minD && new Date(iso).getTime() < minD.getTime()) {
+    if (min && minD && new Date(iso).getTime() < minD.getTime()) {
       iso = min;
     }
     onChange(iso);
