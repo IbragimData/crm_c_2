@@ -24,8 +24,8 @@ import iconTeams from '../../assets/teams.svg';
 import iconTeamsActive from '../../assets/teams-active.svg';
 import iconAffilator from '../../assets/affilator.svg';
 import iconAffilatorActive from '../../assets/affilator-active.svg';
-import iconSchedule from '../../assets/lead.svg';
-import iconScheduleActive from '../../assets/lead-active.svg';
+import iconSchedule from '../../assets/schedule.svg';
+import iconScheduleActive from '../../assets/schedule-active.svg';
 
 import { useAuthStore } from '@/features/auth/store/authStore';
 import { Role } from '@/features/auth/types';
@@ -148,7 +148,7 @@ export function SideBar() {
     },
     {
       id: 11,
-      title: 'Schedule',
+      title: 'Reminders',
       href: '/schedules',
       spriteKey: 'schedule',
       icon: iconSchedule,
@@ -166,7 +166,7 @@ export function SideBar() {
     },
     {
       id: 8,
-      title: 'Teams',
+      title: 'Desks',
       href: '/teams',
       spriteKey: 'teams',
       icon: iconTeams,

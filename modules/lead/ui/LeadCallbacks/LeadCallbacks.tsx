@@ -108,7 +108,7 @@ export function LeadCallbacks({ leadId, leadOwnerId }: LeadCallbacksProps) {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Delete this callback?")) return;
+    if (!confirm("Delete this reminder?")) return;
     try {
       await deleteSchedule(id);
       loadCallbacks();
@@ -131,23 +131,23 @@ export function LeadCallbacks({ leadId, leadOwnerId }: LeadCallbacksProps) {
     <div className={s.LeadCallbacks}>
       <div className={s.LeadCallbacks__scrollWrap}>
         <div className={s.LeadCallbacks__scroll}>
-          <h2 className={s.LeadCallbacks__title}>Callbacks</h2>
+          <h2 className={s.LeadCallbacks__title}>Reminders</h2>
 
           {!leadOwnerId && (
             <div className={s.LeadCallbacks__warning} role="alert">
-              <strong>Cannot add callbacks:</strong> this lead has no Lead Owner. Assign a Lead Owner in the Main Info tab — only then you can create callbacks (notifications go to the lead owner automatically).
+              <strong>Cannot add reminders:</strong> this lead has no Lead Owner. Assign a Lead Owner in the Main Info tab — only then you can create reminders (notifications go to the lead owner automatically).
             </div>
           )}
 
           <div className={s.LeadCallbacks__form}>
-            <span className={s.LeadCallbacks__formLabel}>New callback</span>
+            <span className={s.LeadCallbacks__formLabel}>New reminder</span>
             <div className={s.LeadCallbacks__formRow}>
               <label className={s.LeadCallbacks__label}>Date & time</label>
               <DateTimePicker
                 value={scheduledAt}
                 onChange={setScheduledAt}
                 placeholder="Select date & time"
-                aria-label="Callback date and time"
+                aria-label="Reminder date and time"
                 disabled={!leadOwnerId}
                 min={minDatetime}
                 className={s.LeadCallbacks__dateTimePicker}
@@ -170,16 +170,16 @@ export function LeadCallbacks({ leadId, leadOwnerId }: LeadCallbacksProps) {
               onClick={handleSubmit}
               disabled={!scheduledAt || !leadOwnerId || submitting}
             >
-              {submitting ? "Adding…" : "Add callback"}
+              {submitting ? "Adding…" : "Add reminder"}
             </button>
           </div>
 
           <div className={s.LeadCallbacks__list}>
             {loading ? (
-              <p className={s.LeadCallbacks__loading}>Loading callbacks…</p>
+              <p className={s.LeadCallbacks__loading}>Loading reminders…</p>
             ) : callbacks.length > 0 ? (
               <>
-                <span className={s.LeadCallbacks__listTitle}>All callbacks</span>
+                <span className={s.LeadCallbacks__listTitle}>All reminders</span>
                 {[...pending, ...completed].map((c) => (
                   <div
                     key={c.id}
@@ -221,7 +221,7 @@ export function LeadCallbacks({ leadId, leadOwnerId }: LeadCallbacksProps) {
                 ))}
               </>
             ) : (
-              <p className={s.LeadCallbacks__empty}>No callbacks yet.</p>
+              <p className={s.LeadCallbacks__empty}>No reminders yet.</p>
             )}
           </div>
         </div>

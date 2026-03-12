@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useCallbackDueStore } from "./useCallbackDueStore";
 
 /**
- * Starts callback-due polling when mounted (user is authenticated).
+ * Starts reminder-due polling when mounted (user is authenticated).
  * Stops polling when unmounted. Renders nothing.
  */
 export function CallbackPollingTrigger() {

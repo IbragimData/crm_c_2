@@ -483,7 +483,7 @@ export function EmployeeLeadsList({
                   className={`${toolbarStyles.LeadsPage__filterBtn} ${toolbarStyles.LeadsPage__filterBtn_withChevron} ${openPanel === "team" ? toolbarStyles.LeadsPage__filterBtnActive : ""}`}
                   onClick={() => setOpenPanel(openPanel === "team" ? null : "team")}
                 >
-                  <span>Assign to team</span>
+                  <span>Assign to desk</span>
                   <svg
                     className={`${selectStyles.Select__chevron} ${openPanel === "team" ? selectStyles.Select__chevron_open : ""}`}
                     viewBox="0 0 24 24"

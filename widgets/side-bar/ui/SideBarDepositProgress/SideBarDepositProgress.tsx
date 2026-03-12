@@ -48,7 +48,7 @@ export function SidebarDepositProgress() {
             earned: res.teamTarget.total,
             target: res.teamTarget.targetAmount,
             remaining: res.teamTarget.remaining,
-            label: res.teamTarget.teamName ? `${res.teamTarget.teamName} · Week` : 'Team this week',
+            label: res.teamTarget.teamName ? `${res.teamTarget.teamName} · Week` : 'Desk this week',
           });
         } else {
           setData(null);
@@ -66,7 +66,7 @@ export function SidebarDepositProgress() {
             earned: stats.week.total,
             target: totalTarget,
             remaining: Math.max(0, totalTarget - stats.week.total),
-            label: 'All teams · Week',
+            label: 'All desks · Week',
           });
         } else {
           setData(null);

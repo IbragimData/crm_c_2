@@ -111,7 +111,7 @@ export function SchedulesPage() {
       });
       setSchedules(res.items);
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : "Failed to load schedules";
+      const message = err instanceof Error ? err.message : "Failed to load reminders";
       setLoadError(message);
       setSchedules([]);
     } finally {
@@ -284,7 +284,7 @@ export function SchedulesPage() {
       return;
     }
     if (!createForm.assignedTo) {
-      setCreateError("This lead has no Lead Owner. Assign a Lead Owner in the lead profile — only then you can create a callback.");
+      setCreateError("This lead has no Lead Owner. Assign a Lead Owner in the lead profile — only then you can create a reminder.");
       return;
     }
     setSubmitLoading(true);
@@ -294,7 +294,7 @@ export function SchedulesPage() {
       loadSchedules();
       useCallbackDueStore.getState().fetchDue();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Failed to create callback";
+      const msg = err instanceof Error ? err.message : "Failed to create reminder";
       setCreateError(msg);
     } finally {
       setSubmitLoading(false);
@@ -314,7 +314,7 @@ export function SchedulesPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Delete this schedule?")) return;
+    if (!confirm("Delete this reminder?")) return;
     try {
       await deleteSchedule(id);
       loadSchedules();
@@ -330,7 +330,7 @@ export function SchedulesPage() {
   return (
     <div className={s.SchedulesPage}>
       <div className={s.SchedulesPage__header}>
-        <h1 className={s.SchedulesPage__title}>Schedule</h1>
+        <h1 className={s.SchedulesPage__title}>Reminders</h1>
         <div className={s.SchedulesPage__nav}>
           <button
             type="button"
@@ -394,7 +394,7 @@ export function SchedulesPage() {
           className={s.SchedulesPage__addBtn}
           onClick={openCreate}
         >
-          + Add callback
+          + Add reminder
         </button>
       </div>
 
@@ -635,7 +635,7 @@ export function SchedulesPage() {
       )}
       {modalOpen && (
         <div className={s.SchedulesPage__modal}>
-          <h2 className={s.SchedulesPage__modalTitle}>Add callback schedule</h2>
+          <h2 className={s.SchedulesPage__modalTitle}>Add reminder</h2>
           <form onSubmit={handleCreateSubmit}>
             <div className={s.SchedulesPage__field}>
               <label>Lead</label>
@@ -735,7 +735,7 @@ export function SchedulesPage() {
                   setCreateForm((f) => ({ ...f, scheduledAt: iso }))
                 }
                 placeholder="Select date & time"
-                aria-label="Callback date and time"
+                aria-label="Reminder date and time"
                 min={new Date(Date.now() + 60000).toISOString()}
                 className={s.SchedulesPage__dateTimePicker}
               />
@@ -748,7 +748,7 @@ export function SchedulesPage() {
                   </span>
                 ) : (
                   <div className={s.SchedulesPage__warning} role="alert">
-                    <strong>Cannot create callback:</strong> this lead has no Lead Owner. Assign a Lead Owner in the lead profile — only then you can add a callback.
+                    <strong>Cannot create reminder:</strong> this lead has no Lead Owner. Assign a Lead Owner in the lead profile — only then you can add a reminder.
                   </div>
                 )}
               </div>

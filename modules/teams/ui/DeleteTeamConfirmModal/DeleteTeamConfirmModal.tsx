@@ -60,7 +60,7 @@ export function DeleteTeamConfirmModal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className={m.Modal__header}>
-          <h3 id="delete-team-title" className={m.Modal__title}>Delete team?</h3>
+          <h3 id="delete-team-title" className={m.Modal__title}>Delete desk?</h3>
           <button
             type="button"
             className={m.Modal__closeBtn}

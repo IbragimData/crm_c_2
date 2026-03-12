@@ -28,7 +28,7 @@ export function TeamsPage() {
       const data = await getTeamsWithDetails();
       setTeams(data);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to load teams");
+      setError(e instanceof Error ? e.message : "Failed to load desks");
       setTeams([]);
     } finally {
       setLoading(false);
@@ -53,9 +53,9 @@ export function TeamsPage() {
     <div className={s.page}>
       <div className={s.page__header}>
         <HeaderPage
-          title="Teams"
+          title="Desks"
           icon={canCreate ? <Image src={iconAdd} width={14} height={14} alt="" /> : undefined}
-          label={canCreate ? "Create team" : undefined}
+          label={canCreate ? "Create desk" : undefined}
           backgroundColor="#00f5ff"
           color="#0d0d12"
           iconPosition="left"
@@ -75,7 +75,7 @@ export function TeamsPage() {
       {error && <div className={s.page__error}>{error}</div>}
 
       {!error && teams.length === 0 && (
-        <p className={s.page__empty}>No teams. {canCreate ? "Create the first one." : ""}</p>
+        <p className={s.page__empty}>No desks. {canCreate ? "Create the first one." : ""}</p>
       )}
 
       {!error && teams.length > 0 && (

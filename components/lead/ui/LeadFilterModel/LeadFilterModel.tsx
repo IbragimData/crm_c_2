@@ -222,7 +222,7 @@ export function LeadFilterModel({ setFilters, currentFilters, isOpen, onClose, h
                 value={leadOwnerId}
                 onChange={setLeadOwnerId}
                 options={[
-                  { value: "", label: ownerEmployeeIds != null ? "All team members" : "All" },
+                  { value: "", label: ownerEmployeeIds != null ? "All desk members" : "All" },
                   ...ownerOptions.map((emp) => ({
                     value: emp.id,
                     label: `${emp.firstName} ${emp.lastName}`,

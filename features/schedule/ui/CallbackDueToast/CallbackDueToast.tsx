@@ -58,7 +58,7 @@ export function CallbackDueToast() {
     <div className={s.CallbackDueToast} role="status" aria-live="polite">
       <div className={s.CallbackDueToast__head}>
         <span className={s.CallbackDueToast__title}>
-          {dueCallbacks.length === 1 ? "Callback due" : `${dueCallbacks.length} callbacks due`}
+          {dueCallbacks.length === 1 ? "Reminder due" : `${dueCallbacks.length} reminders due`}
         </span>
         <div className={s.CallbackDueToast__headRight}>
           <span className={s.CallbackDueToast__badge}>{dueCallbacks.length}</span>

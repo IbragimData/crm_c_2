@@ -219,7 +219,7 @@ export function TeamMainInfo({ team, setTeam, leadsCount, onDelete }: TeamMainIn
             {canDelete && onDelete && (
               <div className={s.TeamMainInfo__deleteWrap}>
                 <button type="button" className={s.TeamMainInfo__btnDanger} onClick={onDelete}>
-                  Delete team
+                  Delete desk
                 </button>
               </div>
             )}

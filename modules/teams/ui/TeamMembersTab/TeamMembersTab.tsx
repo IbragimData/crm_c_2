@@ -28,7 +28,7 @@ export function TeamMembersTab({ teamId, members, onRefresh, canManage }: TeamMe
   const employees = useEmployeesStore((state) => state.employees);
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Remove member from team?")) return;
+    if (!confirm("Remove member from desk?")) return;
     setDeletingId(id);
     try {
       await deleteTeamMember(id);

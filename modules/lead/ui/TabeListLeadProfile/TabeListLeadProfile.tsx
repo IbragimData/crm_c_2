@@ -6,6 +6,7 @@ import s from "./TabeListLeadProfile.module.scss";
 type Tab = {
   id: number;
   label: string;
+  icon?: ReactNode;
 };
 
 type TabsProps = {
@@ -31,6 +32,7 @@ export function TabeListLeadProfile({
             className={activeTab === tab.id ? s.tab_active : s.tab}
             type="button"
           >
+            {tab.icon && <span className={s.tabIcon}>{tab.icon}</span>}
             {tab.label}
           </button>
         ))}

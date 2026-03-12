@@ -163,9 +163,9 @@ export function TeamLeadsTab({
 
   const selectedOwnerLabel = useMemo(() => {
     const id = filters?.leadOwnerId;
-    if (!id) return "All team members";
+    if (!id) return "All desk members";
     const emp = teamMemberEmployees.find((e) => e.id === id);
-    return emp ? `${emp.firstName} ${emp.lastName}` : "All team members";
+    return emp ? `${emp.firstName} ${emp.lastName}` : "All desk members";
   }, [filters?.leadOwnerId, teamMemberEmployees]);
 
   const filteredStatuses = useMemo(() => {
@@ -454,7 +454,7 @@ export function TeamLeadsTab({
                           setOwnerFilterOpen(false);
                         }}
                       >
-                        All team members
+                        All desk members
                       </button>
                       {filteredOwnerFilterOptions.length === 0 ? (
                         ownerFilterSearchQuery.trim() ? (
@@ -625,7 +625,7 @@ export function TeamLeadsTab({
                       className={`${toolbarStyles.LeadsPage__filterBtn} ${toolbarStyles.LeadsPage__filterBtn_withChevron} ${openPanel === "team" ? toolbarStyles.LeadsPage__filterBtnActive : ""}`}
                       onClick={() => setOpenPanel(openPanel === "team" ? null : "team")}
                     >
-                      <span>Assign to team</span>
+                      <span>Assign to desk</span>
                       <svg
                         className={`${selectStyles.Select__chevron} ${openPanel === "team" ? selectStyles.Select__chevron_open : ""}`}
                         viewBox="0 0 24 24"
