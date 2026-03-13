@@ -341,6 +341,13 @@ export function LeadsPage() {
     setLeadNavigation(leads.map((l) => l.id), "leads");
   }, [leads, setLeadNavigation]);
 
+  // Auto-refresh leads list every 5 minutes while the page is open
+  useEffect(() => {
+    const intervalMs = 5 * 60 * 1000;
+    const interval = setInterval(() => loadLeads(true), intervalMs);
+    return () => clearInterval(interval);
+  }, [loadLeads]);
+
   if (loading) {
     return <div className={s.LeadsPage}>Loading...</div>;
   }

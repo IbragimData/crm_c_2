@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Lead } from "../types";
 import { updateLead as apiUpdateLead } from "../api/update-lead.api";
 import type { UpdateLeadPayload } from "../api/update-lead.api";
+import { useLeadsStore } from "../store/useLeadsStore";
 
 export function useUpdateLead() {
     const [loading, setLoading] = useState(false);
@@ -16,6 +17,7 @@ export function useUpdateLead() {
         try {
             const updated = await apiUpdateLead(leadId, payload);
             if (!updated) throw new Error("Failed to update Lead");
+            useLeadsStore.getState().invalidateCache();
             setLoading(false);
             return updated;
         } catch (err: any) {

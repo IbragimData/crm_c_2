@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { updateLeadStatus } from "../api/update-lead-status";
 import { Lead, LeadStatus } from "../types";
+import { useLeadsStore } from "../store/useLeadsStore";
 
 export function useUpdateLeadStatus() {
     const [loading, setLoading] = useState(false);
@@ -13,8 +14,9 @@ export function useUpdateLeadStatus() {
         setError(null);
 
         try {
-            const updated = await updateLeadStatus(leadId, { status }); // <-- теперь тип совпадает
+            const updated = await updateLeadStatus(leadId, { status });
             if (!updated) throw new Error("Failed to update status");
+            useLeadsStore.getState().invalidateCache();
             setLoading(false);
             return updated;
         } catch (err: any) {

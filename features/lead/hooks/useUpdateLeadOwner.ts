@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { updateLeadOwner} from "../api/updata-lead-owner.api";
+import { updateLeadOwner } from "../api/updata-lead-owner.api";
 import { Lead } from "../types";
+import { useLeadsStore } from "../store/useLeadsStore";
 
 export function useUpdateLeadOwner() {
     const [loading, setLoading] = useState(false);
@@ -13,8 +14,9 @@ export function useUpdateLeadOwner() {
         setError(null);
 
         try {
-            const updated = await updateLeadOwner(leadId, { leadOwnerId }); // <-- теперь тип совпадает
+            const updated = await updateLeadOwner(leadId, { leadOwnerId });
             if (!updated) throw new Error("Failed to update Owner");
+            useLeadsStore.getState().invalidateCache();
             setLoading(false);
             return updated;
         } catch (err: any) {
