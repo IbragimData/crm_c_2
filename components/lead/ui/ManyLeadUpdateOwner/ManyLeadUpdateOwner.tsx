@@ -93,11 +93,7 @@ export function ManyLeadUpdateOwner({
                 />
 
                 <div
-                  className={
-                    isActive
-                      ? s.LeadUpdateOwner__item_active
-                      : s.LeadUpdateOwner__item
-                  }
+                  className={`${s.LeadUpdateOwner__item}${isActive ? ` ${s.LeadUpdateOwner__item_active}` : ""}`}
                 >
                   <div className={s.LeadUpdateOwner__image}>
                     {emp.firstName?.charAt(0)}

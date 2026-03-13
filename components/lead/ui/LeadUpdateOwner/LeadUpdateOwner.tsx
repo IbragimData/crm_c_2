@@ -3,20 +3,21 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-import { ButtonComponentDefault, ButtonComponentMain } from "@/components/ButtonComponents";
 import { Lead, useEmployeesStore } from "@/features";
 import { useUpdateLeadOwner } from "@/features/lead/hooks/useUpdateLeadOwner";
 
+import m from "@/components/Modal/Modal.module.scss";
 import s from "./LeadUpdateOwner.module.scss";
 import iconClose from "../../assets/close.svg";
-import { InputComponentTextDefault } from "@/components/InputComponents";
 
 interface Props {
   leadId: string;
   currentOwnerId?: string | null;
   isOpen: boolean;
   onClose: () => void;
-  setLead: (lead: Lead) => void
+  setLead: (lead: Lead) => void;
+  /** When set (e.g. for team leader), only these employee IDs are shown in the list */
+  restrictToEmployeeIds?: string[] | null;
 }
 
 export function LeadUpdateOwner({
@@ -24,8 +25,8 @@ export function LeadUpdateOwner({
   currentOwnerId,
   isOpen,
   onClose,
-  setLead
-
+  setLead,
+  restrictToEmployeeIds,
 }: Props) {
   useEffect(() => {
     if (isOpen) {
@@ -39,19 +40,20 @@ export function LeadUpdateOwner({
     };
   }, [isOpen]);
 
-  const { employees, loading } = useEmployeesStore();
+  const { employees } = useEmployeesStore();
   const { updateOwner, loading: updating } = useUpdateLeadOwner();
 
   const allowedRoles = ["AGENT", "TEAMLEADER"];
+  const baseEmployees =
+    restrictToEmployeeIds != null && restrictToEmployeeIds.length > 0
+      ? employees.filter((emp) => restrictToEmployeeIds.includes(emp.id))
+      : employees.filter((emp) => allowedRoles.includes(emp.role));
 
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState("");
 
-  const filteredEmployees = employees.filter((emp) => {
-    if (!allowedRoles.includes(emp.role)) return false;
-
+  const filteredEmployees = baseEmployees.filter((emp) => {
     const fullName =
       `${emp.firstName} ${emp.lastName} ${emp.middleName ?? ""}`.toLowerCase();
-
     return (
       fullName.includes(search.toLowerCase()) ||
       emp.email.toLowerCase().includes(search.toLowerCase())
@@ -67,87 +69,93 @@ export function LeadUpdateOwner({
 
   const handleSave = async () => {
     if (!selectedOwner) return;
-
     const updated = await updateOwner(leadId, selectedOwner);
-
     if (updated) {
-      setLead(updated)
+      setLead(updated);
       onClose();
-
     }
   };
 
   return (
-    <div className={s.LeadUpdateOwner}>
-      <div className={s.LeadUpdateOwner__content}>
-        <div className={s.LeadUpdateOwner__header}>
-          <h3>Update Lead Owner</h3>
-          <ButtonComponentMain
-            icon={<Image src={iconClose} width={24} height={24} alt="close" />}
-            onClick={onClose}
-          />
-        </div>
-        <InputComponentTextDefault
-          value={search}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setSearch(e.target.value)
-          }
-          placeholder="Search employee..."
-        />
-
-        <h3>Employees</h3>
-
-
-        <div className={s.LeadUpdateOwner__list}>
-          {filteredEmployees.map((emp) => {
-            const isActive = selectedOwner === emp.id;
-
-            return (
-              <label key={emp.id} className={s.LeadUpdateOwner__label}>
-                <input
-                  type="radio"
-                  name="owner"
-                  checked={isActive}
-                  onChange={() => setSelectedOwner(emp.id)}
-                />
-
-                <div
-                  className={
-                    isActive
-                      ? s.LeadUpdateOwner__item_active
-                      : s.LeadUpdateOwner__item
-                  }
-                >
-                  <div className={s.LeadUpdateOwner__image}>
-                    {emp.firstName?.charAt(0)}
-                  </div>
-
-                  <div>
-                    <h3>
-                      {emp.firstName} {emp.lastName}
-                    </h3>
-                    <p>{emp.email}</p>
-                  </div>
-                </div>
-              </label>
-            );
-          })}
-        </div>
-
-        <div className={s.LeadUpdateOwner__buttons}>
+    <div className={m.Modal} role="dialog" aria-modal="true">
+      <div className={m.Modal__backdrop} onClick={onClose} aria-hidden />
+      <div className={m.Modal__content} onClick={(e) => e.stopPropagation()}>
+        <div className={m.Modal__header}>
+          <h3 className={m.Modal__title}>Change Lead Owner</h3>
           <button
-            className={s.LeadUpdateOwner__button}
+            type="button"
+            className={m.Modal__closeBtn}
             onClick={onClose}
+            aria-label="Close"
           >
+            <Image src={iconClose} width={24} height={24} alt="" />
+          </button>
+        </div>
+
+        <div className={m.Modal__body}>
+          <div className={m.Modal__field}>
+            <label htmlFor="lead-owner-search">Search employee</label>
+            <input
+              id="lead-owner-search"
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search by name or email..."
+            />
+          </div>
+          <div className={m.Modal__field}>
+            <label>Select new owner</label>
+            <div className={s.LeadUpdateOwner__list}>
+              {filteredEmployees.length === 0 ? (
+                <div className={s.LeadUpdateOwner__empty}>
+                  {search.trim() ? "No matching employees" : "No employees"}
+                </div>
+              ) : (
+                filteredEmployees.map((emp) => {
+                  const isActive = selectedOwner === emp.id;
+                  return (
+                    <label key={emp.id} className={s.LeadUpdateOwner__label}>
+                      <input
+                        type="radio"
+                        name="owner"
+                        checked={isActive}
+                        onChange={() => setSelectedOwner(emp.id)}
+                      />
+                      <div
+                        className={`${s.LeadUpdateOwner__item}${isActive ? ` ${s.LeadUpdateOwner__item_active}` : ""}`}
+                      >
+                        <div className={s.LeadUpdateOwner__image}>
+                          {emp.firstName?.charAt(0)}
+                        </div>
+                        <div className={s.LeadUpdateOwner__info}>
+                          <span className={s.LeadUpdateOwner__name}>
+                            {emp.firstName} {emp.lastName}
+                          </span>
+                          <span className={s.LeadUpdateOwner__email}>
+                            {emp.email}
+                          </span>
+                        </div>
+                      </div>
+                    </label>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className={m.Modal__actions}>
+          <button type="button" className={m.Modal__cancel} onClick={onClose}>
             Cancel
           </button>
-
-          <ButtonComponentDefault
-            label={updating ? "Saving..." : "Save Owner"}
-            color="#ffffff"
-            backgroundColor="#3f8cff"
+          <button
+            type="button"
+            className={m.Modal__submit}
             onClick={handleSave}
-          />
+            disabled={!selectedOwner || updating}
+          >
+            {updating ? "Saving…" : "Save"}
+          </button>
         </div>
       </div>
     </div>

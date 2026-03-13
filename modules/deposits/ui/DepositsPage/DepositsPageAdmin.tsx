@@ -89,7 +89,9 @@ export function DepositsPageAdmin() {
     };
   }, [leadSearchOpen, leadSearchResults.length, updateLeadDropdownPosition]);
 
-  const [depositTeamMembers, setDepositTeamMembers] = useState<{ employeeId: string }[]>([]);
+  const [depositTeamMembers, setDepositTeamMembers] = useState<
+    { employeeId: string; role?: string }[]
+  >([]);
   const [history, setHistory] = useState<DepositHistoryResponse | null>(null);
   const [historyLoadError, setHistoryLoadError] = useState<string | null>(null);
   const [historyTeamId, setHistoryTeamId] = useState("");
@@ -156,7 +158,11 @@ export function DepositsPageAdmin() {
       return;
     }
     getTeamMembers(depositTeamId, { take: 100 })
-      .then((r) => setDepositTeamMembers(r.items.filter((m) => m.role === "AGENT")))
+      .then((r) =>
+        setDepositTeamMembers(
+          r.items.filter((m) => m.role === "AGENT" || m.role === "TEAMLEADER")
+        )
+      )
       .catch(() => setDepositTeamMembers([]));
   }, [depositTeamId]);
 
@@ -438,12 +444,13 @@ export function DepositsPageAdmin() {
                       className={s.page__actionInput}
                       required
                       disabled={!depositTeamId}
-                      aria-label="Agent"
+                      aria-label="Agent / Team leader"
                     >
-                      <option value="">Agent</option>
+                      <option value="">Agent / Team leader</option>
                       {depositTeamMembers.map((m) => (
                         <option key={m.employeeId} value={m.employeeId}>
                           {getEmployeeName(m.employeeId)}
+                          {m.role === "TEAMLEADER" ? " (Team leader)" : ""}
                         </option>
                       ))}
                     </select>

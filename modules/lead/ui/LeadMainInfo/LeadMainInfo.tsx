@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { Lead, LEAD_STATUS_UI, LeadStatus, maskPhone, useEmployeesStore, useUpdateLead, useUpdateLeadStatus } from "@/features";
 import { useAuthStore } from "@/features/auth/store/authStore";
 import { useC2C } from "@/features/c2c/hooks";
+import { getTeamsWithDetails } from "@/features/teams/api/teams.api";
 import { LeadUpdateOwner } from "@/components/lead/ui/LeadUpdateOwner";
 import Image from "next/image";
 import iconPencil from "../../assets/pencil.svg";
@@ -19,6 +20,7 @@ export const OWNER_EDIT_ROLES = [
     "LEADMANAGER",
     "ADMIN",
     "SUPER_ADMIN",
+    "TEAMLEADER",
 ] as const;
 
 interface LeadMainInfoProps {
@@ -54,6 +56,38 @@ export function LeadMainInfo({ lead, setLead }: LeadMainInfoProps) {
     };
 
     const [isOwnerModalOpen, setIsOwnerModalOpen] = useState(false);
+    const [ownerAllowedEmployeeIds, setOwnerAllowedEmployeeIds] = useState<string[] | null>(null);
+
+    useEffect(() => {
+        if (!isOwnerModalOpen || currentUser?.role !== "TEAMLEADER" || !currentUser?.id) return;
+        let cancelled = false;
+        setOwnerAllowedEmployeeIds(null);
+        getTeamsWithDetails()
+            .then((teams) => {
+                if (cancelled) return;
+                const myTeamIds = teams
+                    .filter((t) =>
+                        t.members?.some(
+                            (m) =>
+                                m.employeeId === currentUser?.id &&
+                                String(m.role).toUpperCase() === "TEAMLEADER"
+                        )
+                    )
+                    .map((t) => t.id);
+                const ids = new Set<string>();
+                teams
+                    .filter((t) => myTeamIds.includes(t.id))
+                    .forEach((t) =>
+                        t.members?.forEach((m) => ids.add(m.employeeId))
+                    );
+                setOwnerAllowedEmployeeIds(Array.from(ids));
+            })
+            .catch(() => setOwnerAllowedEmployeeIds([]));
+        return () => {
+            cancelled = true;
+        };
+    }, [isOwnerModalOpen, currentUser?.id, currentUser?.role]);
+
     const [isStatusDropdownOpen, setIsStatusDropdownOpen] = useState(false);
     const [statusSearchQuery, setStatusSearchQuery] = useState("");
     const statusDropdownRef = useRef<HTMLDivElement>(null);
@@ -422,6 +456,11 @@ export function LeadMainInfo({ lead, setLead }: LeadMainInfoProps) {
                 currentOwnerId={lead.leadOwnerId}
                 isOpen={isOwnerModalOpen}
                 onClose={() => setIsOwnerModalOpen(false)}
+                restrictToEmployeeIds={
+                    currentUser?.role === "TEAMLEADER"
+                        ? ownerAllowedEmployeeIds ?? undefined
+                        : undefined
+                }
             />
         </div>
     );
