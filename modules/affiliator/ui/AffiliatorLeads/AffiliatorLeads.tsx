@@ -548,6 +548,7 @@ export function AffiliatorLeads({
 
       <div className={s.listWrap}>
         <LeadsList
+          listKey={id ? `affiliator-${id}` : "affiliator"}
           setActiveLeads={setActiveLeads}
           activeLeads={activeLeads}
           leads={leads}

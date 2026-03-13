@@ -3,8 +3,9 @@
 import { Lead } from "../../../../features/lead/types";
 import { LeadItem } from "@/components";
 import s from "./LeadsList.module.scss";
-import { Dispatch, SetStateAction, useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback, useRef, useEffect, useLayoutEffect } from "react";
 import { useEmployeesStore } from "@/features";
+import { useLeadListScrollStore, getLeadListScrollStored } from "@/features/lead/store/useLeadListScrollStore";
 
 export interface LeadOwnerOption {
   id: string;
@@ -26,7 +27,12 @@ interface Props {
   ownerOptions?: LeadOwnerOption[];
   onOwnerChange?: (leadId: string, newOwnerId: string) => void | Promise<void>;
   ownerChangeLoading?: boolean;
+  /** Key to save/restore scroll (e.g. "leads", "affiliator-123"). Default "leads". */
+  listKey?: string;
 }
+
+const SCROLL_SAVE_DEBOUNCE_MS = 120;
+const DEFAULT_LIST_KEY = "leads";
 
 export function LeadsList({
   leads,
@@ -41,9 +47,52 @@ export function LeadsList({
   ownerOptions,
   onOwnerChange,
   ownerChangeLoading,
+  listKey = DEFAULT_LIST_KEY,
 }: Props) {
   const { employees } = useEmployeesStore();
   const showPagination = onGoToPage != null;
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const { setScroll } = useLeadListScrollStore();
+  const scrollSaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const onBeforeNavigate = useCallback(() => {
+    const el = scrollRef.current;
+    if (el != null && typeof el.scrollTop === "number") {
+      setScroll(listKey, el.scrollTop);
+    }
+  }, [listKey, setScroll]);
+
+  const applySavedScroll = useCallback(() => {
+    const saved = getLeadListScrollStored(listKey);
+    if (saved == null || saved <= 0) return;
+    const el = scrollRef.current;
+    if (el) el.scrollTop = saved;
+  }, [listKey]);
+
+  useLayoutEffect(() => {
+    applySavedScroll();
+    const delays = [50, 120, 300, 550];
+    const ids = delays.map((ms) => setTimeout(applySavedScroll, ms));
+    return () => ids.forEach(clearTimeout);
+  }, [listKey, leads.length, applySavedScroll]);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const handleScroll = () => {
+      if (scrollSaveTimeoutRef.current) clearTimeout(scrollSaveTimeoutRef.current);
+      scrollSaveTimeoutRef.current = setTimeout(() => {
+        setScroll(listKey, el.scrollTop);
+        scrollSaveTimeoutRef.current = null;
+      }, SCROLL_SAVE_DEBOUNCE_MS);
+    };
+    el.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      el.removeEventListener("scroll", handleScroll);
+      if (scrollSaveTimeoutRef.current) clearTimeout(scrollSaveTimeoutRef.current);
+      setScroll(listKey, el.scrollTop);
+    };
+  }, [listKey, setScroll]);
 
   const pageLeadIds = leads.map((l) => l.id);
   const allOnPageSelected =
@@ -64,7 +113,7 @@ export function LeadsList({
 
   return (
     <div className={s.LeadsList}>
-      <div className={s.LeadsList__tableWrap}>
+      <div ref={scrollRef} className={s.LeadsList__tableWrap}>
         <table className={s.LeadsList__table}>
           <thead className={s.LeadsList__thead}>
             <tr>
@@ -109,6 +158,7 @@ export function LeadsList({
                   ownerOptions={ownerOptions}
                   onOwnerChange={onOwnerChange}
                   ownerChangeLoading={ownerChangeLoading}
+                  onBeforeNavigate={onBeforeNavigate}
                 />
               ))
             )}

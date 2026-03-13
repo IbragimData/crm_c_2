@@ -101,7 +101,7 @@ export default function LeadPage() {
           <button
             type="button"
             className={s.main__backBtn}
-            onClick={() => router.push("/leads")}
+            onClick={() => router.push("/leads", { scroll: false })}
           >
             ← Back to Leads
           </button>

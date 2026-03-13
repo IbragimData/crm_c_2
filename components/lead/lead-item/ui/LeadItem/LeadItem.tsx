@@ -35,6 +35,8 @@ interface Props {
   ownerOptions?: OwnerOption[];
   onOwnerChange?: (leadId: string, newOwnerId: string) => void | Promise<void>;
   ownerChangeLoading?: boolean;
+  /** Called before navigating to lead (e.g. to save scroll). */
+  onBeforeNavigate?: () => void;
 }
 
 export const ADMIN_ROLES = ["ADMIN", "SUPER_ADMIN"] as const;
@@ -48,6 +50,7 @@ export function LeadItem({
   ownerOptions,
   onOwnerChange,
   ownerChangeLoading,
+  onBeforeNavigate,
 }: Props) {
   const { employee } = useAuthStore();
   const router = useRouter();
@@ -151,9 +154,34 @@ export function LeadItem({
   return (
     <tr className={s.LeadItem}>
       <td className={s.LeadItem__cell}>
-        <span className={s.LeadItem__name}>
-          {lead.firstName} {lead.lastName}
-        </span>
+        <div className={s.LeadItem__nameWrap}>
+          <button
+            type="button"
+            className={s.LeadItem__nameBtn}
+            onClick={() => {
+              onBeforeNavigate?.();
+              router.push(`/leads/${lead.id}`);
+            }}
+          >
+            {lead.firstName} {lead.lastName}
+          </button>
+          <button
+            type="button"
+            className={s.LeadItem__openNewTab}
+            onClick={(e) => {
+              e.stopPropagation();
+              window.open(`/leads/${lead.id}`, "_blank", "noopener,noreferrer");
+            }}
+            aria-label="Open in new tab"
+            title="Open in new tab"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+              <polyline points="15 3 21 3 21 9" />
+              <line x1="10" y1="14" x2="21" y2="3" />
+            </svg>
+          </button>
+        </div>
       </td>
       <td className={s.LeadItem__cell}>
         <div className={s.LeadItem__phone}>
@@ -296,7 +324,10 @@ export function LeadItem({
       <td className={`${s.LeadItem__cell} ${s.LeadItem__cell_details}`}>
         <div className={s.LeadItem__detailsWrap}>
           <ButtonComponentDefault
-            onClick={() => router.push(`/leads/${lead.id}`)}
+            onClick={() => {
+              onBeforeNavigate?.();
+              router.push(`/leads/${lead.id}`);
+            }}
             type="button"
             label="Details"
             backgroundColor="var(--color-btn-primary-bg)"

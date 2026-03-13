@@ -1,0 +1,100 @@
+.BulkDistributeLeadsModal {
+  &__hint {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    margin: 0 0 12px 0;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 280px;
+    min-height: 120px;
+    overflow-y: auto;
+    gap: 8px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    padding: 8px;
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background: var(--color-surface-elevated);
+      border-radius: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-border);
+      border-radius: 6px;
+    }
+  }
+
+  &__label {
+    display: flex;
+    gap: 16px;
+    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+
+    & input {
+      display: none;
+    }
+  }
+
+  &__item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--color-surface-elevated);
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--color-border);
+    padding: 12px 16px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    & h3 {
+      font-size: 14px;
+      font-family: "Nunito Sans", sans-serif;
+      font-weight: 600;
+      color: var(--color-text);
+      margin: 0;
+    }
+
+    & p {
+      font-size: 13px;
+      font-family: "Nunito Sans", sans-serif;
+      font-weight: 400;
+      color: var(--color-text-muted);
+      margin: 2px 0 0 0;
+    }
+
+    &_active {
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.2);
+
+      & h3,
+      & p {
+        color: inherit;
+      }
+    }
+  }
+
+  &__image {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    background: var(--color-input-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 700;
+    color: var(--color-accent);
+  }
+}

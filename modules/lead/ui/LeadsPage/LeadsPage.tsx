@@ -17,6 +17,7 @@ import type { LeadsFilters } from "@/features";
 import { useEmployeesStore } from "@/features/employees/store/useEmployeesStore";
 import { useBulkUpdateLeadsStatus } from "@/features/lead/hooks/useBulkUpdateLeadsStatus";
 import { useBulkAssignLeadOwner } from "@/features/lead/hooks/useBulkAssignLeadOwner";
+import { useBulkAssignLeadOwnerRandom } from "@/features/lead/hooks/useBulkAssignLeadOwnerRandom";
 import { getTeams, bulkAssignLeadsToTeam } from "@/features/teams/api";
 
 export const ADMIN_ROLES = ["ADMIN", "SUPER_ADMIN", "TEAMLEADER", "LEADMANAGER"] as const;
@@ -81,10 +82,12 @@ export function LeadsPage() {
   const { leads, setLeads, loading, page, total, pageSize, hasMore, goToPage, setFilters, filters } = useLeads();
   const employees = useEmployeesStore((state) => state.employees);
   const [activeLeads, setActiveLeads] = useState<string[]>([]);
-  const [openPanel, setOpenPanel] = useState<"status" | "owner" | "team" | null>(null);
+  const [openPanel, setOpenPanel] = useState<"status" | "owner" | "team" | "distribute" | null>(null);
   const [statusSearchQuery, setStatusSearchQuery] = useState("");
   const [ownerSearchQuery, setOwnerSearchQuery] = useState("");
   const [teamSearchQuery, setTeamSearchQuery] = useState("");
+  const [distributeSearchQuery, setDistributeSearchQuery] = useState("");
+  const [distributeSelectedIds, setDistributeSelectedIds] = useState<Set<string>>(new Set());
   const [isFiltersModalOpen, setIsFiltersModalOpen] = useState(false);
   const [ownerFilterOpen, setOwnerFilterOpen] = useState(false);
   const [ownerFilterSearchQuery, setOwnerFilterSearchQuery] = useState("");
@@ -95,6 +98,8 @@ export function LeadsPage() {
   const canAssignToTeam = currentUser && ["ADMIN", "SUPER_ADMIN"].includes(currentUser.role as string);
   /** Assign Lead Owner — only LEADMANAGER, ADMIN, SUPER_ADMIN (not TEAMLEADER, not AGENT) */
   const canAssignLeadOwner = currentUser && ["ADMIN", "SUPER_ADMIN", "LEADMANAGER"].includes(currentUser.role as string);
+  /** Distribute leads among owners — ADMIN, SUPER_ADMIN, LEADMANAGER, TEAMLEADER */
+  const canDistributeLeads = currentUser && ["ADMIN", "SUPER_ADMIN", "LEADMANAGER", "TEAMLEADER"].includes(currentUser.role as string);
   /** Owner filter (All / employees) — only for ADMIN, SUPER_ADMIN, LEADMANAGER; hidden for agents and team leaders */
   const showOwnerFilter = currentUser && ["ADMIN", "SUPER_ADMIN", "LEADMANAGER"].includes(currentUser.role as string);
 
@@ -127,6 +132,7 @@ export function LeadsPage() {
 
   // Panel: Assign Owner — only LEADMANAGER, ADMIN, SUPER_ADMIN
   const { assign: assignOwner, loading: ownerLoading } = useBulkAssignLeadOwner();
+  const { distribute: distributeLeads, loading: distributeLoading } = useBulkAssignLeadOwnerRandom();
   const allowedRoles = ["AGENT", "TEAMLEADER"];
   const agentAndTeamleaderEmployees = employees.filter((emp) => allowedRoles.includes(emp.role));
 
@@ -143,6 +149,15 @@ export function LeadsPage() {
         emp.firstName.toLowerCase().includes(q) || emp.lastName.toLowerCase().includes(q)
     );
   }, [agentAndTeamleaderEmployees, ownerSearchQuery]);
+
+  const filteredDistributeEmployees = useMemo(() => {
+    const q = distributeSearchQuery.trim().toLowerCase();
+    if (!q) return agentAndTeamleaderEmployees;
+    return agentAndTeamleaderEmployees.filter(
+      (emp) =>
+        emp.firstName.toLowerCase().includes(q) || emp.lastName.toLowerCase().includes(q)
+    );
+  }, [agentAndTeamleaderEmployees, distributeSearchQuery]);
 
   const filteredTeams = useMemo(() => {
     const q = teamSearchQuery.trim().toLowerCase();
@@ -161,6 +176,7 @@ export function LeadsPage() {
   const statusSearchInputRef = useRef<HTMLInputElement>(null);
   const ownerSearchInputRef = useRef<HTMLInputElement>(null);
   const teamSearchInputRef = useRef<HTMLInputElement>(null);
+  const distributeSearchInputRef = useRef<HTMLInputElement>(null);
   const ownerFilterRef = useRef<HTMLDivElement>(null);
   const ownerFilterSearchInputRef = useRef<HTMLInputElement>(null);
 
@@ -179,6 +195,14 @@ export function LeadsPage() {
     if (openPanel === "owner") {
       setOwnerSearchQuery("");
       setTimeout(() => ownerSearchInputRef.current?.focus(), 0);
+    }
+  }, [openPanel]);
+
+  useEffect(() => {
+    if (openPanel === "distribute") {
+      setDistributeSearchQuery("");
+      setDistributeSelectedIds(new Set());
+      setTimeout(() => distributeSearchInputRef.current?.focus(), 0);
     }
   }, [openPanel]);
 
@@ -266,6 +290,27 @@ export function LeadsPage() {
     },
     [activeLeads, loadLeads]
   );
+
+  const toggleDistributeOwner = useCallback((id: string) => {
+    setDistributeSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }, []);
+
+  const handleDistributeSubmit = useCallback(async () => {
+    const ownerIds = Array.from(distributeSelectedIds);
+    if (ownerIds.length === 0 || activeLeads.length === 0) return;
+    const result = await distributeLeads(activeLeads, ownerIds);
+    if (result) {
+      setActiveLeads([]);
+      setDistributeSelectedIds(new Set());
+      setOpenPanel(null);
+      loadLeads(true);
+    }
+  }, [activeLeads, distributeSelectedIds, distributeLeads, loadLeads]);
 
   const dateFromValue = toLocalDateString(filters?.dateFrom);
   const dateToValue = toLocalDateString(filters?.dateTo);
@@ -519,6 +564,75 @@ export function LeadsPage() {
                         );
                       })
                     )}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+          {activeLeads.length > 0 && canDistributeLeads && (
+            <div className={s.LeadsPage__actionWrap}>
+              <button
+                type="button"
+                className={`${s.LeadsPage__filterBtn} ${s.LeadsPage__filterBtn_withChevron} ${openPanel === "distribute" ? s.LeadsPage__filterBtnActive : ""}`}
+                onClick={() => setOpenPanel(openPanel === "distribute" ? null : "distribute")}
+              >
+                <span>Distribute leads</span>
+                <svg
+                  className={`${selectStyles.Select__chevron} ${openPanel === "distribute" ? selectStyles.Select__chevron_open : ""}`}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+              {openPanel === "distribute" && (
+                <div className={`${selectStyles.Select__dropdown} ${s.LeadsPage__dropdownWithSearch}`}>
+                  <input
+                    ref={distributeSearchInputRef}
+                    type="text"
+                    className={s.LeadsPage__dropdownSearch}
+                    placeholder="Search by name…"
+                    value={distributeSearchQuery}
+                    onChange={(e) => setDistributeSearchQuery(e.target.value)}
+                    onKeyDown={(e) => e.stopPropagation()}
+                    aria-label="Search owner"
+                  />
+                  <div className={s.LeadsPage__dropdownList}>
+                    {filteredDistributeEmployees.length === 0 ? (
+                      <div className={selectStyles.Select__empty}>
+                        {distributeSearchQuery.trim() ? "No matching owners" : "No owners"}
+                      </div>
+                    ) : (
+                      filteredDistributeEmployees.map((emp) => (
+                        <label
+                          key={emp.id}
+                          className={s.LeadsPage__distributeOption}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={distributeSelectedIds.has(emp.id)}
+                            onChange={() => toggleDistributeOwner(emp.id)}
+                            onKeyDown={(e) => e.stopPropagation()}
+                          />
+                          <span>{emp.firstName} {emp.lastName}</span>
+                        </label>
+                      ))
+                    )}
+                  </div>
+                  <div className={s.LeadsPage__dropdownFooter}>
+                    <button
+                      type="button"
+                      className={s.LeadsPage__distributeSubmit}
+                      disabled={distributeSelectedIds.size === 0 || distributeLoading}
+                      onClick={handleDistributeSubmit}
+                    >
+                      {distributeLoading ? "Sending…" : "Submit"}
+                    </button>
                   </div>
                 </div>
               )}

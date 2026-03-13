@@ -1,4 +1,5 @@
 import { axiosInstance } from "../../lead/api/axiosInstance";
+import { normalizePhoneToDigits } from "../utils/normalizePhone";
 
 export interface C2CPayload {
     agentNumber: string;
@@ -16,15 +17,14 @@ export interface C2CResponse {
 export const createC2CCall = async (
     payload: C2CPayload
 ): Promise<C2CResponse> => {
-    console.log(payload)
+    const customerNumber = normalizePhoneToDigits(payload.customerNumber);
+    const agentNumber = normalizePhoneToDigits(payload.agentNumber);
     const { data } = await axiosInstance.post<C2CResponse>(
         "/c2c",
         {
-            customerNumber: payload.customerNumber,
-            agentNumber: payload.agentNumber,
-
+            customerNumber,
+            agentNumber,
         }
     );
-
     return data;
 };
