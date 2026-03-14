@@ -10,6 +10,7 @@ export {
   getMyTarget,
   getMyEarnings,
   createDeposit,
+  deleteDeposit,
   getDepositsHistory,
   getMonthReport,
 } from "./deposits.api";

@@ -1,11 +1,9 @@
 'use client'
 import Link from "next/link";
 import s from "./EmployeeLeadItem.module.scss"
-import { ButtonComponentDefault } from "@/components/ButtonComponents";
 import { Lead, LEAD_STATUS_UI, maskEmail } from "@/features";
 import { Dispatch, SetStateAction } from "react";
 import classNames from "classnames";
-import { useRouter } from "next/navigation";
 import { formatLeadDate } from "@/features/auth/constants/format-lead-date";
 import { useAuthStore } from "@/features/auth/store/authStore";
 
@@ -16,7 +14,6 @@ interface Props {
     setActiveLeads: Dispatch<SetStateAction<string[]>>;
 }
 export function EmployeeLeadItem({ lead, activeLeads, setActiveLeads }: Props) {
-    const router = useRouter()
     const handleAddLeads = (id: string) => {
         setActiveLeads(prev =>
             prev.includes(id)
@@ -43,7 +40,7 @@ export function EmployeeLeadItem({ lead, activeLeads, setActiveLeads }: Props) {
                 </p>
             </div>
             <div className={s.EmployeeLeadItem__content}>
-                <p className={s.EmployeeLeadItem__text}>Сreate Data</p>
+                <p className={s.EmployeeLeadItem__text}>Create Date</p>
                 <p className={s.EmployeeLeadItem__txt}>
                     {formatLeadDate(lead.createdAt.toLocaleString())}
                 </p>
@@ -61,14 +58,6 @@ export function EmployeeLeadItem({ lead, activeLeads, setActiveLeads }: Props) {
                     {LEAD_STATUS_UI[lead.status].label}
                 </span>
             </div>
-            <ButtonComponentDefault
-                onClick={() => router.push(`/leads/${lead.id}`)}
-                type="submit"
-                label={"Details"}
-                backgroundColor="#00f5ff"
-                color="#FFFFFF"
-                iconPosition="left"
-            />
         </div>
     );
 }

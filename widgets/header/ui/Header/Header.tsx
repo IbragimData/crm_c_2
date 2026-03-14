@@ -58,7 +58,7 @@ export function Header() {
           height={24}
           alt="Search"
         />
-        <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Search" type="text" />
+        <input value={input} onChange={(e) => setInput(e.target.value)} placeholder="Search by ID, email, first or last name..." type="text" />
       </form>
 
       <div className={s.Header__content}>
@@ -67,13 +67,13 @@ export function Header() {
         {canStartWorkAndBreaks && attendanceError && (
           <div className={s.Header__attendanceError} role="alert">
             <span>{attendanceError}</span>
-            <button type="button" onClick={clearAttendanceError} aria-label="Закрыть">×</button>
+            <button type="button" onClick={clearAttendanceError} aria-label="Close">×</button>
           </div>
         )}
         {canStartWorkAndBreaks && breaksError && (
           <div className={s.Header__attendanceError} role="alert">
             <span>{breaksError}</span>
-            <button type="button" onClick={clearBreaksError} aria-label="Закрыть">×</button>
+            <button type="button" onClick={clearBreaksError} aria-label="Close">×</button>
           </div>
         )}
         {canStartWorkAndBreaks && hasStartedWork && employee && (

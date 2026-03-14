@@ -13,7 +13,7 @@ export function ProjectLeadItem() {
                 <p className={s.ProjectLeadItem__txt}>+1 555-123-4567</p>
             </div>
             <div className={s.ProjectLeadItem__content}>
-                <p className={s.ProjectLeadItem__text}>Сreate Data</p>
+                <p className={s.ProjectLeadItem__text}>Create Date</p>
                 <p className={s.ProjectLeadItem__txt}>14-Jan-2024 | 08:30 am</p>
             </div>
             <div className={s.ProjectLeadItem__content}>

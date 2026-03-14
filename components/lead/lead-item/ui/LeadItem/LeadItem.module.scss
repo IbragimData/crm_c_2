@@ -20,42 +20,6 @@
     width: 44px;
   }
 
-  &__cell_details {
-    text-align: right;
-    padding-right: 20px;
-    width: 90px;
-  }
-
-  &__detailsWrap {
-    display: inline-block;
-
-    :global(button) {
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(34, 211, 238, 0.35);
-      border-radius: 10px;
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.18),
-        0 2px 8px rgba(0, 0, 0, 0.2),
-        0 4px 16px rgba(34, 211, 238, 0.3);
-      transition: box-shadow 0.2s ease, transform 0.15s ease;
-    }
-
-    :global(button:hover) {
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.22),
-        0 4px 12px rgba(0, 0, 0, 0.22),
-        0 6px 22px rgba(34, 211, 238, 0.45);
-      transform: translateY(-1px);
-    }
-
-    :global(button:active) {
-      transform: translateY(0);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        0 2px 8px rgba(34, 211, 238, 0.35);
-    }
-  }
-
   &__openNewTab {
     flex-shrink: 0;
     display: inline-flex;

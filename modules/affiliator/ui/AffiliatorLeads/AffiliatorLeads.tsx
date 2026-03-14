@@ -98,6 +98,7 @@ export function AffiliatorLeads({
     page,
     total,
     pageSize,
+    setPageSize,
     hasMore,
     goToPage,
     refresh,
@@ -557,6 +558,7 @@ export function AffiliatorLeads({
           pageSize={pageSize}
           hasMore={hasMore}
           onGoToPage={goToPage}
+          onPageSizeChange={setPageSize}
         />
       </div>
 

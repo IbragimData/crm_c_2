@@ -95,7 +95,7 @@ export function AttendanceOverlay() {
           onClick={handleLogout}
           aria-label="Log out"
         >
-          Выйти из аккаунта
+          Log out
         </button>
       </div>
     </div>

@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "CRM-Call",
-  description: "Управление лидами, командами и коллбэками",
+  description: "Lead, team and callback management",
   icons: {
     icon: "/icon.svg",
   },

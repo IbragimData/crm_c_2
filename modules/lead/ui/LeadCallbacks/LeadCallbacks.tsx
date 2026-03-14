@@ -16,7 +16,7 @@ import { DateTimePicker } from "@/components";
 
 interface LeadCallbacksProps {
   leadId: string;
-  /** Владелец лида — ему автоматически приходят уведомления о коллбэках. */
+  /** Lead owner — they automatically receive callback notifications. */
   leadOwnerId: string | null;
 }
 

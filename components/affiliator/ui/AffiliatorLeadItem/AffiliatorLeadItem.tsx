@@ -1,12 +1,9 @@
 'use client'
 import Link from "next/link";
 import s from "./AffiliatorLeadItem.module.scss"
-import { ButtonComponentDefault } from "@/components/ButtonComponents";
 import { Lead, LEAD_STATUS_UI, maskEmail } from "@/features";
 import { Dispatch, SetStateAction } from "react";
 import classNames from "classnames";
-import { Employee } from "@/features/auth/types";
-import { useRouter } from "next/navigation";
 import { formatLeadDate } from "@/features/auth/constants/format-lead-date";
 import { useAuthStore } from "@/features/auth/store/authStore";
 
@@ -17,7 +14,6 @@ interface Props {
     setActiveLeads: Dispatch<SetStateAction<string[]>>;
 }
 export function AffiliatorLeadItem({ lead, activeLeads, setActiveLeads }: Props) {
-    const router = useRouter()
     const handleAddLeads = (id: string) => {
         setActiveLeads(prev =>
             prev.includes(id)
@@ -44,7 +40,7 @@ export function AffiliatorLeadItem({ lead, activeLeads, setActiveLeads }: Props)
                 </p>
             </div>
             <div className={s.ProjectLeadItem__content}>
-                <p className={s.ProjectLeadItem__text}>Сreate Data</p>
+                <p className={s.ProjectLeadItem__text}>Create Date</p>
                 <p className={s.ProjectLeadItem__txt}>
                     {formatLeadDate(lead.createdAt.toLocaleString())}
                 </p>
@@ -63,14 +59,6 @@ export function AffiliatorLeadItem({ lead, activeLeads, setActiveLeads }: Props)
                 </span>
 
             </div>
-            <ButtonComponentDefault
-                onClick={() => router.push(`/leads/${lead.id}`)}
-                type="submit"
-                label={"Details"}
-                backgroundColor="#00f5ff"
-                color="#FFFFFF"
-                iconPosition="left"
-            />
             <div onClick={() => handleAddLeads(String(lead.id))} className={classNames(s.ProjectLeadItem__click, {
                 [s.ProjectLeadItem__click_active]: activeLeads.includes(lead.id)
             })}>

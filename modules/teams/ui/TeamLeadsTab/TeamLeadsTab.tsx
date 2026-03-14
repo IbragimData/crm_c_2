@@ -77,7 +77,7 @@ function isStatusSelected(filters: TeamLeadsFilters | undefined, st: LeadStatus)
 interface TeamLeadsTabProps {
   teamId: string;
   members: TeamMemberApi[];
-  /** Общее число лидов команды (из lead-assignments), чтобы подгрузить все при открытии */
+  /** Total team leads count (from lead-assignments) to load all when opening */
   expectedLeadsTotal?: number;
   activeLeads: string[];
   setActiveLeads: React.Dispatch<React.SetStateAction<string[]>>;
@@ -105,6 +105,7 @@ export function TeamLeadsTab({
     page,
     total,
     pageSize,
+    setPageSize,
     hasMore,
     goToPage,
     refresh,
@@ -699,6 +700,7 @@ export function TeamLeadsTab({
           pageSize={pageSize}
           hasMore={hasMore}
           onGoToPage={goToPage}
+          onPageSizeChange={setPageSize}
           canChangeOwner={isAdmin ?? undefined}
           ownerOptions={teamMemberEmployees}
           onOwnerChange={handleSingleLeadOwnerChange}

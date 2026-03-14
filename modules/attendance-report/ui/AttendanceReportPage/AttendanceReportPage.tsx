@@ -341,7 +341,7 @@ export function AttendanceReportPage() {
                       <th>Diff</th>
                       <th>Sessions</th>
                       <th>Salary (month)</th>
-                      <th>К выплате</th>
+                      <th>Payable</th>
                     </tr>
                   </thead>
                   <tbody>

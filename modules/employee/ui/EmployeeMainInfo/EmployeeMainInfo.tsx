@@ -15,7 +15,7 @@ import iconClose from "@/components/lead/assets/close.svg";
 
 const ADMIN_ROLES = ["ADMIN", "SUPER_ADMIN"] as const;
 
-/** Тимлидер и агент могут редактировать только отдел (department). */
+/** Team leader and agent can only edit department. */
 const ROLES_CAN_EDIT_DEPARTMENT = [Role.TEAMLEADER, Role.AGENT] as const;
 
 type FieldKey = "firstName" | "lastName" | "phone" | "phoneSecondary" | "telegramUsername" | "email" | "department";

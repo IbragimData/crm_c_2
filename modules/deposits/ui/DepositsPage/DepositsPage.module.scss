@@ -2194,6 +2194,33 @@
   grid-template-columns: 1.4fr 1.5fr 0.9fr;
 }
 
+.page__historyListWrap_cols6 .page__historyRow {
+  grid-template-columns: 1.4fr 1fr 1.2fr 1.2fr 0.9fr 80px;
+}
+
+.page__historyDeleteBtn {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: "Nunito Sans", sans-serif;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.page__historyDeleteBtn:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: rgba(239, 68, 68, 0.6);
+}
+
+.page__historyDeleteBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .page__historyRow {
   display: grid;
   grid-template-columns: 1.4fr 1fr 1.2fr 1.2fr 0.9fr;
@@ -2281,6 +2308,10 @@
 
   .page__historyListWrap_cols3 .page__historyRow {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 80px);
+  }
+
+  .page__historyListWrap_cols6 .page__historyRow {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 70px) minmax(0, 70px);
   }
 }
 

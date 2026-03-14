@@ -1,6 +1,9 @@
 .SearchLeadPage {
     width: 100%;
     margin-top: 24px;
+    --lead-chip-bg: rgba(13, 13, 24, 0.9);
+    --lead-chip-text: var(--color-text-soft);
+    --lead-chip-border: var(--color-border);
 
     &__title {
         font-size: var(--heading-page);

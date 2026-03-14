@@ -98,6 +98,7 @@ export function EmployeeLeadsList({
     page,
     total,
     pageSize,
+    setPageSize,
     hasMore,
     goToPage,
     refresh,
@@ -556,6 +557,7 @@ export function EmployeeLeadsList({
           pageSize={pageSize}
           hasMore={hasMore}
           onGoToPage={goToPage}
+          onPageSizeChange={setPageSize}
         />
       </div>
 

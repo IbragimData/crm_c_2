@@ -36,7 +36,7 @@ export const useAttendanceStore = create<AttendanceState>((set, get) => ({
       set({ currentShift: session });
       return session;
     } catch (e) {
-      const msg = e instanceof Error ? e.message : "Не удалось начать смену на сервере. Проверьте подключение.";
+      const msg = e instanceof Error ? e.message : "Failed to start shift on server. Check your connection.";
       set({ error: msg });
       throw e;
     }
@@ -56,7 +56,7 @@ export const useAttendanceStore = create<AttendanceState>((set, get) => ({
           ? (e as any).response.data.message
           : e instanceof Error
             ? e.message
-            : "Не удалось сохранить конец смены на сервер. Админ не увидит это время.";
+            : "Failed to save end of shift to server. Admin will not see this time.";
       set({ error: msg, currentShift: null });
       setStoredActiveSession(null);
       throw e;

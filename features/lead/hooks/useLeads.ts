@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useLeadsStore, LEADS_PAGE_SIZE } from "../store/useLeadsStore";
+import { useLeadsStore } from "../store/useLeadsStore";
 
 export function useLeads() {
   const {
@@ -9,9 +9,11 @@ export function useLeads() {
     loading,
     page,
     total,
+    pageSize,
     goToPage,
     setFilters,
     setLeads,
+    setPageSize,
     loadLeads,
     filtersKey,
     filters,
@@ -23,15 +25,16 @@ export function useLeads() {
 
   const hasMore =
     total !== null
-      ? page * LEADS_PAGE_SIZE < total
-      : leads.length >= LEADS_PAGE_SIZE;
+      ? page * pageSize < total
+      : leads.length >= pageSize;
 
   return {
     leads,
     loading,
     page,
     total,
-    pageSize: LEADS_PAGE_SIZE,
+    pageSize,
+    setPageSize,
     hasMore,
     goToPage,
     setFilters,

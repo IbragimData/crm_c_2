@@ -15,7 +15,7 @@
   min-height: 0;
   overflow: auto;
 
-  /* Скроллбар под стиль сайта — почти невидимый */
+  /* Scrollbar styled to match site — nearly invisible */
   scrollbar-width: thin;
   scrollbar-color: var(--color-border) transparent;
 
@@ -88,7 +88,7 @@
   font-size: var(--text-base);
 }
 
-/* Пагинация — фиксирована снизу списка */
+/* Pagination — fixed at bottom of list */
 .LeadsList__pagination {
   flex-shrink: 0;
   display: flex;
@@ -106,6 +106,77 @@
 .LeadsList__paginationTotal {
   font-weight: 600;
   color: var(--color-text-secondary);
+}
+
+.LeadsList__paginationPageSizeWrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.LeadsList__paginationPageSize {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  color: var(--color-text-soft);
+}
+
+.LeadsList__paginationPageSizeCustom {
+  display: flex;
+  align-items: center;
+}
+
+.LeadsList__paginationPageSizeInput {
+  width: 70px;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-elevated);
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  font-family: "Nunito Sans", sans-serif;
+
+  &::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-accent);
+  }
+}
+
+.LeadsList__paginationPageSizeInputInvalid {
+  border-color: #dc2626 !important;
+  background: rgba(220, 38, 38, 0.06) !important;
+  color: #dc2626 !important;
+
+  &:focus {
+    border-color: #dc2626 !important;
+  }
+}
+
+.LeadsList__paginationPageSizeLabel {
+  white-space: nowrap;
+}
+
+.LeadsList__paginationPageSizeSelect {
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-elevated);
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  font-family: "Nunito Sans", sans-serif;
+  cursor: pointer;
+  min-width: 72px;
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-accent);
+  }
 }
 
 .LeadsList__paginationNav {
@@ -177,4 +248,3 @@
   border-color: var(--color-accent);
   background: rgba(34, 211, 238, 0.08);
 }
-.LeadsList__th_details { width: 90px; min-width: 90px; text-align: right; padding-right: 20px; }

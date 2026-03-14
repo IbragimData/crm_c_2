@@ -22,7 +22,7 @@ import { getTeams, bulkAssignLeadsToTeam } from "@/features/teams/api";
 
 export const ADMIN_ROLES = ["ADMIN", "SUPER_ADMIN", "TEAMLEADER", "LEADMANAGER"] as const;
 
-/** Роли, которые показываются в фильтре Owner: все кроме USER, AFFILIATOR, SUPER_ADMIN */
+/** Roles shown in Owner filter: all except USER, AFFILIATOR, SUPER_ADMIN */
 const OWNER_FILTER_ROLES = ["AGENT", "TEAMLEADER", "LEADMANAGER", "ADMIN"] as const;
 
 const QUICK_STATUSES: LeadStatus[] = [
@@ -54,14 +54,14 @@ function countActiveFilters(f: LeadsFilters, includeOwner = true): number {
   return n;
 }
 
-/** Текущие выбранные статусы из filters (массив, может быть пустым) */
+/** Currently selected statuses from filters (array, may be empty) */
 function getSelectedStatuses(f: LeadsFilters | undefined): LeadStatus[] {
   const s = f?.status;
   if (s == null) return [];
   return Array.isArray(s) ? [...s] : [s];
 }
 
-/** Переключить статус в списке фильтров */
+/** Toggle status in the filter list */
 function toggleStatusInFilters(filters: LeadsFilters, st: LeadStatus): LeadsFilters {
   const current = getSelectedStatuses(filters);
   const next = current.includes(st) ? current.filter((x) => x !== st) : [...current, st];
@@ -79,7 +79,7 @@ function isStatusSelected(filters: LeadsFilters | undefined, st: LeadStatus): bo
 
 export function LeadsPage() {
   const router = useRouter();
-  const { leads, setLeads, loading, page, total, pageSize, hasMore, goToPage, setFilters, filters } = useLeads();
+  const { leads, setLeads, loading, page, total, pageSize, setPageSize, hasMore, goToPage, setFilters, filters } = useLeads();
   const employees = useEmployeesStore((state) => state.employees);
   const [activeLeads, setActiveLeads] = useState<string[]>([]);
   const [openPanel, setOpenPanel] = useState<"status" | "owner" | "team" | "distribute" | null>(null);
@@ -364,7 +364,7 @@ export function LeadsPage() {
         onClick={() => router.push("/leads/create")}
       />
 
-      {/* Toolbar: один ряд — чипы, даты, Owner, Filters, кнопки действий по одной */}
+      {/* Toolbar: one row — chips, dates, Owner, Filters, action buttons */}
       <div className={s.LeadsPage__toolbar} ref={dropdownRef}>
         <div className={s.LeadsPage__toolbarRow}>
           <div className={s.LeadsPage__chips}>
@@ -780,6 +780,7 @@ export function LeadsPage() {
           pageSize={pageSize}
           hasMore={hasMore}
           onGoToPage={goToPage}
+          onPageSizeChange={setPageSize}
         />
       </div>
     </div>

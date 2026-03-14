@@ -10,7 +10,8 @@ export interface AffiliatorLeadsFilters {
   dateTo?: string;
 }
 
-const PAGE_SIZE = 100;
+const DEFAULT_PAGE_SIZE = 100;
+const MAX_PAGE_SIZE = 100;
 
 export function useGetAllLeadsByAffiliatorId(id: string) {
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -18,26 +19,27 @@ export function useGetAllLeadsByAffiliatorId(id: string) {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState<number | null>(null);
+  const [pageSize, setPageSizeState] = useState(DEFAULT_PAGE_SIZE);
   const [filters, setFilters] = useState<AffiliatorLeadsFilters>({});
 
   const loadPage = useCallback(
-    async (pageNum: number) => {
+    async (pageNum: number, take: number) => {
       if (!id) return;
       setLoading(true);
       try {
-        const skip = (pageNum - 1) * PAGE_SIZE;
+        const skip = (pageNum - 1) * take;
         const res = await getAllLeadsByAffiliatorId(id, {
           skip,
-          take: PAGE_SIZE,
+          take,
           ...filters,
         });
         const newLeads = res.items ?? [];
-        setHasMore(newLeads.length >= PAGE_SIZE);
+        setHasMore(newLeads.length >= take);
         setLeads(newLeads);
         setTotal(
           res.total != null
             ? res.total
-            : newLeads.length < PAGE_SIZE
+            : newLeads.length < take
               ? skip + newLeads.length
               : null
         );
@@ -53,21 +55,29 @@ export function useGetAllLeadsByAffiliatorId(id: string) {
 
   useEffect(() => {
     setPage(1);
-    loadPage(1);
-  }, [filters]);
+    loadPage(1, pageSize);
+  }, [filters, pageSize]);
 
   const goToPage = useCallback(
     (pageNum: number) => {
       if (pageNum < 1 || pageNum === page) return;
       setPage(pageNum);
-      loadPage(pageNum);
+      loadPage(pageNum, pageSize);
     },
-    [page, loadPage]
+    [page, loadPage, pageSize]
   );
 
+  const setPageSize = useCallback((size: number) => {
+    const n = Math.max(1, Math.min(MAX_PAGE_SIZE, Math.floor(size)));
+    setPageSizeState(n);
+    setPage(1);
+    setLeads([]);
+    setTotal(null);
+  }, []);
+
   const refresh = useCallback(() => {
-    loadPage(page);
-  }, [page, loadPage]);
+    loadPage(page, pageSize);
+  }, [page, loadPage, pageSize]);
 
   return {
     leads,
@@ -75,7 +85,8 @@ export function useGetAllLeadsByAffiliatorId(id: string) {
     loading,
     page,
     total,
-    pageSize: PAGE_SIZE,
+    pageSize,
+    setPageSize,
     hasMore,
     goToPage,
     refresh,

@@ -3,7 +3,7 @@
 import { Lead } from "../../../../features/lead/types";
 import { LeadItem } from "@/components";
 import s from "./LeadsList.module.scss";
-import { Dispatch, SetStateAction, useCallback, useRef, useEffect, useLayoutEffect } from "react";
+import { Dispatch, SetStateAction, useCallback, useRef, useEffect, useLayoutEffect, useState } from "react";
 import { useEmployeesStore } from "@/features";
 import { useLeadListScrollStore, getLeadListScrollStored } from "@/features/lead/store/useLeadListScrollStore";
 
@@ -12,6 +12,8 @@ export interface LeadOwnerOption {
   firstName: string;
   lastName: string;
 }
+
+const PAGE_SIZE_OPTIONS = [25, 50, 100];
 
 interface Props {
   leads: Lead[];
@@ -22,13 +24,15 @@ interface Props {
   pageSize?: number;
   hasMore?: boolean;
   onGoToPage?: (page: number) => void;
+  /** Called when user changes "show per page"; pass setPageSize from useLeads to enable the selector. */
+  onPageSizeChange?: (size: number) => void;
+  /** Key to save/restore scroll (e.g. "leads", "affiliator-123"). Default "leads". */
+  listKey?: string;
   /** When true and ownerOptions/onOwnerChange provided, each row's Lead Owner cell is clickable to assign. */
   canChangeOwner?: boolean;
   ownerOptions?: LeadOwnerOption[];
   onOwnerChange?: (leadId: string, newOwnerId: string) => void | Promise<void>;
   ownerChangeLoading?: boolean;
-  /** Key to save/restore scroll (e.g. "leads", "affiliator-123"). Default "leads". */
-  listKey?: string;
 }
 
 const SCROLL_SAVE_DEBOUNCE_MS = 120;
@@ -43,6 +47,7 @@ export function LeadsList({
   pageSize = 20,
   hasMore = false,
   onGoToPage,
+  onPageSizeChange,
   canChangeOwner,
   ownerOptions,
   onOwnerChange,
@@ -111,6 +116,34 @@ export function LeadsList({
   const totalLabel =
     total !== null ? total : leads.length >= pageSize ? `${(page - 1) * pageSize + pageSize}+` : end;
 
+  const pageSizeOptions = Array.from(
+    new Set([pageSize, ...PAGE_SIZE_OPTIONS])
+  ).sort((a, b) => a - b);
+
+  const [customSize, setCustomSize] = useState("");
+  const [customSizeInvalid, setCustomSizeInvalid] = useState(false);
+  const handleCustomSizeApply = useCallback(() => {
+    const trimmed = customSize.trim();
+    if (!trimmed) {
+      setCustomSizeInvalid(false);
+      return;
+    }
+    const n = parseInt(trimmed, 10);
+    const valid = !Number.isNaN(n) && n >= 1 && n <= 100 && String(n) === trimmed;
+    if (valid && onPageSizeChange) {
+      onPageSizeChange(n);
+      setCustomSize("");
+      setCustomSizeInvalid(false);
+    } else {
+      setCustomSizeInvalid(true);
+    }
+  }, [customSize, onPageSizeChange]);
+
+  const handleCustomSizeChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setCustomSize(e.target.value);
+    setCustomSizeInvalid(false);
+  }, []);
+
   return (
     <div className={s.LeadsList}>
       <div ref={scrollRef} className={s.LeadsList__tableWrap}>
@@ -136,13 +169,12 @@ export function LeadsList({
                   </button>
                 ) : null}
               </th>
-              <th className={`${s.LeadsList__th} ${s.LeadsList__th_details}`}>Details</th>
             </tr>
           </thead>
           <tbody className={s.LeadsList__tbody}>
             {leads.length === 0 ? (
               <tr>
-                <td colSpan={9} className={s.LeadsList__empty}>
+                <td colSpan={8} className={s.LeadsList__empty}>
                   No leads match your filters.
                 </td>
               </tr>
@@ -171,6 +203,41 @@ export function LeadsList({
         <span className={s.LeadsList__paginationTotal}>
           Total leads: {totalLabel}
         </span>
+        {onPageSizeChange != null && (
+          <div className={s.LeadsList__paginationPageSizeWrap}>
+            <label className={s.LeadsList__paginationPageSize}>
+              <span className={s.LeadsList__paginationPageSizeLabel}>Show</span>
+              <select
+                className={s.LeadsList__paginationPageSizeSelect}
+                value={pageSize}
+                onChange={(e) => onPageSizeChange(Number(e.target.value))}
+                aria-label="Leads per page"
+              >
+                {pageSizeOptions.map((n) => (
+                  <option key={n} value={n}>
+                    {n}
+                  </option>
+                ))}
+              </select>
+              <span className={s.LeadsList__paginationPageSizeLabel}>per page</span>
+            </label>
+            <span className={s.LeadsList__paginationPageSizeCustom}>
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                placeholder="Custom"
+                className={`${s.LeadsList__paginationPageSizeInput} ${customSizeInvalid ? s.LeadsList__paginationPageSizeInputInvalid : ""}`}
+                value={customSize}
+                onChange={handleCustomSizeChange}
+                onKeyDown={(e) => e.key === "Enter" && handleCustomSizeApply()}
+                onBlur={handleCustomSizeApply}
+                aria-label="Custom leads per page"
+                aria-invalid={customSizeInvalid}
+              />
+            </span>
+          </div>
+        )}
         <div className={s.LeadsList__paginationNav}>
           <span className={s.LeadsList__paginationRange}>
             {leads.length === 0 ? "—" : `${start} – ${end}`}

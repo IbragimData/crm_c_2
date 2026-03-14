@@ -138,6 +138,12 @@ export async function createDeposit(body: {
   return data;
 }
 
+/** Delete deposit (super-admin only). Returns { id }. */
+export async function deleteDeposit(id: string): Promise<{ id: string }> {
+  const { data } = await depositsAxios.delete<{ id: string }>(`/deposits/${id}`);
+  return data;
+}
+
 export async function getDepositsHistory(params?: {
   weekOffset?: number;
   teamId?: string;

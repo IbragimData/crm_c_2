@@ -40,7 +40,7 @@ export const useBreaksStore = create<BreaksState>((set, get) => ({
       set({ currentBreak: session });
       return session;
     } catch (e) {
-      const msg = e instanceof Error ? e.message : "Не удалось начать перерыв на сервере.";
+      const msg = e instanceof Error ? e.message : "Failed to start break on server.";
       set({ error: msg });
       throw e;
     }
@@ -55,7 +55,7 @@ export const useBreaksStore = create<BreaksState>((set, get) => ({
       set({ currentBreak: null });
       return completed;
     } catch (e) {
-      const msg = e instanceof Error ? e.message : "Не удалось сохранить конец перерыва на сервер.";
+      const msg = e instanceof Error ? e.message : "Failed to save end of break to server.";
       set({ error: msg, currentBreak: null });
       setStoredActiveBreak(null);
       throw e;

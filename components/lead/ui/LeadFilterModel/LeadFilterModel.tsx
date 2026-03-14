@@ -16,7 +16,7 @@ export interface LeadFiltersState {
   dateFrom?: string;
   dateTo?: string;
   leadOwnerId?: string;
-  /** Только для лидов команды: true = только лиды, у которых владелец — участник команды */
+  /** Team leads only: true = only leads whose owner is a team member */
   leadOwnerInTeam?: boolean;
 }
 
@@ -43,7 +43,7 @@ function toLocalDateString(iso?: string): string {
   }
 }
 
-/** Нормализует status в массив выбранных статусов (пустой = "All") */
+/** Normalize status to an array of selected statuses (empty = "All") */
 function toStatusArray(s: LeadStatus | LeadStatus[] | undefined): LeadStatus[] {
   if (s == null) return [];
   return Array.isArray(s) ? [...s] : [s];

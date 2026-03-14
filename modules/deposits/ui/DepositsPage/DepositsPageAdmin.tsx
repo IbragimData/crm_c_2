@@ -12,6 +12,7 @@ import {
   createDeposit,
   getDepositsHistory,
   getMonthReport,
+  deleteDeposit,
 } from "@/features/deposits/api";
 import { getTeams, getTeamMembers, getTeamsWithDetails } from "@/features/teams/api/teams.api";
 import { searchLeads } from "@/features/lead/api/searchLead.api";
@@ -104,6 +105,8 @@ export function DepositsPageAdmin() {
   const [reportYear, setReportYear] = useState(() => new Date().getFullYear());
   const [reportMonth, setReportMonth] = useState(() => new Date().getMonth() + 1);
   const [historyOpen, setHistoryOpen] = useState(true);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const canDeleteDeposits = employee?.role === Role.SUPER_ADMIN;
 
   const load = useCallback(async () => {
     setError(null);
@@ -166,7 +169,7 @@ export function DepositsPageAdmin() {
       .catch(() => setDepositTeamMembers([]));
   }, [depositTeamId]);
 
-  useEffect(() => {
+  const loadHistory = useCallback(() => {
     if (employee?.role !== Role.ADMIN && employee?.role !== Role.SUPER_ADMIN) return;
     setHistoryLoadError(null);
     getDepositsHistory({
@@ -185,6 +188,30 @@ export function DepositsPageAdmin() {
         setHistoryLoadError(e instanceof Error ? e.message : "Failed to load deposit history");
       });
   }, [employee?.role, weekOffset, historyTeamId, historyLeadId]);
+
+  const handleDeleteDeposit = useCallback(
+    async (id: string) => {
+      if (!canDeleteDeposits) return;
+      const confirmed = window.confirm(
+        "Are you sure you want to delete this deposit? This action cannot be undone."
+      );
+      if (!confirmed) return;
+      setDeletingId(id);
+      try {
+        await deleteDeposit(id);
+        await loadHistory();
+      } catch (e) {
+        setHistoryLoadError(e instanceof Error ? e.message : "Failed to delete deposit");
+      } finally {
+        setDeletingId(null);
+      }
+    },
+    [canDeleteDeposits, loadHistory]
+  );
+
+  useEffect(() => {
+    loadHistory();
+  }, [loadHistory]);
 
   useEffect(() => {
     if (employee?.role !== Role.ADMIN && employee?.role !== Role.SUPER_ADMIN) return;
@@ -994,13 +1021,14 @@ export function DepositsPageAdmin() {
                               Showing first {history.items.length} of {history.total} deposits.
                             </p>
                           )}
-                        <div className={s.page__historyListWrap}>
+                        <div className={s.page__historyListWrap + (canDeleteDeposits ? " " + s.page__historyListWrap_cols6 : "")}>
                           <div className={s.page__historyRow + " " + s.page__historyRow_head}>
                             <span className={s.page__historyCell}>Date</span>
                             <span className={s.page__historyCell}>Team</span>
                             <span className={s.page__historyCell}>Client</span>
                             <span className={s.page__historyCell}>Agent</span>
                             <span className={s.page__historyCell + " " + s.page__historyCell_amount}>Amount</span>
+                            {canDeleteDeposits && <span className={s.page__historyCell}>Actions</span>}
                           </div>
                           <ul className={s.page__historyList}>
                             {history.items.map((d) => (
@@ -1020,6 +1048,19 @@ export function DepositsPageAdmin() {
                                 </span>
                                 <span className={s.page__historyCell}>{getEmployeeName(d.agentId)}</span>
                                 <span className={s.page__historyCell + " " + s.page__historyCell_amount}>{d.amount.toFixed(2)} $</span>
+                                {canDeleteDeposits && (
+                                  <span className={s.page__historyCell}>
+                                    <button
+                                      type="button"
+                                      className={s.page__historyDeleteBtn}
+                                      onClick={() => handleDeleteDeposit(d.id)}
+                                      disabled={deletingId === d.id}
+                                      aria-label="Delete deposit"
+                                    >
+                                      {deletingId === d.id ? "…" : "Delete"}
+                                    </button>
+                                  </span>
+                                )}
                               </li>
                             ))}
                           </ul>

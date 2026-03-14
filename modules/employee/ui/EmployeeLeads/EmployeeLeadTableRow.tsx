@@ -2,10 +2,8 @@
 
 import { Lead } from "@/features/lead/types";
 import { LEAD_STATUS_UI, maskEmail, maskPhone } from "@/features";
-import { ButtonComponentDefault } from "@/components/ButtonComponents";
 import { formatLeadDate } from "@/features/auth/constants/format-lead-date";
 import { useAuthStore } from "@/features/auth/store/authStore";
-import { useRouter } from "next/navigation";
 import s from "./EmployeeLeadTableRow.module.scss";
 
 export const ADMIN_ROLES = ["ADMIN", "SUPER_ADMIN"] as const;
@@ -17,7 +15,6 @@ interface Props {
 }
 
 export function EmployeeLeadTableRow({ lead, activeLeads, setActiveLeads }: Props) {
-  const router = useRouter();
   const currentUser = useAuthStore((state) => state.employee);
   const isAdmin = currentUser && ADMIN_ROLES.includes(currentUser.role as any);
   const statusUi = LEAD_STATUS_UI[lead.status];
@@ -70,16 +67,6 @@ export function EmployeeLeadTableRow({ lead, activeLeads, setActiveLeads }: Prop
         >
           {statusUi.label}
         </span>
-      </td>
-      <td className={`${s.cell} ${s.cell_details}`}>
-        <ButtonComponentDefault
-          onClick={() => router.push(`/leads/${lead.id}`)}
-          type="button"
-          label="Details"
-          backgroundColor="var(--color-btn-primary-bg)"
-          color="var(--color-btn-primary-text)"
-          iconPosition="left"
-        />
       </td>
     </tr>
   );

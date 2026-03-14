@@ -5,7 +5,6 @@ import { Lead } from "../../../../../features/lead/types";
 import { formatLeadDate } from "@/features/auth/constants/format-lead-date";
 import { useAuthStore } from "@/features/auth/store/authStore";
 import { LEAD_STATUS_UI, maskEmail, maskPhone, useC2C } from "@/features";
-import { ButtonComponentDefault } from "@/components/ButtonComponents";
 import icon from "../../../assets/col.svg";
 import iconYellow from "../../../assets/col-yellow.svg";
 import Image from "next/image";
@@ -320,21 +319,6 @@ export function LeadItem({
             })}
           />
         </button>
-      </td>
-      <td className={`${s.LeadItem__cell} ${s.LeadItem__cell_details}`}>
-        <div className={s.LeadItem__detailsWrap}>
-          <ButtonComponentDefault
-            onClick={() => {
-              onBeforeNavigate?.();
-              router.push(`/leads/${lead.id}`);
-            }}
-            type="button"
-            label="Details"
-            backgroundColor="var(--color-btn-primary-bg)"
-            color="var(--color-btn-primary-text)"
-            iconPosition="left"
-          />
-        </div>
       </td>
     </tr>
   );
