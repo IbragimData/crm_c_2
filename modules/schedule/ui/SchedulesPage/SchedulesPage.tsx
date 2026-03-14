@@ -257,8 +257,8 @@ export function SchedulesPage() {
     setLeadSearchLoading(true);
     const t = setTimeout(() => {
       searchLeads({ query: leadSearchQuery.trim(), take: 15 })
-        .then((items) => {
-          setLeadSearchResults(items);
+        .then((res) => {
+          setLeadSearchResults(res.items);
           setLeadSearchOpen(true);
         })
         .catch(() => setLeadSearchResults([]))

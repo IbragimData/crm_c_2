@@ -234,7 +234,7 @@ export function DepositsPageAdmin() {
     }
     const t = setTimeout(() => {
       searchLeads({ query: leadSearchQuery.trim(), take: 15 })
-        .then(setLeadSearchResults)
+        .then((res) => setLeadSearchResults(res.items))
         .catch(() => setLeadSearchResults([]));
     }, 300);
     return () => clearTimeout(t);
@@ -972,12 +972,13 @@ export function DepositsPageAdmin() {
                             e.preventDefault();
                             const q = historyLeadSearchQuery.trim();
                             if (!q) return;
-                            searchLeads({ query: q, take: 25 }).then((leads) => {
-                              setHistoryLeadSearchResults(leads);
-                              if (leads.length === 1) {
-                                setHistoryLeadId(leads[0].id);
+                            searchLeads({ query: q, take: 25 }).then((res) => {
+                              const items = res.items;
+                              setHistoryLeadSearchResults(items);
+                              if (items.length === 1) {
+                                setHistoryLeadId(items[0].id);
                                 setHistoryLeadName(
-                                  `${leads[0].firstName} ${leads[0].lastName}`
+                                  `${items[0].firstName} ${items[0].lastName}`
                                 );
                                 setHistoryLeadSearchResults([]);
                                 setHistoryLeadSearchQuery("");
